@@ -1,0 +1,21 @@
+version: '2'
+services:
+  postgres:
+    image: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./.postgres:/var/lib/postgresql/data
+  # spring:
+  #   build: .
+  #   volumes:
+  #     - .:/app
+  #   command: spring server
+  #   pid: host
+  # guard:
+  #   build: .
+  #   command: guard
+  #   volumes:
+  #     - .:/app
+  #   environment:
+  #     RAILS_ENV: test
