@@ -6,16 +6,11 @@ services:
       - '5432:5432'
     volumes:
       - ./.postgres:/var/lib/postgresql/data
-  # spring:
-  #   build: .
-  #   volumes:
-  #     - .:/app
-  #   command: spring server
-  #   pid: host
-  # guard:
-  #   build: .
-  #   command: guard
-  #   volumes:
-  #     - .:/app
-  #   environment:
-  #     RAILS_ENV: test
+    # env_file:
+    #   - ./postgres/postgres.env
+  redis:
+    build: ./redis
+    ports:
+      - '6379:6379'
+    env_file:
+      - ./redis/redis.env
