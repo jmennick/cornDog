@@ -21,3 +21,25 @@ Start Test Runner:
 $ guard
 ```
 (note: you will want to start these in separate tabs/windows in your terminal)
+
+### Alternate Setup
+Start Dependent Services:
+```shell
+$ docker-compose up -d
+```
+Start Application Preloader:
+```shell
+$ spring server -d
+```
+Start Test Runner:
+```shell
+$ guard
+```
+Stop Application Preloader:
+```shell
+$ spring Stop
+```
+Stop Dependent Services:
+```shell
+$ docker-compose down
+```
