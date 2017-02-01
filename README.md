@@ -1,4 +1,6 @@
 # Corn Dog
+[ ![Codeship Status for jmennick/cornDog](https://app.codeship.com/projects/94d87570-cafa-0134-24ca-36c4adfc6db3/status?branch=master)](https://app.codeship.com/projects/199789)
+
 A web-based accounting software.
 
 ### Development Dependencies
