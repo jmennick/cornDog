@@ -1,4 +1,4 @@
-class Accounting::TwoColumn
+class TwoColumn
   attr_reader :debit, :credit
 
   def initialize(debit, credit)
@@ -20,13 +20,13 @@ class Accounting::TwoColumn
   def +(other)
     _d = debit + other.debit
     _c = credit + other.credit
-    Accounting::TwoColumn.new(_d, _c)
+    TwoColumn.new(_d, _c)
   end
 
   def -(other)
     _d = debit - other.debit
     _c = credit - other.credit
-    Accounting::TwoColumn.new(_d, _c)
+    TwoColumn.new(_d, _c)
   end
 
   def to_s

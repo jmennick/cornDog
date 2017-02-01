@@ -1,0 +1,3 @@
+- name: rspec
+  service: rails
+  command: bundle exec spring rspec
