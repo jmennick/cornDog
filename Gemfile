@@ -19,6 +19,14 @@ gem 'jsonapi-resources', '~> 0.8.1'
 # use knock for compatibility with Auth0 login
 # gem 'knock', '~> 1.4.2'
 
+# use prawn for PDF generation
+# http://prawnpdf.org/api-docs/2.0/
+gem 'prawn', '~> 2.1.0'
+gem 'prawn-table', '~> 0.2.2'
+gem 'prawn-icon', '~> 1.3.0'
+gem 'prawn-graph', '~> 1.0.6'
+gem 'responders', '~> 2.3.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 9.0.5', platform: :mri
