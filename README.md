@@ -9,39 +9,14 @@ In order to install, you will need the following:
 * [Ruby](https://www.ruby-lang.org/en/): the programming language used to specify the application (ensure this is the same as the version specified in [.ruby-version](.ruby-version))
 * [Bundler](http://bundler.io): used to download packaged gems
 
-### Test Startup Sequence
-Start Dependent Services:
+### Run Tests
 ```shell
-$ docker-compose up
+$ guard -g test
 ```
-Start Application Preloader:
-```shell
-$ spring server
-```
-Start Test Runner:
-```shell
-$ guard
-```
-(note: you will want to start these in separate tabs/windows in your terminal)
+(NOTE: tests will run automatically when corresponding files change, hitting return will run all tests)
 
-### Alternate Setup
-Start Dependent Services:
+### Run Development Server
 ```shell
-$ docker-compose up -d
+$ guard -g dev
 ```
-Start Application Preloader:
-```shell
-$ spring server -d
-```
-Start Test Runner:
-```shell
-$ guard
-```
-Stop Application Preloader:
-```shell
-$ spring Stop
-```
-Stop Dependent Services:
-```shell
-$ docker-compose down
-```
+(NOTE: server will run at http://localhost:3000, this will not be available on your local network)
