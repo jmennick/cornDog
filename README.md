@@ -19,4 +19,4 @@ $ guard -g test
 ```shell
 $ guard -g dev
 ```
-(NOTE: server will run at http://localhost:3000, this will not be available on your local network)
+(NOTE: server will run at [localhost:3000](http://localhost:3000), this will not be available on your local network)
