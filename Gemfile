@@ -30,17 +30,11 @@ gem 'responders', '~> 2.3.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 9.0.5', platform: :mri
-
-  # use rspec for testing
-  gem 'rspec-rails', '~> 3.5.2'
-  gem 'fabrication', '~> 2.16.0'
-
   gem 'listen', '~> 3.0.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring', '~> 2.0.1'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'spring-commands-rspec', '~> 1.0.4'
-  gem 'fuubar', '~> 2.2.0'
 
   # used to run development/tests in CLI
   # (this helps handle live changes to files)
@@ -53,9 +47,19 @@ group :development, :test do
   gem 'guard-shell', '~> 0.7.1', require: false
 end
 
-group :development do
-
+group :test do
+  # use rspec for testing
+  gem 'rspec-rails', '~> 3.5.2'
+  # used for making test objects
+  gem 'fabrication', '~> 2.16.0'
+  # formatting for testing
+  gem 'fuubar', '~> 2.2.0'
+  # testing generated PDF documents
+  gem 'pdf-inspector', '~> 1.2.1', require: 'pdf/inspector'
 end
+
+# used to validate email addresses
+gem 'email_validator', '~> 1.6'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
