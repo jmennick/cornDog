@@ -5,6 +5,9 @@ MAINTAINER gsmith@rockform.com
 # (because deployment, duh)
 ENV RAILS_ENV production
 
+ENV POSTGRES_HOST postgres
+ENV REDIS_HOST redis
+
 # Default to port 3000
 # (because that's the default port)
 ENV HTTP_PORT 3000
@@ -35,6 +38,9 @@ RUN gem install bundler && bundle install --jobs 20 --retry 5
 
 # Copy the main application.
 ADD . /app
+
+# Migrate the database
+RUN bundle exec rails db:migrate
 
 # Precompile the assets (asset chain doesn't work in production)
 # (note this should only happen when this is running in production)

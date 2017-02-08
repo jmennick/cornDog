@@ -1,12 +1,12 @@
 rails:
   build:
     dockerfile_path: Dockerfile
-  links:
+  depends_on:
     - redis
     - postgres
-  environment:
-    POSTGRES_HOST: postgres
-    REDIS_HOST: redis
+  # environment:
+  #   postgres_host: postgres12
+  #   REDIS_HOST: redis
 
 postgres:
   image: postgres
