@@ -1,0 +1,2 @@
+class CurrentLiabilityAccount < LiabilityAccount
+end

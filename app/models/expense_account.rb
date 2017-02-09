@@ -1,0 +1,2 @@
+class ExpenseAccount < Account
+end

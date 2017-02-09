@@ -1,0 +1,2 @@
+class CurrentAssetAccount < AssetAccount
+end

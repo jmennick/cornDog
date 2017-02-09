@@ -1,0 +1,2 @@
+class LongTermLiabilityAccount < LiabilityAccount
+end
