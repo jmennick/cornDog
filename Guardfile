@@ -1,5 +1,6 @@
 group :test do
   clearing :on
+  # interactor :on
 
   guard :rspec, cmd: 'spring rspec' do
     watch(%r{^spec/.+_spec\.rb$})
@@ -14,7 +15,7 @@ group :test do
 end
 
 group :dev do
-  interactor :off
+  # interactor :off
 
   guard :spring, bundler: true do
     watch('Gemfile.lock')
