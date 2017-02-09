@@ -5,4 +5,5 @@ Fabricator(:account) do
   active      true
   description "MyText"
   created_by  fabricator: :user
+  initial_balance 0.0
 end

@@ -24,4 +24,8 @@ class Account < ApplicationRecord
   validates :description,
     length: {maximum: 255},
     allow_nil: true
+
+  # initial_balance: currency
+  validates :initial_balance,
+    numericality: true
 end

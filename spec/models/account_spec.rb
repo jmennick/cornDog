@@ -90,4 +90,26 @@ RSpec.describe Account, type: :model do
       expect(account).not_to be_valid
     end
   end
+
+  context '#initial_balance' do
+    it 'can be a negative number' do
+      account = Fabricate.build(:account, initial_balance: -0.01)
+      expect(account).to be_valid
+    end
+
+    it 'can be zero' do
+      account = Fabricate.build(:account, initial_balance: 0.0)
+      expect(account).to be_valid
+    end
+
+    it 'can be a positive number' do
+      account = Fabricate.build(:account, initial_balance: 42.00)
+      expect(account).to be_valid
+    end
+
+    it 'cannot be nil' do
+      account = Fabricate.build(:account, initial_balance: nil)
+      expect(account).not_to be_valid
+    end
+  end
 end
