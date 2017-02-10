@@ -1,0 +1,2 @@
+class LongTermAssetAccountsController < ApplicationController
+end

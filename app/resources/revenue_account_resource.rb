@@ -1,0 +1,2 @@
+class RevenueAccountResource < AccountResource
+end

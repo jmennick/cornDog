@@ -1,0 +1,2 @@
+class CurrentLiabilityAccountsController < ApplicationController
+end

@@ -28,4 +28,7 @@ class Account < ApplicationRecord
   # initial_balance: currency
   validates :initial_balance,
     numericality: true
+
+  validates :type,
+    presence: true
 end

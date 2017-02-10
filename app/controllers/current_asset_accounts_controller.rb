@@ -1,0 +1,2 @@
+class CurrentAssetAccountsController < ApplicationController
+end

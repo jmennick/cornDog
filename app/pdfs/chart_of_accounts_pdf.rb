@@ -1,0 +1,2 @@
+class ChartOfAccountsPDF < TabularReportPDF
+end

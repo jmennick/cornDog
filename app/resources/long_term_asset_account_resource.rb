@@ -1,0 +1,2 @@
+class LongTermAssetAccountResource < AssetAccountResource
+end
