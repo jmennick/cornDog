@@ -1,8 +1,9 @@
 class TabularReportPDF < ApplicationPDF
   @@title = nil; @@rows = []
 
-  def initialize
-    super
+  def initialize(record)
+    super({})
+    @record = record
 
     # Print title
     font(self.class.default_font_name, **self.class.title_font_opts) do
