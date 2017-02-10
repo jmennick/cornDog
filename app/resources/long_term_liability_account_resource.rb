@@ -1,2 +1,2 @@
-class LongTermLiabilityAccountResource < LiablityAccountResource
+class LongTermLiabilityAccountResource < LiabilityAccountResource
 end
