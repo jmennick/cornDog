@@ -54,6 +54,8 @@ group :test do
   gem 'fabrication', '~> 2.16.0'
   # formatting for testing
   gem 'fuubar', '~> 2.2.0'
+  # testing JSON data received from API
+  gem 'json_spec', '~> 1.1', '>= 1.1.4'
   # testing generated PDF documents
   gem 'pdf-inspector', '~> 1.2.1', require: 'pdf/inspector'
 end
