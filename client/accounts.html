@@ -15,56 +15,57 @@
     <div class="row">
         <div class="col s12">
             <h3 style="text-align: center">Chart of Accounts</h3>
-            <table class="striped">
+            <table id="chartOfAccounts">
                 <thead>
-                <tr>
-                    <th data-field="name">Account Name</th>
-                    <th data-field="type">Account Type</th>
-                    <th data-field="side">Normal Side</th>
-                    <th data-field="balance">Initial Balance</th>
-                    <th data-field="aNumber">Account Number</th>
-                    <th data-field="creator">Added By</th>
-                    <th data-field="dateAdded">Date Added</th>
-                    <th data-field="activity">Activity</th>
-                    <th data-field="order">Order</th>
-                    <th data-field="group">Sub-Group</th>
-                    <th data-field="desc">Description</th>
-                </tr>
+
+                <th data-field="name">Account Name</th>
+                <th data-field="type">Account Type</th>
+                <th data-field="side">Normal Side</th>
+                <th data-field="balance">Initial Balance</th>
+                <th data-field="aNumber">Account Number</th>
+                <th data-field="creator">Added By</th>
+                <th data-field="dateAdded">Date Added</th>
+                <th data-field="activity">Activity</th>
+                <th data-field="order">Order</th>
+                <th data-field="group">Sub Group</th>
+                <th data-field="desc">Description</th>
+
                 </thead>
 
                 <tbody>
-                <tr id="nameCol">
+                <!--<tr id="nameCol">-->
 
-                </tr>
-                <tr id="typeCol">
+                <!--</tr>-->
+                <!--<tr id="typeCol">-->
 
-                </tr>
-                <tr id="sideCol">
+                <!--</tr>-->
+                <!--<tr id="sideCol">-->
 
-                </tr>
-                <tr id="balanceCol">
+                <!--</tr>-->
+                <!--<tr id="balanceCol">-->
 
-                </tr>
-                <tr id="numberCol">
+                <!--</tr>-->
+                <!--<tr id="numberCol">-->
 
-                </tr>
-                <tr id="creatorCol">
+                <!--</tr>-->
+                <!--<tr id="creatorCol">-->
 
-                </tr>
-                <tr id="dateCol">
+                <!--</tr>-->
+                <!--<tr id="dateCol">-->
 
-                </tr>
-                <tr id="orderCol">
+                <!--</tr>-->
+                <!--<tr id="orderCol">-->
 
-                </tr>
-                <tr id="groupCol">
+                <!--</tr>-->
+                <!--<tr id="groupCol">-->
 
-                </tr>
-                <tr id="descCol">
+                <!--</tr>-->
+                <!--<tr id="descCol">-->
 
-                </tr>
+                <!--</tr>-->
                 </tbody>
             </table>
+            <table class="striped"></table>
         </div>
     </div>
 </div>
@@ -73,7 +74,27 @@
 <script src="bower_components/materialize/dist/js/materialize.min.js"></script>
 <script src="bower_components/dynatable/jquery.dynatable.js"></script>
 <script>
-    var someObj = {name: 'Cash', type: 'Asset', side: 'left', balance: '0.00', aNumber: '101', creator: 'Mike', date: '2/11/17', active: true, order: 1, }
+    var someObj = [
+        {
+            "accountName": "Cash",
+            "accountType": 'Asset',
+            "normalSide": 'left',
+            "initialBalance": '0.00',
+            "accountNumber": '101',
+            "addedBy": 'Mike',
+            "dateAdded": '2/11/17',
+            "activity": "true",
+            "order": "1",
+            "subGroup": 'Short-Term',
+            "description": 'Cold hard cash'
+        }
+    ];
+//    var myRecords = JSON.parse(someObj.text())
+    $('#chartOfAccounts').dynatable({
+        dataset: {
+            records: someObj
+        }
+    });
 </script>
 </body>
 </html>
