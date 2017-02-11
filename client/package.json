@@ -1,0 +1,16 @@
+{
+  "name": "corndog",
+  "version": "1.0.0",
+  "description": "website for accounting",
+  "main": "index.html",
+  "dependencies": {
+    "devour-client": "^1.4.1"
+  },
+  "private": true,
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

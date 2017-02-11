@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<style>
+
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <h3 style="text-align: center">Chart of Accounts</h3>
+            <table class="striped">
+                <thead>
+                <tr>
+                    <th data-field="name">Account Name</th>
+                    <th data-field="type">Account Type</th>
+                    <th data-field="side">Normal Side</th>
+                    <th data-field="balance">Initial Balance</th>
+                    <th data-field="aNumber">Account Number</th>
+                    <th data-field="creator">Added By</th>
+                    <th data-field="dateAdded">Date Added</th>
+                    <th data-field="activity">Activity</th>
+                    <th data-field="order">Order</th>
+                    <th data-field="group">Sub-Group</th>
+                    <th data-field="desc">Description</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr id="nameCol">
+
+                </tr>
+                <tr id="typeCol">
+
+                </tr>
+                <tr id="sideCol">
+
+                </tr>
+                <tr id="balanceCol">
+
+                </tr>
+                <tr id="numberCol">
+
+                </tr>
+                <tr id="creatorCol">
+
+                </tr>
+                <tr id="dateCol">
+
+                </tr>
+                <tr id="orderCol">
+
+                </tr>
+                <tr id="groupCol">
+
+                </tr>
+                <tr id="descCol">
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--Jquery and Materializecss-->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/materialize/dist/js/materialize.min.js"></script>
+<script src="bower_components/dynatable/jquery.dynatable.js"></script>
+<script>
+    var someObj = {name: 'Cash', type: 'Asset', side: 'left', balance: '0.00', aNumber: '101', creator: 'Mike', date: '2/11/17', active: true, order: 1, }
+</script>
+</body>
+</html>

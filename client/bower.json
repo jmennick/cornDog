@@ -1,0 +1,22 @@
+{
+  "name": "cornDog",
+  "homepage": "https://github.com/jmennick/cornDog",
+  "authors": [
+    "Archchanczellor <mdrussell01@gmail.com>"
+  ],
+  "description": "account site",
+  "main": "accounts.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "materialize": "^0.98.0",
+    "dynatable": "^0.3.1"
+  }
+}
