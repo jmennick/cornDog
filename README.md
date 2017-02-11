@@ -20,3 +20,14 @@ $ guard -g test
 $ guard -g dev
 ```
 (NOTE: server will run at [localhost:3000](http://localhost:3000), this will not be available on your local network)
+
+###Client Dependencies
+
+* [Bower](https://bower.io)
+
+Once bower is installed
+
+```shell
+$ cd client
+$ bower install
+```
