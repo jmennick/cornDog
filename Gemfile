@@ -5,6 +5,13 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
 gem 'redis', '~> 3.0'
 
+# for view rendering
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.2'
+gem 'jquery-rails'
+gem 'turbolinks', '~> 5'
+gem 'jbuilder', '~> 2.5'
+
 # fixes some weird bugs with output
 # https://github.com/erikhuda/thor/issues/538
 gem 'thor', '0.19.1'

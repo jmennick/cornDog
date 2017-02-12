@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @account.name %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @account.code %>
+</p>
+
+<p>
+  <strong>Kind:</strong>
+  <%= @account.kind.titleize %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @account.order %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @account.active %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @account.description %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @account.created_by.name %>
+</p>
+
+<p>
+  <strong>Created at:</strong>
+  <%=l @account.created_at %>
+</p>
+
+<p>
+  <strong>Initial balance:</strong>
+  <%=number_to_currency @account.initial_balance %>
+</p>
+
+<%= link_to 'Edit', edit_account_path(@account) %> |
+<%= link_to 'Back', accounts_path %>

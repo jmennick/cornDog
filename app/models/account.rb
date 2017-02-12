@@ -29,6 +29,15 @@ class Account < ApplicationRecord
   validates :initial_balance,
     numericality: true
 
-  validates :type,
+  validates :kind,
     presence: true
+
+  enum kind: {
+    current_asset_account: 0,
+    long_term_asset_account: 1,
+    current_liability_account: 2,
+    long_term_liability_account: 3,
+    expense_account: 4,
+    revenue_account: 5
+  }
 end
