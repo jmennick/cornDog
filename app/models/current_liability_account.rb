@@ -1,2 +1,0 @@
-class CurrentLiabilityAccount < LiabilityAccount
-end
