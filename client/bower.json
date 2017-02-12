@@ -19,6 +19,7 @@
     "materialize": "^0.98.0",
     "dynatable": "^0.3.1",
     "datatables.net": "^2.1.1",
-    "jquery-serialize-object": "^2.5.0"
+    "jquery-serialize-object": "^2.5.0",
+    "jquery": "^3.1.1"
   }
 }
