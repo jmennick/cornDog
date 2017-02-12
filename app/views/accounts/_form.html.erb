@@ -37,11 +37,6 @@
   </div>
 
   <div class="field">
-    <%= f.label :created_by_id %>
-    <%= f.collection_select :created_by_id, User.all, :id, :name %>
-  </div>
-
-  <div class="field">
     <%= f.label :active %>
     <%= f.check_box :active %>
   </div>
@@ -50,6 +45,8 @@
     <%= f.label :description %>
     <%= f.text_area :description %>
   </div>
+
+  <%= f.hidden_field :created_by_id, value: User.first.id %>
 
   <div class="actions">
     <%= f.submit %>
