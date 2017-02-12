@@ -15,9 +15,8 @@
     <div class="row">
         <div class="col s12">
             <h3 style="text-align: center">Chart of Accounts</h3>
-            <table id="chartOfAccounts">
+            <table class="striped" id="chartOfAccounts">
                 <thead>
-
                 <th data-field="name">Account Name</th>
                 <th data-field="type">Account Type</th>
                 <th data-field="side">Normal Side</th>
@@ -29,43 +28,71 @@
                 <th data-field="order">Order</th>
                 <th data-field="group">Sub Group</th>
                 <th data-field="desc">Description</th>
-
                 </thead>
-
                 <tbody>
-                <!--<tr id="nameCol">-->
-
-                <!--</tr>-->
-                <!--<tr id="typeCol">-->
-
-                <!--</tr>-->
-                <!--<tr id="sideCol">-->
-
-                <!--</tr>-->
-                <!--<tr id="balanceCol">-->
-
-                <!--</tr>-->
-                <!--<tr id="numberCol">-->
-
-                <!--</tr>-->
-                <!--<tr id="creatorCol">-->
-
-                <!--</tr>-->
-                <!--<tr id="dateCol">-->
-
-                <!--</tr>-->
-                <!--<tr id="orderCol">-->
-
-                <!--</tr>-->
-                <!--<tr id="groupCol">-->
-
-                <!--</tr>-->
-                <!--<tr id="descCol">-->
-
-                <!--</tr>-->
                 </tbody>
             </table>
-            <table class="striped"></table>
+            <br>
+            <!--Add Account Button and Modal Dialog-->
+            <a class="waves-effect waves-light btn" href="#addAccountModal">Add Account</a>
+            <div id="addAccountModal" class="modal" style="min-height: 70vh;">
+                <form>
+                    <div class="modal-content" style="min-height: 64vh;">
+                        <h5 style="text-align: center">Add an Account</h5>
+                        <div class="row">
+                            <div class="input-field col s12 m4 l2">
+                                <input name="accountName" id="accountName" type="text" class="validate">
+                                <label for="accountName">Account Name</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="accountType" id="accountType" type="text" class="validate">
+                                <label for="accountType">Account Type</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="normalSide" id="normalSide" type="text" class="validate">
+                                <label for="normalSide">Normal Side</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="initialBalance" id="initialBalance" step='0.01' value='0.00' placeholder='0.00' type="number"
+                                       class="validate">
+                                <label for="initialBalance">Initial Balance</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="accountNumber" id="accountNumber" type="text" class="validate">
+                                <label for="accountNumber">Account Number</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="addedBy" id="addedBy" type="text" class="validate">
+                                <label for="addedBy">Added By</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="dateAdded" id="dateAdded" type="date" class="datepicker">
+                                <label for="dateAdded">Date Added</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="activity" id="activity" type="text" class="validate">
+                                <label for="activity">Activity</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="order" id="order" type="text" class="validate">
+                                <label for="order">Order</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="subGroup" id="subGroup" type="text" class="validate">
+                                <label for="subGroup">Sub Group</label>
+                            </div>
+                            <div class="input-field col s12 m4 l2">
+                                <input name="description" id="description" type="text" class="validate">
+                                <label for="description">Description</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" onclick="addAccount()"
+                           class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -74,6 +101,20 @@
 <script src="bower_components/materialize/dist/js/materialize.min.js"></script>
 <script src="bower_components/dynatable/jquery.dynatable.js"></script>
 <script>
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
+
+    $(document).ready(function () {
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        $('.modal').modal();
+    });
+
+    function addAccount() {
+
+    }
+
     var someObj = [
         {
             "accountName": "Cash",
@@ -89,11 +130,12 @@
             "description": 'Cold hard cash'
         }
     ];
-//    var myRecords = JSON.parse(someObj.text())
+    //    var myRecords = JSON.parse(someObj.text())
     $('#chartOfAccounts').dynatable({
         dataset: {
             records: someObj
-        }
+        },
+        copyHeaderClass: true
     });
 </script>
 </body>
