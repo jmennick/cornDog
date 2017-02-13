@@ -28,7 +28,7 @@ group :dev do
     callback(:stop_end) { `spring stop` }
   end
 
-  guard :rails do
+  guard :rails, port: 5000 do
     watch('Gemfile.lock')
     watch(%r{^(config|lib)\.*})
   end
