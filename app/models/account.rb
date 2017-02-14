@@ -1,7 +1,7 @@
 class Account < ApplicationRecord
   include STISingular
 
-  default_scope -> { where(active: true).order(order: :asc) }
+  default_scope -> { order(order: :asc) }
 
   belongs_to :created_by, class_name: 'User'
 
