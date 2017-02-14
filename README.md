@@ -20,3 +20,7 @@ $ guard -g test
 $ guard -g dev
 ```
 (NOTE: server will run at [localhost:3000](http://localhost:3000), this will not be available on your local network)
+
+
+### Lucidchart Folder (for documentation)
+https://www.lucidchart.com/invitations/accept/b6110306-ce30-427d-aa75-27cd6df4873b
