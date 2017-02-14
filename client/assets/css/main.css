@@ -1,0 +1,62 @@
+.table-lg td, .table-lg td {
+  font-size: 1.5em;
+  font-weight: 200;
+}
+
+.fa-icon {
+  width: auto;
+  height: 1em; /* or any other relative font sizes */
+}
+
+.btn .fa-icon {
+  margin-bottom: -2px;
+}
+
+.btn-inverse {
+  background-color: #292b2c;
+  border-color: #292b2c;
+  color: #fff;
+}
+
+.btn-inverse:hover {
+  background-color: #555;
+  border-color: #333;
+  color: #fff;
+  text-decoration: none;
+}
+
+.fixed-top.secondary-nav {
+  top: 54px;
+}
+
+.content-container {
+  position: fixed;
+  top: 108px;
+  bottom: 54px;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+}
+
+.td-actions {
+  padding: .25rem .75rem !important;
+}
+
+.no-top-padding {
+  padding-top: 0 !important;
+}
+.no-top-margin {
+  margin-top: 0 !important;
+}
+.no-bottom-padding {
+  padding-bottom: 0 !important;
+}
+.no-bottom-margin {
+  margin-bottom: 0 !important;
+}
+.no-padding {
+  padding: 0 !important;
+}
+.no-margin {
+  margin: 0 !important;
+}
