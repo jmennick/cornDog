@@ -6,7 +6,7 @@ class Account < ApplicationRecord
   belongs_to :created_by, class_name: 'User'
 
   # name: string
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   # code: integer
   validates :code, numericality: {greater_than: 0}, uniqueness: true
