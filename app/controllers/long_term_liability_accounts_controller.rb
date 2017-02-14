@@ -1,2 +1,0 @@
-class LongTermLiabilityAccountsController < ApplicationController
-end

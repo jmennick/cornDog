@@ -1,2 +1,0 @@
-class CurrentLiabilityAccountsController < ApplicationController
-end
