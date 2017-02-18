@@ -1,3 +1,3 @@
 class ActiveRecord::Base
-  extend GroupedEnum
+  include GroupedEnum
 end
