@@ -1,2 +1,0 @@
-class LongTermAssetAccount < AssetAccount
-end

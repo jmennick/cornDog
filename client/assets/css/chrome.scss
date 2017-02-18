@@ -1,0 +1,25 @@
+@import 'colors';
+
+.bg-chrome {
+  background-color: $chrome-bg;
+}
+
+.bg-chrome-under {
+  background-color: $chrome-under-bg;
+  /*box-shadow: -1px -1px 1px red;*/
+}
+
+.btn-chrome {
+  &, &:focus {
+    background-color: $chrome-bg;
+    border-color: $chrome-bg;
+    color: #fff;
+  }
+
+  &:hover, &:active {
+    background-color: lighten($chrome-bg, 20);
+    border-color: lighten($chrome-bg, 20);
+    color: #fff;
+    text-decoration: none;
+  }
+}

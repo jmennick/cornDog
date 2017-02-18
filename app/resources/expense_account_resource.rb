@@ -1,2 +1,0 @@
-class ExpenseAccountResource < AccountResource
-end

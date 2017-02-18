@@ -1,3 +1,6 @@
+@import 'theme';
+@import 'chrome';
+
 .table-lg td, .table-lg td {
   font-size: 1.5em;
   font-weight: 200;
@@ -39,7 +42,7 @@
 }
 
 .td-actions {
-  padding: .25rem .75rem !important;
+  padding: .5rem .75rem !important;
 }
 
 .no-top-padding {
@@ -47,6 +50,12 @@
 }
 .no-top-margin {
   margin-top: 0 !important;
+}
+.no-right-margin {
+  margin-right: 0 !important;
+}
+.no-left-margin {
+  margin-left: 0 !important;
 }
 .no-bottom-padding {
   padding-bottom: 0 !important;

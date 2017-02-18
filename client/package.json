@@ -6,8 +6,12 @@
   "private": true,
   "dependencies": {
     "bootstrap-vue": "^0.7.1",
+    "devour-client": "^1.4.1",
+    "node-sass": "^4.5.0",
     "nuxt": "latest",
-    "vue-awesome": "^2.1.0"
+    "sass-loader": "^6.0.0",
+    "vue-awesome": "^2.1.0",
+    "vuex": "^2.1.2"
   },
   "scripts": {
     "dev": "nuxt",

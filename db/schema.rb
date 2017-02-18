@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170209001016) do
+ActiveRecord::Schema.define(version: 20170217004538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20170209001016) do
     t.datetime "created_at",                                               null: false
     t.datetime "updated_at",                                               null: false
     t.decimal  "initial_balance", precision: 12, scale: 2, default: "0.0", null: false
-    t.string   "type",                                                     null: false
+    t.integer  "kind",                                     default: 0,     null: false
     t.index ["created_by_id"], name: "index_accounts_on_created_by_id", using: :btree
     t.index ["order"], name: "index_accounts_on_order", using: :btree
   end

@@ -1,0 +1,35 @@
+@import 'colors';
+
+.bg-theme, .btn-theme {
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+
+.theme-green {
+  .bg-theme, .btn-theme, .btn-theme:focus {
+    background-color: $green-bg-theme !important;
+  }
+  .btn-theme {
+    &, &:focus {
+      color: $green-btn-text-theme;
+    }
+    &:hover, &:active {
+      background-color: darken($green-bg-theme, 20) !important;
+    }
+  }
+  .text-theme {
+    color: $green-text-theme !important;
+  }
+}
+
+.theme-red {
+  .btn-theme {
+    color: $red-btn-text-theme;
+  }
+  .bg-theme, .btn-theme {
+    background-color: $red-bg-theme !important;
+  }
+  .text-theme {
+    color: $red-text-theme !important;
+  }
+}

@@ -2,7 +2,8 @@ module.exports = {
   build: {
     vendor: [
       'bootstrap-vue',
-      'vue-awesome'
+      'vue-awesome',
+      'devour-client'
     ]
   },
   plugins: [
@@ -12,6 +13,7 @@ module.exports = {
   head: {
     title: 'Corn Dog',
     meta: [
+      {name: "Access-Control-Allow-Origin", value: "*"},
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' },
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
@@ -24,7 +26,7 @@ module.exports = {
     ]
   },
   css: [
-    '~assets/css/main.css'
+    {src: '~assets/css/main.scss', lang: 'scss'}
   ],
   loading: { color: '#3B8070' }
 }

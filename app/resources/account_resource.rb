@@ -5,5 +5,11 @@ class AccountResource < ApplicationResource
   attribute :active
   attribute :description
   attribute :created_by_id
-  attribute :kind, delegate: :type
+  attribute :kind
+
+  # def meta(options)
+  #   {
+  #     kinds:
+  #   }
+  # end
 end

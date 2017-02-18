@@ -1,2 +1,0 @@
-class LongTermLiabilityAccountResource < LiabilityAccountResource
-end

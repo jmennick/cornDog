@@ -6,5 +6,5 @@ Fabricator(:account) do
   description "MyText"
   created_by  fabricator: :user
   initial_balance 0.0
-  type        'CurrentAssetAccount'
+  kind        :current_asset
 end

@@ -1,2 +1,0 @@
-class CurrentAssetAccount < AssetAccount
-end

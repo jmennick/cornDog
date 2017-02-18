@@ -7,9 +7,8 @@ RSpec.describe 'Accounts', type: :request do
     'Content-Type' => 'application/vnd.api+json',
     'Accept' => 'application/vnd.api+json'
   }}
-  let(:subclass) { CurrentAssetAccount }
-  let(:type_string) { subclass.to_s.tableize.dasherize }
-  let(:kind_string) { subclass.to_s }
+  let(:type_string) { Account.to_s.tableize.dasherize }
+  let(:kind_string) { 'current_asset' }
 
   context "GET #{URL}" do
     before { Account.delete_all }

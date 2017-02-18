@@ -5,6 +5,9 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
 gem 'redis', '~> 3.0'
 
+# allows Cross-Origin Resource Sharing (CORS)
+gem 'rack-cors', require: 'rack/cors'
+
 # fixes some weird bugs with output
 # https://github.com/erikhuda/thor/issues/538
 gem 'thor', '0.19.1'
