@@ -22,6 +22,7 @@ export const mutations = {
   [loadingSuccessful](state, data) {
     state.viewState = VIEW_STATE_SUCCESS
     state.data = data
+    state.meta = data.meta
   },
   [loadingFailed](state, error) {
     state.viewState = VIEW_STATE_FAILED

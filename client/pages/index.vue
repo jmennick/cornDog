@@ -27,7 +27,7 @@
           <tr v-for="a in accounts">
             <td>{{a.code}}</td>
             <td>{{a.name}}</td>
-            <td>{{a.kind}}</td>
+            <td>{{a.kind_human}}</td>
             <td class="d-flex justify-content-end td-actions"><div class="btn-toolbar">
               <b-button size="sm" class="mr-2"><icon name="eye"></icon></b-button>
               <b-button size="sm" class="mr-2"><icon name="edit"></icon></b-button>

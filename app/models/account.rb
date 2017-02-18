@@ -35,6 +35,24 @@ class Account < ApplicationRecord
     revenue: 5,
     expense: 6
   }
+  class_attribute :kinds_flattened
+  self.kinds_flattened = kinds_grouped.map{|k,v|
+    {
+      label: k.to_s.titleize,
+      kinds: (
+        case v
+        when Hash
+          v.map{|b,s|
+            _v = [b,k].join(?_)
+            {label: _v.titleize, value: _v}
+          }
+        when Fixnum
+          _v = k.to_s
+          [{label: _v.titleize, value: _v}]
+        end
+      )
+    }
+  }
   grouped_enum kind: kinds_grouped
   scope :asset, -> { where(kind: kinds_grouped[:asset].values) }
   scope :liability, -> { where(kind: kinds_grouped[:liability].values) }

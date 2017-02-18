@@ -5,7 +5,10 @@ export default (apiClient)=> {
     order: '',
     active: '',
     description: '',
-    createdById: '',
-    kind: ''
+    created_by_id: '',
+    kind: '',
+    kind_human: ''
+  }, {
+    readonly: ['kind_human']
   })
 }

@@ -37,6 +37,12 @@ RSpec.describe 'Accounts', type: :request do
       it { is_expected.to have_json_type(String).at_path('description') }
       it { is_expected.to be_json_eql(kind_string.to_json).at_path('kind') }
     end
+
+    context 'base meta fields' do
+      subject{ JSON.parse(response.body)['meta'].to_json }
+      let(:kinds_grouped) { Account.kinds_grouped.to_json }
+      it { is_expected.to be_json_eql(kinds_grouped).at_path('kinds_grouped') }
+    end
   end
 
   context "POST #{URL}" do

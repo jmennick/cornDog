@@ -6,10 +6,9 @@ class AccountResource < ApplicationResource
   attribute :description
   attribute :created_by_id
   attribute :kind
+  attribute :kind_human
 
-  # def meta(options)
-  #   {
-  #     kinds:
-  #   }
-  # end
+  def kind_human
+    kind.titleize
+  end
 end
