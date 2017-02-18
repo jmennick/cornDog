@@ -50,14 +50,14 @@ RSpec.describe 'Accounts', type: :request do
           order: 1,
           description: nil,
           kind: kind_string,
-          'created-by-id': User.first.id
+          created_by_id: User.first.id
         }
       }
     }}
     before { post(url, headers: headers, params: params.to_json) }
 
     subject { response }
-    it { is_expected.to have_http_status(:created) }
+    it { puts is_expected.to have_http_status(:created) }
   end
 
   context "PUT #{URL}/:id" do
