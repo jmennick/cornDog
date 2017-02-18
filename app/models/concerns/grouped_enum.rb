@@ -1,5 +1,5 @@
 module GroupedEnum
-  include ActiveSupport::Concern
+  extend ActiveSupport::Concern
 
   class_methods do
     def grouped_enum(definitions)
