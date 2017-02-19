@@ -1,5 +1,15 @@
 module.exports = {
   build: {
+    babel: {
+      plugins: [
+        'transform-async-to-generator',
+        'transform-runtime'
+      ],
+      presets: [
+        ['es2015', { modules: false }],
+        'stage-2'
+      ]
+    },
     vendor: [
       'bootstrap-vue',
       'vue-awesome',
