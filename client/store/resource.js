@@ -7,8 +7,7 @@ export const VIEW_STATE_FAILED = 'failed'
 export const state = {
   viewState: null,
   data: null,
-  error: null,
-  form: null
+  error: null
 }
 
 export const beginLoading = 'beginLoading'

@@ -1,11 +1,11 @@
 <template>
-  <b-button variant="theme" @click="showModal()">
+  <b-button variant="theme" @click="addNew()">
     <icon name="plus"></icon> Add {{resourceName}}
   </b-button>
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations, mapState} from 'vuex'
 import {showModal} from '~store/resourceForm'
 
 export default {
@@ -15,6 +15,11 @@ export default {
       required: true
     }
   },
-  methods: mapMutations('resourceForm', {showModal})
+  methods: {
+    ...mapMutations('resourceForm', {showModal}),
+    addNew() {
+      this.showModal({})
+    }
+  }
 }
 </script>

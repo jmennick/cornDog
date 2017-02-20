@@ -16,9 +16,10 @@ export const beginSaving = 'beginSaving'
 export const saveError = 'saveError'
 // export const saveSuccessful = 'saveSuccessful'
 export const closeModal = 'closeModal'
+export const saveData = 'saveData'
 
 export const mutations = {
-  [showModal](state, data={}) {
+  [showModal](state, data) {
     state.viewState = VIEW_STATE_SHOWN
     state.modalData = data
   },
@@ -28,6 +29,9 @@ export const mutations = {
   [saveError](state, error) {
     state.viewState = VIEW_STATE_ERROR
     state.error = error
+  },
+  [saveData](state, data) {
+    state.modalData = data
   },
   // [saveSuccessful](state, data={}) {
   //   state.viewState = VIEW_STATE_SUCCESS

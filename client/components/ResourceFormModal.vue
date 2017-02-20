@@ -24,6 +24,10 @@ import {
 
 export default {
   props: {
+    title: {
+      type: String,
+      required: true
+    },
     size: {
       type: String,
       default: 'lg'
@@ -35,10 +39,7 @@ export default {
   computed: {
     ...mapGetters('resourceForm', {
       modalShown, viewStateIsSaving
-    }),
-    title() {
-      return "Save Something"
-    }
+    })
   },
   methods: {
     ...mapMutations('resourceForm', {

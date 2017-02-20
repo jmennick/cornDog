@@ -5,8 +5,8 @@
       <resource-add-btn slot="right" :resource-name="resourceLabelSingular"/>
     </toolbar-top>
     <div class="content-container">
-      <resource-form-modal>
-        <h1>I am slotted content</h1>
+      <resource-form-modal :title="resourceFormTitle">
+        <slot name="form"></slot>
       </resource-form-modal>
       <div v-if="isLoading">
         Loading...
@@ -15,13 +15,13 @@
       <slot v-if="isSuccess"></slot>
     </div>
     <b-navbar type="inverse" variant="chrome" class="fixed-bottom d-flex flex-row align-items-center">
-      <b-pagination class="p-2 mr-auto no-padding" :size="paginationSize" :total-rows="100" :per-page="10" v-model="currentPage"></b-pagination>
+      <!-- <b-pagination class="p-2 mr-auto no-padding" :size="paginationSize" :total-rows="100" :per-page="10" v-model="currentPage"></b-pagination> -->
       <!-- <b-button variant="inverse" class="p-2 ml-auto">Blah</b-button> -->
-      <b-dropdown text="Reports" variant="chrome" class="p-2 ml-auto no-padding" dropup right>
+      <!-- <b-dropdown text="Reports" variant="chrome" class="p-2 ml-auto no-padding" dropup right>
         <a class="dropdown-item">First Report</a>
         <a class="dropdown-item">Second Report</a>
         <a class="dropdown-item">Third Report</a>
-      </b-dropdown>
+      </b-dropdown> -->
     </b-navbar>
   </div>
 </template>
@@ -55,12 +55,9 @@ export default {
     ResourceRefreshBtn,
     ResourceAddBtn
   },
-  data: ()=> ({
-    currentPage: 1
-  }),
   computed: {
-    paginationSize() {
-      return this.showSidebar ? 'sm' : 'md'
+    resourceFormTitle() {
+      return `Save ${this.resourceLabelSingular}`
     },
     ...mapState({
       error: ({resource})=> resource.error,
@@ -71,6 +68,17 @@ export default {
       isFailed,
       isLoading
     })
+    // currentPage: {
+    //   get() {
+    //     return this.$route.query.p
+    //   },
+    //   set(newValue) {
+    //     this.$router.replace({query: {p: newValue}})
+    //   }
+    // },
+    // paginationSize() {
+    //   return this.showSidebar ? 'sm' : 'md'
+    // }
   }
 }
 </script>
