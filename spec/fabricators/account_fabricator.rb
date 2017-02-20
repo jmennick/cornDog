@@ -1,7 +1,7 @@
 Fabricator(:account) do
-  name        "MyString"
-  code        1
-  order       1
+  name        { sequence(:name, 1){|i| "Account #{i}"} }
+  code        { sequence(:code, 1) }
+  order       { sequence(:order, 1) }
   active      true
   description "MyText"
   created_by  fabricator: :user

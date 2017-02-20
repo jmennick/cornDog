@@ -45,6 +45,22 @@ RSpec.describe 'Accounts', type: :request do
     end
   end
 
+  context "GET #{URL}?filter[active]=true", focus: true do
+    let(:_url) { "#{url}?filter[active]=true" }
+    before { Account.delete_all }
+    before { Fabricate(:account, active: true) }
+    before { Fabricate(:account, active: false) }
+    before { get(_url, headers: headers) }
+
+    subject { response }
+    it { is_expected.to have_http_status(:ok) }
+
+    context 'response items count' do
+      subject{ JSON.parse(response.body)['data'].count }
+      it { is_expected.to eq(1) }
+    end
+  end
+
   context "POST #{URL}" do
     before { Fabricate(:user) }
     let(:params) {{

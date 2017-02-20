@@ -8,6 +8,8 @@ class AccountResource < ApplicationResource
   attribute :kind
   attribute :kind_human
 
+  filter :active
+
   def kind_human
     kind.titleize
   end
