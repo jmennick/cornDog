@@ -13,13 +13,13 @@
     <div id="sidebar" class="bg-chrome-under">
       <ul class="nav flex-column ">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Active</a>
+          <a class="nav-link active" href="/">Chart of Accounts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" href="/accounts">List of Accounts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link disabled" href="/transactions">Journal Transaction</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="#">Disabled</a>
