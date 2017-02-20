@@ -42,10 +42,10 @@ export const getters = {
 export const fetch = 'fetch'
 
 export const actions = {
-  [fetch]: async ({commit}, resourceName)=> {
+  [fetch]: async ({commit}, resourceName, query={})=> {
     commit(beginLoading)
     try {
-      const data = await apiClient.findAll(resourceName)
+      const data = await apiClient.findAll(resourceName, query)
       commit(loadingSuccessful, data)
     } catch(err) {
       commit(loadingFailed, err.toString())
