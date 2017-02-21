@@ -5,25 +5,24 @@
     </div>
     <b-table class="table-striped" :items="accounts" :fields="fields">
       <template slot="active" scope="a">
-        <div class="badge badge-pill" :class="{'badge-success': a.item.active, 'badge-danger': !a.item.active}">
+        <div class="badge badge-pill" :class="{'badge-success': a.item.active, 'badge-danger': !a.item.active}" @click="toggleActive(a.item)">
           <span v-if="a.item.active">Active</span>
           <span v-else>Inactive</span>
         </div>
-        &nbsp;
-        <b-button size="sm"><icon :name="activeToggleLabel(a.item.active)"></icon></b-button>
       </template>
-      <template slot="actions" scope="account">
+      <template slot="actions" scope="a">
         <b-button size="sm" class="mr-2"><icon name="eye"></icon></b-button>
-        <b-button size="sm" class="mr-2"><icon name="edit"></icon></b-button>
+        <b-button size="sm" class="mr-2" @click="editAccount(a.item)"><icon name="edit"></icon></b-button>
       </template>
     </b-table>
   </resource-list>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 import ResourceList from '~components/ResourceList'
 import AccountForm from '~components/accounts/AccountForm'
+import {showModal} from '~store/resourceForm'
 
 export default {
   components: {
@@ -51,6 +50,21 @@ export default {
   methods: {
     activeToggleLabel(account) {
       return account.active ? 'ban' : 'thumbs-up'
+    },
+    toggleActive(account) {
+      if (account.active) {
+        if (confirm('Are you sure you want to deactivate this account?')) {
+          alert('-Deactivate Account-')
+        }
+      } else {
+        if (confirm('Are you sure you want to activate this account?')) {
+          alert('-Activate Account-')
+        }
+      }
+    },
+    ...mapMutations('resourceForm', {showModal}),
+    editAccount(account) {
+      this.showModal(account)
     }
   },
   async fetch({params, store}) {

@@ -10,6 +10,6 @@ export default (apiClient)=> {
     kind_human: '',
     initial_balance: ''
   }, {
-    readonly: ['kind_human']
+    readOnly: ['kind_human']
   })
 }

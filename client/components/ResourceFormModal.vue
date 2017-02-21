@@ -15,7 +15,7 @@
 
 <script>
 import Modal from '~components/Modal'
-import {mapGetters, mapMutations, mapActions} from 'vuex'
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 
 import {
   modalShown, closeModal, beginSaving,
@@ -41,6 +41,9 @@ export default {
     Modal
   },
   computed: {
+    ...mapState({
+      modalData: ({resourceForm})=> resourceForm.modalData
+    }),
     ...mapGetters('resourceForm', {modalShown, viewStateIsSaving})
   },
   methods: {

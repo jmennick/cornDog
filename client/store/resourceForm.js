@@ -4,7 +4,7 @@ export const VIEW_STATE_HIDDEN = 'hidden'
 export const VIEW_STATE_SHOWN = 'shown'
 export const VIEW_STATE_SAVING = 'saving'
 export const VIEW_STATE_ERROR = 'error'
-// export const VIEW_STATE_SUCCESS = 'success'
+export const VIEW_STATE_SUCCESS = 'success'
 
 export const state = {
   viewState: VIEW_STATE_HIDDEN,
@@ -16,14 +16,15 @@ export const state = {
 export const showModal = 'showModal'
 export const beginSaving = 'beginSaving'
 export const saveError = 'saveError'
-// export const saveSuccessful = 'saveSuccessful'
+export const saveSuccessful = 'saveSuccessful'
 export const closeModal = 'closeModal'
 export const saveData = 'saveData'
 
 export const mutations = {
   [showModal](state, data) {
+    let _data = {}; Object.assign(_data, data)
     state.viewState = VIEW_STATE_SHOWN
-    state.modalData = data
+    state.modalData = _data
   },
   [beginSaving](state) {
     state.viewState = VIEW_STATE_SAVING
@@ -35,20 +36,20 @@ export const mutations = {
   [saveData](state, data) {
     state.modalData = data
   },
-  // [saveSuccessful](state, data={}) {
-  //   state.viewState = VIEW_STATE_SUCCESS
-  //   state.resultData = data
-  // },
-  [closeModal](state, data={}) {
-    state.viewState = VIEW_STATE_HIDDEN
+  [saveSuccessful](state, data) {
+    state.viewState = VIEW_STATE_SUCCESS
     state.resultData = data
+  },
+  [closeModal](state) {
+    state.viewState = VIEW_STATE_HIDDEN
+    state.resultData = null
   }
 }
 
 export const viewStateIsShown = 'viewStateIsShown'
 export const viewStateIsSaving = 'viewStateIsSaving'
 export const viewStateIsError = 'viewStateIsError'
-// export const viewStateIsSuccess = 'viewStateIsSuccess'
+export const viewStateIsSuccess = 'viewStateIsSuccess'
 export const viewStateIsHidden = 'viewStateIsHidden'
 export const modalShown = 'modalShown'
 
@@ -56,9 +57,9 @@ export const getters = {
   [viewStateIsShown]: ({viewState})=> viewState == VIEW_STATE_SHOWN,
   [viewStateIsSaving]: ({viewState})=> viewState == VIEW_STATE_SAVING,
   [viewStateIsError]: ({viewState})=> viewState == VIEW_STATE_ERROR,
-  // [viewStateIsSuccess]: ({viewState})=> viewState == VIEW_STATE_SUCCESS,
+  [viewStateIsSuccess]: ({viewState})=> viewState == VIEW_STATE_SUCCESS,
   [viewStateIsHidden]: ({viewState})=> viewState == VIEW_STATE_HIDDEN,
-  [modalShown]: ({viewState})=> viewState != VIEW_STATE_HIDDEN
+  [modalShown]: ({viewState})=> (viewState != VIEW_STATE_HIDDEN) && (viewState != VIEW_STATE_SUCCESS)
 }
 
 export const save = 'save'
@@ -73,7 +74,7 @@ export const actions = {
       } else {
         data = await apiClient.update(resourceName, state.modalData)
       }
-      commit(closeModal)
+      commit(saveSuccessful, data)
     } catch(err) {
       commit(saveError, err)
     }

@@ -5,6 +5,12 @@
       <resource-add-btn slot="right" v-if="!noAdd" :resource-name="resourceLabelSingular" :new-resource="newResource"/>
     </toolbar-top>
     <div class="content-container">
+      <b-alert state="success" :show="successAlert">
+        <button type="button" class="close" aria-label="Close" @click="successAlert = false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Loading Successful!</strong>
+      </b-alert>
       <resource-form-modal :title="resourceFormTitle" :resource="resource">
         <slot name="form"></slot>
       </resource-form-modal>
@@ -33,6 +39,7 @@ import ResourceFormModal from '~components/ResourceFormModal'
 import ResourceRefreshBtn from '~components/ResourceRefreshBtn'
 import ResourceAddBtn from '~components/ResourceAddBtn'
 import {isSuccess, isFailed, isLoading} from '~store/resource'
+import {viewStateIsSuccess} from '~store/resourceForm'
 
 export default {
   props: {
@@ -63,6 +70,9 @@ export default {
     ResourceRefreshBtn,
     ResourceAddBtn
   },
+  data: ()=> ({
+    successAlert: false
+  }),
   computed: {
     resourceFormTitle() {
       return `Save ${this.resourceLabelSingular}`
@@ -75,6 +85,9 @@ export default {
       isSuccess,
       isFailed,
       isLoading
+    }),
+    ...mapGetters('resourceForm', {
+      viewStateIsSuccess
     })
     // currentPage: {
     //   get() {
@@ -87,6 +100,14 @@ export default {
     // paginationSize() {
     //   return this.showSidebar ? 'sm' : 'md'
     // }
+  },
+  watch: {
+    viewStateIsSuccess(newValue) {
+      if (newValue == true) {
+        this.successAlert = true
+        this.$state
+      }
+    }
   }
 }
 </script>

@@ -26,7 +26,13 @@
         <b-form-input v-model="description" type="text" placeholder="Description"></b-form-input>
       </b-form-fieldset>
       <b-form-fieldset label="Active">
-        <b-form-checkbox v-model="active">Active</b-form-checkbox>
+        <!-- <b-form-checkbox v-model="active" :_value="true">Active</b-form-checkbox> -->
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" v-model="active">
+            Active
+          </label>
+        </div>
       </b-form-fieldset>
     </form>
   </div>
