@@ -16,6 +16,9 @@ module.exports = {
       'devour-client'
     ]
   },
+  router: {
+    linkActiveClass: 'active'
+  },
   plugins: [
     '~plugins/bootstrap-vue',
     '~plugins/vue-awesome'

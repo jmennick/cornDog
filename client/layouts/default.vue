@@ -11,20 +11,16 @@
       <nuxt/>
     </div>
     <div id="sidebar" class="bg-chrome-under">
-      <ul class="nav flex-column ">
-        <li class="nav-item">
-          <a class="nav-link active" href="/">Chart of Accounts</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/accounts">List of Accounts</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="/transactions">Journal Transaction</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-      </ul>
+      <b-navbar>
+        <a class="navbar-brand text-white" @click="toggleSidebar()">
+          <icon name="bars"></icon>
+        </a>
+      </b-navbar>
+      <nav class="nav flex-column">
+        <nuxt-link class="nav-link chrome-link" to="/" exact>Chart of Accounts</nuxt-link>
+        <nuxt-link class="nav-link chrome-link" to="/accounts">List of Accounts</nuxt-link>
+        <nuxt-link class="nav-link chrome-link" to="/journals" disabled>Journal Entries</nuxt-link>
+      </nav>
     </div>
   </div>
 </template>

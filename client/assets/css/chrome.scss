@@ -7,6 +7,20 @@
 .bg-chrome-under {
   background-color: $chrome-under-bg;
   /*box-shadow: -1px -1px 1px red;*/
+
+  .chrome-link {
+    color: $chrome-link-text;
+
+    &.active, &:active, &:hover {
+      background-color: $chrome-link-selected-bg;
+    }
+    &.active {
+      color: $chrome-link-text;
+    }
+    &[disabled], &.disabled {
+      color: darken($chrome-link-text, 33);
+    }
+  }
 }
 
 .btn-chrome {
