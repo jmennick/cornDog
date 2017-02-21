@@ -2,7 +2,7 @@
 $chrome-bg: #3d454d;
 $chrome-text: #fff;
 // $chrome-under-bg: #666;
-$chrome-under-bg: #3d454d;
+$chrome-under-bg: lighten(#3d454d, 3);
 
 $chrome-link-text: #b9bbbe;
 $chrome-link-selected-bg: #383f45;
