@@ -7,6 +7,7 @@ class AccountResource < ApplicationResource
   attribute :created_by_id
   attribute :kind
   attribute :kind_human
+  attribute :initial_balance
 
   filter :active
 
