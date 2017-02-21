@@ -7,7 +7,8 @@ export default (apiClient)=> {
     description: '',
     created_by_id: '',
     kind: '',
-    kind_human: ''
+    kind_human: '',
+    initial_balance: ''
   }, {
     readonly: ['kind_human']
   })

@@ -1,3 +1,5 @@
+import apiClient from '~assets/js/apiClient'
+
 export const VIEW_STATE_HIDDEN = 'hidden'
 export const VIEW_STATE_SHOWN = 'shown'
 export const VIEW_STATE_SAVING = 'saving'
@@ -28,7 +30,7 @@ export const mutations = {
   },
   [saveError](state, error) {
     state.viewState = VIEW_STATE_ERROR
-    state.error = error
+    state.error = error.toString()
   },
   [saveData](state, data) {
     state.modalData = data
@@ -57,4 +59,23 @@ export const getters = {
   // [viewStateIsSuccess]: ({viewState})=> viewState == VIEW_STATE_SUCCESS,
   [viewStateIsHidden]: ({viewState})=> viewState == VIEW_STATE_HIDDEN,
   [modalShown]: ({viewState})=> viewState != VIEW_STATE_HIDDEN
+}
+
+export const save = 'save'
+
+export const actions = {
+  [save]: async ({commit, state}, resourceName)=> {
+    commit(beginSaving)
+    try {
+      let data
+      if (state.modalData.id == null) {
+        data = await apiClient.create(resourceName, state.modalData)
+      } else {
+        data = await apiClient.update(resourceName, state.modalData)
+      }
+      commit(closeModal)
+    } catch(err) {
+      commit(saveError, err)
+    }
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <resource-list resource="account" resource-label-singular="Chart of Account" resource-label-plural="Chart Of Accounts">
+  <resource-list resource="account" resource-label-singular="Chart of Account" resource-label-plural="Chart Of Accounts" no-add>
     <div slot="form">
       <account-form />
     </div>

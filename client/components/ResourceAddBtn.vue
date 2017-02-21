@@ -13,12 +13,16 @@ export default {
     resourceName: {
       type: String,
       required: true
+    },
+    newResource: {
+      type: Object,
+      default: {}
     }
   },
   methods: {
     ...mapMutations('resourceForm', {showModal}),
     addNew() {
-      this.showModal({})
+      this.showModal(this.newResource)
     }
   }
 }

@@ -1,12 +1,13 @@
+import {mapState, mapMutations} from 'vuex'
+import {saveData} from '~store/resourceForm'
+
 export default {
   computed: {
-    resource: {
-      get() {
-        return this.$store.resourceForm.modalData
-      },
-      set(newValue) {
-        this.$store.commit('resourceForm/saveData', newValue)
-      }
-    }
+    ...mapState({
+      resource: ({resourceForm})=> resourceForm.modalData
+    })
+  },
+  methods: {
+    ...mapMutations('resourceForm', {saveData})
   }
 }

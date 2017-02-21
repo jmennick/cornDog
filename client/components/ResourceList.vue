@@ -2,10 +2,10 @@
   <div>
     <toolbar-top :title="resourceLabelPlural">
       <resource-refresh-btn slot="left" :resource="resource"/>
-      <resource-add-btn slot="right" :resource-name="resourceLabelSingular"/>
+      <resource-add-btn slot="right" v-if="!noAdd" :resource-name="resourceLabelSingular" :new-resource="newResource"/>
     </toolbar-top>
     <div class="content-container">
-      <resource-form-modal :title="resourceFormTitle">
+      <resource-form-modal :title="resourceFormTitle" :resource="resource">
         <slot name="form"></slot>
       </resource-form-modal>
       <div v-if="isLoading">
@@ -47,6 +47,14 @@ export default {
     resourceLabelPlural: {
       type: String,
       required: true
+    },
+    newResource: {
+      type: Object,
+      default: {}
+    },
+    noAdd: {
+      type: Boolean,
+      default: false
     }
   },
   components: {

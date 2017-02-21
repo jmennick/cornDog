@@ -1,11 +1,11 @@
 <template>
-  <modal :show="modalShown" @close="cancel()" :title="title" :size="size">
+  <modal :show="modalShown" @close="closeModal()" :title="title" :size="size">
     <slot></slot>
     <template slot="footer">
-      <b-button variant="secondary" @click="cancel()">
+      <b-button variant="secondary" @click="closeModal()">
         Cancel
       </b-button>
-      <b-button variant="primary" @click="save()" :disabled="viewStateIsSaving">
+      <b-button variant="primary" @click="save(resource)" :disabled="viewStateIsSaving">
         <span v-if="viewStateIsSaving"><icon name="circle-o-notch" spin></icon> Saving</span>
         <span v-else>Save</span>
       </b-button>
@@ -15,11 +15,11 @@
 
 <script>
 import Modal from '~components/Modal'
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 
 import {
   modalShown, closeModal, beginSaving,
-  viewStateIsSaving
+  viewStateIsSaving, save
 } from '~store/resourceForm'
 
 export default {
@@ -31,29 +31,21 @@ export default {
     size: {
       type: String,
       default: 'lg'
+    },
+    resource: {
+      type: String,
+      required: true
     }
   },
   components: {
     Modal
   },
   computed: {
-    ...mapGetters('resourceForm', {
-      modalShown, viewStateIsSaving
-    })
+    ...mapGetters('resourceForm', {modalShown, viewStateIsSaving})
   },
   methods: {
-    ...mapMutations('resourceForm', {
-      closeModal, beginSaving
-    }),
-    cancel() {
-      this.closeModal()
-    },
-    save() {
-      this.beginSaving()
-      setTimeout(()=> {
-        this.closeModal()
-      }, 1000);
-    }
+    ...mapMutations('resourceForm', {closeModal, beginSaving}),
+    ...mapActions('resourceForm', {save})
   }
 }
 </script>

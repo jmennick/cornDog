@@ -1,5 +1,5 @@
 export const state = {
-  shown: false
+  shown: true
 }
 
 export const mutations = {
