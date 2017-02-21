@@ -55,7 +55,7 @@ export default {
     }),
     name: mapProp('name'),
     kind: mapProp('kind'),
-    // initial_balance: mapProp('initial_balance'),
+    initial_balance: mapProp('initial_balance'),
     code: mapProp('code'),
     order: mapProp('order'),
     description: mapProp('description'),

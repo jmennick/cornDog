@@ -41,6 +41,7 @@ export default {
         description: null,
         kind: 'current_asset',
         created_by_id: 1,
+        initial_balance: 0.0,
         name: null,
         order: null,
         type: 'accounts'
