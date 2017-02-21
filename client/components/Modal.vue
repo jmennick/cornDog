@@ -1,5 +1,5 @@
 <template>
-  <div id="modal-container" v-if="show">
+  <div id="modal-container" :class="{'modal-open': show}" v-if="show">
     <div class="modal fade" :class="{show: animateShow}" tabindex="-1" role="dialog" style="display: block; padding-left: 0;" @click.self="backdropClicked()">
       <div class="modal-dialog" :class="dialogClasses" role="document">
         <div class="modal-content">
