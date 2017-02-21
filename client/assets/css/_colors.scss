@@ -1,14 +1,16 @@
 // $chrome-bg: #555;
 $chrome-bg: #3d454d;
+// $chrome-bg: #2c3e50;
 $chrome-text: #fff;
 // $chrome-under-bg: #666;
-$chrome-under-bg: lighten(#3d454d, 3);
+// $chrome-under-bg: #34495e;
+$chrome-under-bg: lighten($chrome-bg, 3);
 
 $chrome-link-text: #b9bbbe;
-$chrome-link-selected-bg: #383f45;
+$chrome-link-selected-bg: $chrome-bg;
 $chrome-link-selected-text: #fff;
 
-$green-bg-theme: #5cb85c;
+$green-bg-theme: #27ae60;
 $green-text-theme: #5cb85c;
 $green-btn-text-theme: #fff;
 
