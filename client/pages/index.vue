@@ -6,7 +6,6 @@
     <b-table stripped :items="accounts" :fields="fields">
       <template slot="actions" scope="account">
         <b-button size="sm" class="mr-2"><icon name="eye"></icon></b-button>
-        <b-button size="sm" class="mr-2"><icon name="edit"></icon></b-button>
       </template>
     </b-table>
   </resource-list>
