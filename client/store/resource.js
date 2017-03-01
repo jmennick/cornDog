@@ -7,7 +7,8 @@ export const VIEW_STATE_FAILED = 'failed'
 
 export const state = {
   viewState: null,
-  data: null,
+  data: [],
+  selected: null,
   selectedId: null,
   error: null,
   name: null,
@@ -27,7 +28,11 @@ export const mutations = {
   },
   [loadingSuccessful](state, data) {
     state.viewState = VIEW_STATE_SUCCESS
-    state.data = data
+    if (state.selectedId == null) {
+      state.data = data
+    } else {
+      state.selected = data
+    }
     state.meta = data.meta
   },
   [loadingFailed](state, error) {
@@ -35,11 +40,6 @@ export const mutations = {
     state.error = error
   },
   [resourceSetup](state, {name, id=null, query={}, newResource={}, title=null}) {
-    if (id == null) {
-      state.data = []
-    } else {
-      state.data = null
-    }
     state.name = name
     state.selectedId = id
     state.query = query

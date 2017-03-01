@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     ...mapState({
-      journalEntry: ({resource})=> resource.data
+      journalEntry: ({resource})=> resource.selected
     })
   },
   async fetch({params, store}) {

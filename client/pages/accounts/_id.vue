@@ -43,12 +43,12 @@
     },
     computed: {
       ...mapState({
-        account: ({resource}) => resource.data
+        account: ({resource}) => resource.selected
       })
     },
     async fetch({params, store}) {
       await store.dispatch('resource/setup', {
-        name: 'accounts',
+        name: 'account',
         id: params.id,
         query: {include: 'created_by'}
       })
