@@ -4,7 +4,8 @@ class AccountResource < ApplicationResource
   attribute :order
   attribute :active
   attribute :description
-  attribute :created_by_id
+  # attribute :created_by_id
+  has_one :created_by
   attribute :kind
   attribute :kind_human
   attribute :initial_balance

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170217004538) do
+ActiveRecord::Schema.define(version: 20170222183907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,26 @@ ActiveRecord::Schema.define(version: 20170217004538) do
     t.index ["order"], name: "index_accounts_on_order", using: :btree
   end
 
+  create_table "journal_entries", force: :cascade do |t|
+    t.integer  "created_by_id", null: false
+    t.text     "description"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["created_by_id"], name: "index_journal_entries_on_created_by_id", using: :btree
+  end
+
+  create_table "journal_entry_items", force: :cascade do |t|
+    t.integer  "journal_entry_id",                                          null: false
+    t.integer  "account_id",                                                null: false
+    t.boolean  "normal_side",                               default: true,  null: false
+    t.decimal  "amount",           precision: 12, scale: 2, default: "0.0", null: false
+    t.date     "date",                                                      null: false
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.index ["account_id"], name: "index_journal_entry_items_on_account_id", using: :btree
+    t.index ["journal_entry_id"], name: "index_journal_entry_items_on_journal_entry_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -47,4 +67,7 @@ ActiveRecord::Schema.define(version: 20170217004538) do
   end
 
   add_foreign_key "accounts", "users", column: "created_by_id"
+  add_foreign_key "journal_entries", "users", column: "created_by_id"
+  add_foreign_key "journal_entry_items", "accounts"
+  add_foreign_key "journal_entry_items", "journal_entries"
 end

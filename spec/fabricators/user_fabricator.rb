@@ -1,4 +1,4 @@
 Fabricator(:user) do
-  name  "Gavin Smith"
-  email "gav5@corndog.herokuapp.com"
+  name{ Faker::Name.name }
+  email{|attrs| Faker::Internet.email(attrs[:name]) }
 end

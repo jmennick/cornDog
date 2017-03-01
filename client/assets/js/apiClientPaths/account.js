@@ -5,11 +5,15 @@ export default (apiClient)=> {
     order: '',
     active: '',
     description: '',
-    created_by_id: '',
+    created_by: {
+      jsonApi: 'hasOne',
+      type: 'users'
+    },
     kind: '',
     kind_human: '',
     initial_balance: ''
   }, {
-    readOnly: ['kind_human']
+    readOnly: ['kind_human'],
+    include: 'created_by'
   })
 }

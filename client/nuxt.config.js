@@ -1,4 +1,7 @@
 module.exports = {
+  env: {
+    apiUrl: process.env.API_URL || 'https://corndog.herokuapp.com/api'
+  },
   build: {
     babel: {
       plugins: [
@@ -13,7 +16,8 @@ module.exports = {
     vendor: [
       'bootstrap-vue',
       'vue-awesome',
-      'devour-client'
+      'devour-client',
+      'inflection'
     ]
   },
   router: {

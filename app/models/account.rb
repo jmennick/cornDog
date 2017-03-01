@@ -21,6 +21,27 @@ class Account < ApplicationRecord
   # initial_balance: currency
   validates :initial_balance, numericality: true
 
+  # returns which side is the normal side (based on kind)
+  def normal_side_physical
+    self.class.normal_side_physical(kind)
+  end
+
+  # returns the physical normal side for a given kind
+  def self.normal_side_physical(kind)
+    case kind
+    when *kinds_grouped[:asset].keys.map{|k| [k,:asset].join(?_)}
+      return :left
+    when *kinds_grouped[:liability].keys.map{|k| [k, :liability].join(?_)}
+      return :right
+    when 'revenue'
+      return :left
+    when 'equity', 'expense'
+      return :right
+    else
+      raise ArgumentError, "invalid kind: \"#{kind}\""
+    end
+  end
+
   class_attribute :kinds_grouped
   self.kinds_grouped = {
     asset: {

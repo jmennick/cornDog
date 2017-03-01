@@ -5,6 +5,17 @@ class TwoColumn
     @debit, @credit = debit, credit
   end
 
+  def self.value(val, side: :left)
+    case side
+    when :left
+      return TwoColumn.new(val, 0.0)
+    when :right
+      return TwoColumn.new(0.0, val)
+    else
+      raise ArgumentError, "invalid side \"#{side}\""
+    end
+  end
+
   def ==(other)
     debit == other.debit && credit == other.credit
   end

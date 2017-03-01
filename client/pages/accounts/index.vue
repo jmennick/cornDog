@@ -1,5 +1,5 @@
 <template>
-  <resource-list resource="account" resource-label-singular="Account" resource-label-plural="Accounts" :new-resource="newAccount">
+  <resource-list>
     <div slot="form">
       <account-form />
     </div>
@@ -32,20 +32,7 @@ export default {
   computed: {
     ...mapState({
       accounts: ({resource})=> resource.data
-    }),
-    newAccount() {
-      return {
-        active: false,
-        code: null,
-        description: null,
-        kind: 'current_asset',
-        created_by_id: 1,
-        initial_balance: 0.0,
-        name: null,
-        order: null,
-        type: 'accounts'
-      }
-    }
+    })
   },
   methods: {
     activeToggleLabel(account) {
@@ -68,7 +55,21 @@ export default {
     }
   },
   async fetch({params, store}) {
-    await store.dispatch('resource/fetch', 'account')
+    await store.dispatch('resource/setup', {
+      name: 'account',
+      query: {include: 'created_by'},
+      newResource: {
+        active: false,
+        code: null,
+        description: null,
+        kind: 'current_asset',
+        created_by_id: 1,
+        initial_balance: 0.0,
+        name: null,
+        order: null,
+        type: 'accounts'
+      }
+    })
   },
   data: ()=> ({
     fields: {

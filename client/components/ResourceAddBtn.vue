@@ -1,23 +1,20 @@
 <template>
   <b-button variant="theme" @click="addNew()">
-    <icon name="plus"></icon> Add {{resourceName}}
+    <icon name="plus"></icon> Add {{labelSingular}}
   </b-button>
 </template>
 
 <script>
-import {mapMutations, mapState} from 'vuex'
+import {mapMutations, mapState, mapGetters} from 'vuex'
+import {labelSingular} from '~store/resource'
 import {showModal} from '~store/resourceForm'
 
 export default {
-  props: {
-    resourceName: {
-      type: String,
-      required: true
-    },
-    newResource: {
-      type: Object,
-      default: {}
-    }
+  computed: {
+    ...mapGetters('resource', {labelSingular}),
+    ...mapState({
+      newResource: ({resource})=> resource.newResource
+    })
   },
   methods: {
     ...mapMutations('resourceForm', {showModal}),

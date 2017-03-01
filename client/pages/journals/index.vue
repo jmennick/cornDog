@@ -1,49 +1,48 @@
 <template>
-  <resource-list resource="account" resource-label-singular="Transaction" resource-label-plural="Journal">
+  <resource-list>
     <div slot="form">
       <account-form/>
     </div>
-    <b-table stripped class="table-striped" :items="transactions" :fields="fields">
-      <template slot="actions" scope="a">
-        <nuxt-link class="mr-2 btn btn-default btn-sm" to="/details"><icon name="eye" @click="showTransaction(a.item)"></icon></nuxt-link>
+    <b-table class="table-striped" :items="transactions" :fields="fields">
+      <template slot="created_by" scope="j">
+        {{j.item.created_by.name}}
+      </template>
+      <template slot="actions" scope="j">
+        <nuxt-link class="mr-2 btn btn-secondary btn-sm" :to="{name: 'journals-id', params: {id: j.item.id}}"><icon name="eye"></icon></nuxt-link>
       </template>
     </b-table>
   </resource-list>
 </template>
 <script>
-  import {mapState} from 'vuex'
-  import ResourceList from '~components/ResourceList'
+import {mapState} from 'vuex'
+import ResourceList from '~components/ResourceList'
 
-  export default {
-    components: {
-      ResourceList
-    },
-    computed: {
-      ...mapState({
-          transactions: ({resource})=> resource.data
+export default {
+  components: {
+    ResourceList
+  },
+  computed: {
+    ...mapState({
+      transactions: ({resource})=> resource.data
     })
   },
-  methods: {
-        showTransactions(transactionItem) {
-          console.log(transactionItem);
-    }
-  },
   async fetch({params, store}) {
-    await store.commit('resource/loadingSuccessful', [
-      {date: '1-24-2017', user: 'Michael Russell', title: 'Transaction #4855'},
-      {date: '1-29-2017', user: 'Elizabeth Herndon', title: 'Transaction #8818'},
-      {date: '2-4-2017', user: 'Joshua Mennicke', title: 'Transaction #6996'},
-      {date: '2-8-2017', user: 'Gavin Smith', title: 'Transaction #420'},
-      {date: '2-9-2017', user: 'Ryan Josefburg', title: 'Transaction #2345'}
-      ])
+    await store.dispatch('resource/setup', {
+      name: 'journal_entry',
+      query: {include: 'created_by'},
+      newResource: {
+        created_by: null,
+        items: []
+      }
+    })
   },
   data: ()=> ({
     fields: {
-      date: {label: 'Date', sortable: true},
-      title: {label: 'Transaction Name', sortable: true},
-      user: {label: 'Created By', sortable: true},
-      actions: {sortable: false}
+      created_at: {label: 'Created On', sortable: true},
+      // title: {label: 'Transaction Name', sortable: true},
+      created_by: {label: 'Created By'},
+      actions: {}
     }
   })
-  }
+}
 </script>

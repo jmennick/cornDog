@@ -112,4 +112,21 @@ RSpec.describe Account, type: :model do
       expect(account).not_to be_valid
     end
   end
+
+  context '#normal_side_physical' do
+    {
+      current_asset: :left,
+      long_term_asset: :left,
+      current_liability: :right,
+      long_term_liability: :right,
+      revenue: :left,
+      equity: :right,
+      expense: :right
+    }.each do |k,v|
+      it "generates the correct value (#{v}) for an Account of kind \"#{k}\"" do
+        account = Fabricate.build(:account, kind: k)
+        expect(account.normal_side_physical).to eq(v)
+      end
+    end
+  end
 end

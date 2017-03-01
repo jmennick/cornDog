@@ -1,4 +1,4 @@
-import apiClient from '~assets/js/apiClient'
+import apiClient from '~plugins/apiClient'
 
 export const VIEW_STATE_HIDDEN = 'hidden'
 export const VIEW_STATE_SHOWN = 'shown'

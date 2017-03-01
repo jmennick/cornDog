@@ -1,8 +1,8 @@
 <template>
   <div>
-    <toolbar-top :title="resourceLabelPlural">
-      <resource-refresh-btn slot="left" :resource="resource"/>
-      <resource-add-btn slot="right" v-if="!noAdd" :resource-name="resourceLabelSingular" :new-resource="newResource"/>
+    <toolbar-top :title="title">
+      <resource-refresh-btn slot="left"/>
+      <resource-add-btn slot="right" v-if="!noAdd"/>
     </toolbar-top>
     <div class="content-container">
       <b-alert state="success" :show="successAlert">
@@ -11,7 +11,7 @@
         </button>
         <strong>Loading Successful!</strong>
       </b-alert>
-      <resource-form-modal :title="resourceFormTitle" :resource="resource">
+      <resource-form-modal :title="resourceFormTitle" :resource="resourceName">
         <slot name="form"></slot>
       </resource-form-modal>
       <div v-if="isLoading">
@@ -38,30 +38,16 @@ import ToolbarTop from '~components/ToolbarTop'
 import ResourceFormModal from '~components/ResourceFormModal'
 import ResourceRefreshBtn from '~components/ResourceRefreshBtn'
 import ResourceAddBtn from '~components/ResourceAddBtn'
-import {isSuccess, isFailed, isLoading} from '~store/resource'
 import {viewStateIsSuccess} from '~store/resourceForm'
+import {
+  isSuccess, isFailed, isLoading, labelSingular, labelPlural
+} from '~store/resource'
 
 export default {
   props: {
-    resource: {
-      type: String,
-      required: true
-    },
-    resourceLabelSingular: {
-      type: String,
-      required: true
-    },
-    resourceLabelPlural: {
-      type: String,
-      required: true
-    },
-    newResource: {
-      type: Object,
-      default: {}
-    },
     noAdd: {
       type: Boolean,
-      default: false
+      default: ()=> false
     }
   },
   components: {
@@ -75,16 +61,20 @@ export default {
   }),
   computed: {
     resourceFormTitle() {
-      return `Save ${this.resourceLabelSingular}`
+      return `Save ${this.labelSingular}`
     },
     ...mapState({
+      resourceName: ({resource})=> resource.name,
       error: ({resource})=> resource.error,
-      showSidebar: ({sidebar})=> sidebar.shown
+      showSidebar: ({sidebar})=> sidebar.shown,
+      title: ({resource})=> resource.title
     }),
     ...mapGetters('resource', {
       isSuccess,
       isFailed,
-      isLoading
+      isLoading,
+      labelSingular,
+      labelPlural
     }),
     ...mapGetters('resourceForm', {
       viewStateIsSuccess

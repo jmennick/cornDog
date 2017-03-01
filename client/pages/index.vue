@@ -1,9 +1,9 @@
 <template>
-  <resource-list resource="account" resource-label-singular="Chart of Account" resource-label-plural="Chart Of Accounts" no-add>
+  <resource-list no-add>
     <div slot="form">
       <account-form />
     </div>
-    <b-table stripped :items="accounts" :fields="fields">
+    <b-table class="table-striped" :items="accounts" :fields="fields">
       <template slot="actions" scope="account">
         <b-button size="sm" class="mr-2"><icon name="eye"></icon></b-button>
       </template>
@@ -11,20 +11,27 @@
   </resource-list>
 </template>
 <script>
-  import {mapState} from 'vuex'
-  import ResourceList from '~components/ResourceList'
+import {mapState} from 'vuex'
+import ResourceList from '~components/ResourceList'
 
-  export default {
-    components: {
-      ResourceList
-    },
-    computed: {
-      ...mapState({
-          accounts: ({resource})=> resource.data
-  })
+export default {
+  components: {
+    ResourceList
+  },
+  computed: {
+    ...mapState({
+      accounts: ({resource})=> resource.data
+    })
   },
   async fetch({params, store}) {
-    await store.dispatch('resource/fetch', 'account', { filter: {active: true}})
+    await store.dispatch('resource/setup', {
+      name: 'account',
+      title: 'Chart of Accounts',
+      query: {
+        filter: {active: true},
+        include: 'created_by'
+      }
+    })
   },
   data: ()=> ({
     fields: {
@@ -34,5 +41,5 @@
       actions: {sortable: false}
     }
   })
-  }
+}
 </script>
