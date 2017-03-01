@@ -11,7 +11,8 @@
         </div>
       </template>
       <template slot="actions" scope="a">
-        <b-button size="sm" variant="secondary" class="mr-2"><icon name="eye"></icon></b-button>
+        <nuxt-link class="mr-2 btn btn-secondary btn-sm" :to="{name: 'accounts-id', params: {id: a.item.id}}"><icon name="eye"></icon></nuxt-link>
+        <!--<b-button size="sm" variant="secondary" class="mr-2"><icon name="eye"></icon></b-button>-->
         <b-button size="sm" variant="secondary" class="mr-2" @click="editAccount(a.item)"><icon name="edit"></icon></b-button>
       </template>
     </b-table>
