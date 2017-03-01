@@ -4,8 +4,8 @@ class AccountResource < ApplicationResource
   attribute :order
   attribute :active
   attribute :description
-  # attribute :created_by_id
   has_one :created_by
+  attribute :created_at, format: :date
   attribute :kind
   attribute :kind_human
   attribute :initial_balance
@@ -14,5 +14,13 @@ class AccountResource < ApplicationResource
 
   def kind_human
     kind.titleize
+  end
+
+  def self.creatable_fields(context)
+    super - %i(created_at)
+  end
+
+  def self.updatable_fields(context)
+    super - %i(created_at)
   end
 end

@@ -1,5 +1,4 @@
 require 'rails_helper'
-URL = '/api/accounts'
 
 RSpec.describe Account, type: :request do
 

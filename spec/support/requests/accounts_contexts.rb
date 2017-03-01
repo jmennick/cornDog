@@ -18,6 +18,9 @@ RSpec.shared_examples 'correct account attributes' do
   it { is_expected.to be_json_eql(true.to_json).at_path('active') }
   it { is_expected.to have_json_type(String).at_path('description') }
   it { is_expected.to be_json_eql(resource.kind.to_json).at_path('kind') }
+
+  let(:created_str){ DateValueFormatter.format(resource.created_at).to_json }
+  it { is_expected.to be_json_eql(created_str).at_path('created_at') }
 end
 
 RSpec.shared_examples 'correct account relationships' do
