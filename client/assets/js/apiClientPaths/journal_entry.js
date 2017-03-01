@@ -6,5 +6,7 @@ export default (apiClient)=> {
     },
     created_at: ''
   }, {
+    readOnly: ['created_at', 'created_by'],
+    include: 'created_by'
   })
 }

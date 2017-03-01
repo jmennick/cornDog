@@ -11,8 +11,8 @@
         </div>
       </template>
       <template slot="actions" scope="a">
-        <b-button size="sm" class="mr-2"><icon name="eye"></icon></b-button>
-        <b-button size="sm" class="mr-2" @click="editAccount(a.item)"><icon name="edit"></icon></b-button>
+        <b-button size="sm" variant="secondary" class="mr-2"><icon name="eye"></icon></b-button>
+        <b-button size="sm" variant="secondary" class="mr-2" @click="editAccount(a.item)"><icon name="edit"></icon></b-button>
       </template>
     </b-table>
   </resource-list>

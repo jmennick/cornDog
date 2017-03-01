@@ -8,6 +8,7 @@ export const VIEW_STATE_FAILED = 'failed'
 export const state = {
   viewState: null,
   data: null,
+  selectedId: null,
   error: null,
   name: null,
   title: '',
@@ -33,9 +34,14 @@ export const mutations = {
     state.viewState = VIEW_STATE_FAILED
     state.error = error
   },
-  [resourceSetup](state, {name, query={}, newResource={}, title=null}) {
-    state.data = []
+  [resourceSetup](state, {name, id=null, query={}, newResource={}, title=null}) {
+    if (id == null) {
+      state.data = []
+    } else {
+      state.data = null
+    }
     state.name = name
+    state.selectedId = id
     state.query = query
     state.newResource = newResource
     if (title == null) {
@@ -64,15 +70,20 @@ export const setup = 'setup'
 export const fetch = 'fetch'
 
 export const actions = {
-  [setup]: async({commit, dispatch}, {name, query={}, newResource={}, title=null})=> {
-    commit(resourceSetup, {name, query, newResource, title})
+  [setup]: async({commit, dispatch}, {name, id=null, query={}, newResource={}, title=null})=> {
+    commit(resourceSetup, {name, id, query, newResource, title})
     await dispatch(fetch)
   },
   [fetch]: async ({commit, state})=> {
     commit(beginLoading)
     try {
-      const data = await apiClient.findAll(state.name, state.query)
-      commit(loadingSuccessful, data)
+      if (state.selectedId == null) {
+        const data = await apiClient.findAll(state.name, state.query)
+        commit(loadingSuccessful, data)
+      } else {
+        const data = await apiClient.find(state.name, state.selectedId, state.query)
+        commit(loadingSuccessful, data)
+      }
     } catch(err) {
       commit(loadingFailed, err.toString())
     }
