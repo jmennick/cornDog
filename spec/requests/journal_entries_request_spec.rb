@@ -1,5 +1,4 @@
 require 'rails_helper'
-URL = '/api/journal_entries'
 
 RSpec.describe JournalEntry, type: :request do
 
