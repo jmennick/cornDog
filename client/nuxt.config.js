@@ -25,7 +25,8 @@ module.exports = {
   },
   plugins: [
     '~plugins/bootstrap-vue',
-    '~plugins/vue-awesome'
+    '~plugins/vue-awesome',
+    '~plugins/apiClient'
   ],
   head: {
     title: 'Corn Dog',
