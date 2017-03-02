@@ -6,6 +6,9 @@
     </toolbar-top>
     <div class="content-container">
       <div class="container-fluid">
+        <resource-form-modal :title="resourceFormTitle" :resource="resourceName">
+          <slot name="form"></slot>
+        </resource-form-modal>
         <div v-if="isLoading">
           Loading...
         </div>
@@ -19,12 +22,12 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 import ToolbarTop from '~components/ToolbarTop'
 import ResourceFormModal from '~components/ResourceFormModal'
 import ResourceRefreshBtn from '~components/ResourceRefreshBtn'
 import ResourceAddBtn from '~components/ResourceAddBtn'
-import {isSuccess, isLoading, isError} from '~store/resource'
+import {isSuccess, isLoading, isFailed, labelSingular} from '~store/resource'
 
 export default {
   props: {
@@ -40,11 +43,19 @@ export default {
     ResourceAddBtn
   },
   computed: {
+    ...mapState({
+      resourceName: ({resource})=> resource.name,
+      title: ({resource})=> resource.title
+    }),
     ...mapGetters('resource', {
       isSuccess,
       isLoading,
-      isError
-    })
+      isFailed,
+      labelSingular
+    }),
+    resourceFormTitle() {
+      return `Save ${this.labelSingular}`
+    }
   }
 }
 </script>

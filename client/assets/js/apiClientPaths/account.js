@@ -9,7 +9,7 @@ export default (apiClient)=> {
       jsonApi: 'hasOne',
       type: 'users'
     },
-    // created_at: '',
+    created_at: '',
     kind: '',
     kind_human: '',
     initial_balance: ''

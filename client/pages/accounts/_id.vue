@@ -1,5 +1,8 @@
 <template>
   <resource-detail>
+    <div slot="form">
+      <account-form/>
+    </div>
     <form>
       <b-form-fieldset label="Account Name" horizontal>
         <p class="form-control-static">{{account.name}}</p>
@@ -25,7 +28,7 @@
       <b-form-fieldset label="Created By" horizontal>
         <p class="form-control-static">{{account.created_by.name}}</p>
       </b-form-fieldset>
-      <b-form-fieldset label="Date Added" horizontal>
+      <b-form-fieldset label="Created At" horizontal>
         <p class="form-control-static">{{account.created_at}}</p>
       </b-form-fieldset>
     </form>
@@ -35,11 +38,13 @@
 <script>
   import {mapState} from 'vuex'
   import ResourceDetail from '~components/ResourceDetail'
+  import AccountForm from '~components/accounts/AccountForm'
   import {selected} from '~store/resource'
 
   export default {
     components: {
-      ResourceDetail
+      ResourceDetail,
+      AccountForm
     },
     computed: {
       ...mapState({
@@ -50,7 +55,18 @@
       await store.dispatch('resource/setup', {
         name: 'account',
         id: params.id,
-        query: {include: 'created_by'}
+        query: {include: 'created_by'},
+        newResource: {
+          active: false,
+          code: null,
+          description: null,
+          kind: 'current_asset',
+          created_by_id: 1,
+          initial_balance: 0.0,
+          name: null,
+          order: null,
+          type: 'accounts'
+        }
       })
     }
   }
