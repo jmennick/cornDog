@@ -7,7 +7,7 @@ RSpec.shared_context 'account attributes' do
     kind: account.kind
   }}
   let(:relationships){{
-    created_by: {data: {type: "users", id: user.id.to_s}}
+    # created_by: {data: {type: "users", id: user.id.to_s}}
   }}
 end
 
