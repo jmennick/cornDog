@@ -15,8 +15,12 @@ class JournalEntryResource < ApplicationResource
     @model.items_attributes = _items
   end
 
+  before_create do
+    @model.created_by_id = context[:current_user].id
+  end
+
   def self.creatable_fields(context)
-    super - %i(created_at)
+    super - %i(created_at created_by)
   end
 
   def self.updatable_fields(context)

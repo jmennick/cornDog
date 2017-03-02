@@ -8,7 +8,7 @@ RSpec.shared_context 'journal entry attributes' do
     }}
   }}
   let(:relationships){{
-    created_by: {data: {type: 'users', id: user.id.to_s}}
+    # created_by: {data: {type: 'users', id: user.id.to_s}}
   }}
 end
 
