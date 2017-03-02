@@ -4,8 +4,8 @@
       <b-navbar type="inverse" variant="chrome" class="fixed-top">
         <a class="navbar-brand text-white" @click="toggleSidebar()">
           <icon name="bars"></icon>
-          <!-- <corndog-logo style="height: 23px; width: 23px; margin: -2px 4px 0 0" /> -->
-          <!-- <span>CornDog Accounting</span> -->
+          <corndog-logo style="height: 23px; width: 23px; margin: -2px 6px 0 15px" />
+          <span>CornDog Accounting</span>
         </a>
       </b-navbar>
       <nuxt/>

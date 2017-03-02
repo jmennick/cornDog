@@ -7,14 +7,7 @@
       <b-form-fieldset label="Created At" horizontal>
         <p class="form-control-static">{{journalEntry.created_at}}</p>
       </b-form-fieldset>
-      <b-table stripped :items="journalEntry.items" :fields="fields">
-        <template slot="credit" scope="j">
-          <span v-if="isCredit(j.item)">{{j.item.amount}}</span>
-        </template>
-        <template slot="debit" scope="j">
-          <span v-if="isDebit(j.item)">{{j.item.amount}}</span>
-        </template>
-      </b-table>
+      <items-table :journal-entry="journalEntry"></items-table>
     </form>
   </resource-detail>
 </template>
@@ -22,19 +15,14 @@
 <script>
 import {mapState} from 'vuex'
 import ResourceDetail from '~components/ResourceDetail'
+import ItemsTable from '~components/journal_entries/ItemsTable'
 import {selected} from '~store/resource'
 
 export default {
   components: {
-    ResourceDetail
+    ResourceDetail,
+    ItemsTable
   },
-  data: ()=> ({
-    fields: {
-      date: {label: 'Date'},
-      credit: {label: 'Credit'},
-      debit: {label: 'Debit'}
-    }
-  }),
   computed: {
     ...mapState({
       journalEntry: ({resource})=> resource.selected
@@ -44,12 +32,23 @@ export default {
     await store.dispatch('resource/setup', {
       name: 'journal_entry',
       id: params.id,
-      query: {include: 'created_by'}
+      query: {include: 'created_by'},
+      newResource: {
+        created_by: null,
+        items: [
+          {
+            date: new Date(),
+            normal_side: 'left',
+            amount: 1.0
+          },
+          {
+            date: new Date(),
+            normal_side: 'right',
+            amount: 1.0
+          }
+        ]
+      }
     })
-  },
-  methods: {
-    isCredit: (entry)=> entry.normal_side == 'left',
-    isDebit: (entry)=> entry.normal_side == 'right'
   }
 }
 </script>
