@@ -1,8 +1,10 @@
 <template>
   <div>
-    <toolbar-top title="Resource Detail">
+    <toolbar-top :title="title">
       <resource-refresh-btn slot="left"/>
+      <!-- <icon name="chevron-left" slot="title-left"></icon> -->
       <resource-add-btn slot="right" v-if="!noAdd"/>
+      <!-- <b-button variant="theme" slot="title-right">Edit</b-button> -->
     </toolbar-top>
     <div class="content-container">
       <div class="container-fluid">

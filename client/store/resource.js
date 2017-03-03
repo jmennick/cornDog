@@ -45,7 +45,11 @@ export const mutations = {
     state.query = query
     state.newResource = newResource
     if (title == null) {
-      state.title = pluralize(titleize(name))
+      if (id == null) {
+        state.title = pluralize(titleize(name))
+      } else {
+        state.title = titleize(name)
+      }
     } else {
       state.title = title
     }

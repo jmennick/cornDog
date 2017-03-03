@@ -3,7 +3,11 @@
     <div class="mr-auto" style="margin-left: -8px">
       <slot name="left"></slot>
     </div>
-    <span class="p-2 text-lg h5 no-bottom-margin">{{title}}</span>
+    <span class="p-2 text-lg h5 no-bottom-margin">
+      <slot name="title-left"></slot>
+      {{title}}
+      <slot name="title-right"></slot>
+    </span>
     <div class="ml-auto" style="margin-right: -2px">
       <slot name="right"></slot>
     </div>

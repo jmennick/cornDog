@@ -1,19 +1,18 @@
 <template>
-  <resource-list>
+  <resource-list @saved="handleSaved">
     <div slot="form">
       <account-form />
     </div>
-    <b-table class="table-striped" :items="accounts" :fields="fields">
+    <b-table stripped sortable :items="accounts" :fields="fields">
       <template slot="active" scope="a">
-        <div class="badge badge-pill" :class="{'badge-success': a.item.active, 'badge-danger': !a.item.active}" @click="toggleActive(a.item)">
+        <div :class="['badge', 'badge-pill', a.item.active?'badge-success':'badge-danger']">
           <span v-if="a.item.active">Active</span>
           <span v-else>Inactive</span>
         </div>
       </template>
       <template slot="actions" scope="a">
-        <nuxt-link class="mr-2 btn btn-secondary btn-sm" :to="{name: 'accounts-id', params: {id: a.item.id}}"><icon name="eye"></icon></nuxt-link>
-        <!--<b-button size="sm" variant="secondary" class="mr-2"><icon name="eye"></icon></b-button>-->
-        <b-button size="sm" variant="secondary" class="mr-2" @click="editAccount(a.item)"><icon name="edit"></icon></b-button>
+        <action-button-bar :actions="actions(a.item)" right>
+        </action-button-bar>
       </template>
     </b-table>
   </resource-list>
@@ -22,12 +21,14 @@
 <script>
 import {mapState, mapMutations} from 'vuex'
 import ResourceList from '~components/ResourceList'
+import ActionButtonBar from '~components/ActionButtonBar'
 import AccountForm from '~components/accounts/AccountForm'
 import {showModal} from '~store/resourceForm'
 
 export default {
   components: {
     ResourceList,
+    ActionButtonBar,
     AccountForm
   },
   computed: {
@@ -53,6 +54,27 @@ export default {
     ...mapMutations('resourceForm', {showModal}),
     editAccount(account) {
       this.showModal(account)
+    },
+    handleSaved(event) {
+      this.$router.push({name: 'accounts-id', params: {id: event.id}})
+    },
+    actions(account) {
+      return [
+        {
+          icon: 'eye',
+          name: 'show',
+          to: {name: 'accounts-id', params: {id: account.id}}
+        },
+        {
+          icon: 'edit',
+          name: 'edit',
+          action: ()=> { this.editAccount(account) }
+        },
+        {
+          name: account.active?'Deactivate Account':'Activate Account',
+          action: ()=> { this.toggleActive(account) }
+        }
+      ]
     }
   },
   async fetch({params, store}) {

@@ -5,12 +5,6 @@
       <resource-add-btn slot="right" v-if="!noAdd"/>
     </toolbar-top>
     <div class="content-container">
-      <b-alert state="success" :show="successAlert">
-        <button type="button" class="close" aria-label="Close" @click="successAlert = false">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <strong>Loading Successful!</strong>
-      </b-alert>
       <resource-form-modal :title="resourceFormTitle" :resource="resourceName">
         <slot name="form"></slot>
       </resource-form-modal>
@@ -56,9 +50,6 @@ export default {
     ResourceRefreshBtn,
     ResourceAddBtn
   },
-  data: ()=> ({
-    successAlert: false
-  }),
   computed: {
     resourceFormTitle() {
       return `Save ${this.labelSingular}`
@@ -67,7 +58,8 @@ export default {
       resourceName: ({resource})=> resource.name,
       error: ({resource})=> resource.error,
       showSidebar: ({sidebar})=> sidebar.shown,
-      title: ({resource})=> resource.title
+      title: ({resource})=> resource.title,
+      saveResult: ({resourceForm})=> resourceForm.resultData
     }),
     ...mapGetters('resource', {
       isSuccess,
@@ -94,8 +86,7 @@ export default {
   watch: {
     viewStateIsSuccess(newValue) {
       if (newValue == true) {
-        this.successAlert = true
-        this.$state
+        this.$emit('saved', this.saveResult)
       }
     }
   }
