@@ -20,6 +20,7 @@
         <nuxt-link class="nav-link chrome-link" to="/" exact>Chart of Accounts</nuxt-link>
         <nuxt-link class="nav-link chrome-link" to="/accounts">List of Accounts</nuxt-link>
         <nuxt-link class="nav-link chrome-link" to="/journals">Journal Entries</nuxt-link>
+        <nuxt-link class="nav-link chrome-link" to="/ledger">General Ledger</nuxt-link>
       </nav>
     </div>
   </div>

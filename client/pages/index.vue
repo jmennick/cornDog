@@ -1,5 +1,5 @@
 <template>
-  <resource-list>
+  <resource-list no-add>
     <div slot="form">
       <account-form />
     </div>
