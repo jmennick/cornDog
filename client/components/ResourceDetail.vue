@@ -3,11 +3,11 @@
     <toolbar-top :title="title">
       <div slot="left">
         <resource-refresh-btn v-if="!noRefresh"/>
-        <b-button variant="theme" v-else>
-          <nuxt-link class="return-location" :to="returnLocation">
+        <nuxt-link class="return-location" v-else :to="returnLocation">
+          <b-button variant="theme">
             <icon name="arrow-left"></icon> Return
-          </nuxt-link>
-        </b-button>
+          </b-button>
+        </nuxt-link>
       </div>
       <!-- <icon name="chevron-left" slot="title-left"></icon> -->
       <resource-add-btn slot="right" v-if="!noAdd"/>
