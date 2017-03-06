@@ -1,7 +1,14 @@
 <template>
   <div>
     <toolbar-top :title="title">
-      <resource-refresh-btn slot="left"/>
+      <div slot="left">
+        <resource-refresh-btn v-if="!noRefresh"/>
+        <b-button variant="theme" v-else>
+          <nuxt-link class="return-location" :to="returnLocation">
+            <icon name="arrow-left"></icon> Return
+          </nuxt-link>
+        </b-button>
+      </div>
       <!-- <icon name="chevron-left" slot="title-left"></icon> -->
       <resource-add-btn slot="right" v-if="!noAdd"/>
       <!-- <b-button variant="theme" slot="title-right">Edit</b-button> -->
@@ -36,6 +43,14 @@ export default {
     noAdd: {
       type: Boolean,
       default: ()=> false
+    },
+    noRefresh: {
+      type: Boolean,
+      default: ()=> false
+    },
+    returnLocation: {
+      type: String,
+      default: '/accounts'
     }
   },
   components: {

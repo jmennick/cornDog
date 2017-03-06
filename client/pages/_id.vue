@@ -1,5 +1,5 @@
 <template>
-  <resource-detail no-add no-refresh>
+  <resource-detail no-add no-refresh return-location="/">
     <div slot="form">
       <account-form/>
     </div>
