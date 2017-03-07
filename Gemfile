@@ -61,6 +61,9 @@ group :test do
   gem 'json_spec', '~> 1.1', '>= 1.1.4'
   # testing generated PDF documents
   gem 'pdf-inspector', '~> 1.2.1', require: 'pdf/inspector'
+end
+
+group :test, :development, :production do
   # for making fake data
   gem 'faker', '~> 1.7.3'
 end
