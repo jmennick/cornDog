@@ -1,19 +1,17 @@
 <template>
   <b-table stripped :items="journalEntry.items" :fields="fields">
     <template slot="debit" scope="x">
-      <span v-if="isDebit(x.item)">
-        {{x.item.amount}}
-      </span>
+      {{currencyFormatter(x.item.left_value)}}
     </template>
     <template slot="credit" scope="x">
-      <span v-if="isCredit(x.item)">
-        {{x.item.amount}}
-      </span>
+      {{currencyFormatter(x.item.right_value)}}
     </template>
   </b-table>
 </template>
 
 <script>
+import format from 'format'
+
 export default {
   props: {
     journalEntry: {
@@ -29,8 +27,13 @@ export default {
     }
   }),
   methods: {
-    isCredit: (entry)=> entry.normal_side == 'right',
-    isDebit: (entry)=> entry.normal_side == 'left'
+    currencyFormatter: (val)=> {
+      if (val == 0 || !!val) {
+        return format('%0.2f', val)
+      } else {
+        return null
+      }
+    }
   }
 }
 </script>
