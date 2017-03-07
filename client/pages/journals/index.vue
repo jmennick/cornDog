@@ -1,8 +1,6 @@
 <template>
   <resource-list>
-    <div slot="form">
-      <account-form/>
-    </div>
+    <journal-entry-form slot="form"/>
     <b-table class="table-striped" :items="transactions" :fields="fields">
       <template slot="created_by" scope="j">
         {{j.item.created_by.name}}
@@ -16,10 +14,12 @@
 <script>
 import {mapState} from 'vuex'
 import ResourceList from '~components/ResourceList'
+import JournalEntryForm from '~components/JournalEntryForm'
 
 export default {
   components: {
-    ResourceList
+    ResourceList,
+    JournalEntryForm
   },
   computed: {
     ...mapState({
@@ -32,7 +32,12 @@ export default {
       query: {include: 'created_by'},
       newResource: {
         created_by: null,
-        items: []
+        items: [
+          {
+            left_value: null,
+            right_value: null
+          }
+        ]
       }
     })
   },

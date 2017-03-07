@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe JournalEntry, type: :request do
 
   context 'index' do
@@ -64,8 +62,7 @@ RSpec.describe JournalEntry, type: :request do
     end
   end
 
-
-  context 'create' do
+  context 'create', focus: true do
     include_context 'a create request'
     it_behaves_like 'a correct create request'
     it_behaves_like 'a journal entry request'
@@ -73,20 +70,22 @@ RSpec.describe JournalEntry, type: :request do
     let!(:user){Fabricate :user}
     let!(:acc1){Fabricate :account}
     let!(:acc2){Fabricate :account}
-    let(:journal_entry){
-      Fabricate.build :journal_entry,
-        created_by: user,
-        items: [
-          Fabricate.build(:journal_entry_item,
-            account: acc1,
-            normal_side: :left
-          ),
-          Fabricate.build(:journal_entry_item,
-            account: acc2,
-            normal_side: :right
-          )
-        ]
-    }
-    include_context 'journal entry attributes'
+    let(:attributes){{
+      items: [
+        {
+          left_value: 12.00,
+          right_value: nil,
+          account_id: acc1.id,
+          date: '2017-03-05'
+        },
+        {
+          left_value: nil,
+          right_value: 12.00,
+          account_id: acc2.id,
+          date: '2017-03-05'
+        }
+      ]
+    }}
+    let(:relationships){{}}
   end
 end

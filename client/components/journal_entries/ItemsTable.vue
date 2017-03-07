@@ -1,10 +1,14 @@
 <template>
   <b-table stripped :items="journalEntry.items" :fields="fields">
-    <template slot="debit" scope="j">
-      <span v-if="isDebit(j.item)">{{j.item.amount}}</span>
+    <template slot="debit" scope="x">
+      <span v-if="isDebit(x.item)">
+        {{x.item.amount}}
+      </span>
     </template>
-    <template slot="credit" scope="j">
-      <span v-if="isCredit(j.item)">{{j.item.amount}}</span>
+    <template slot="credit" scope="x">
+      <span v-if="isCredit(x.item)">
+        {{x.item.amount}}
+      </span>
     </template>
   </b-table>
 </template>

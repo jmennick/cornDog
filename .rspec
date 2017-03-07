@@ -1,3 +1,4 @@
+--drb
 --format Fuubar
 --color
---require spec_helper
+--require rails_helper

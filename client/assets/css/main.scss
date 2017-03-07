@@ -13,6 +13,16 @@ body, html {
 	overflow: hidden;
 }
 
+.modal-flex {
+	max-width: 100%;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+.form-body-inner {
+	margin: -16px -15px -15px -15px;
+}
+
 .table-lg td, .table-lg td {
   font-size: 1.5em;
   font-weight: 200;

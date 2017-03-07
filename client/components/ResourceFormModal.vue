@@ -5,7 +5,7 @@
       <b-button variant="secondary" @click="closeModal()">
         Cancel
       </b-button>
-      <b-button variant="primary" @click="save(resource)" :disabled="viewStateIsSaving">
+      <b-button variant="primary" @click="save(resource)" :disabled="saveButtonIsDisabled">
         <span v-if="viewStateIsSaving"><icon name="circle-o-notch" spin></icon> Saving</span>
         <span v-else>Save</span>
       </b-button>
@@ -30,7 +30,7 @@ export default {
     },
     size: {
       type: String,
-      default: 'lg'
+      default: 'flex'
     },
     resource: {
       type: String,
@@ -42,9 +42,13 @@ export default {
   },
   computed: {
     ...mapState({
-      modalData: ({resourceForm})=> resourceForm.modalData
+      modalData: ({resourceForm})=> resourceForm.modalData,
+      canSave: ({resourceForm})=> resourceForm.canSave
     }),
-    ...mapGetters('resourceForm', {modalShown, viewStateIsSaving})
+    ...mapGetters('resourceForm', {modalShown, viewStateIsSaving}),
+    saveButtonIsDisabled() {
+      return this.viewStateIsSaving || !this.canSave
+    }
   },
   methods: {
     ...mapMutations('resourceForm', {closeModal, beginSaving}),

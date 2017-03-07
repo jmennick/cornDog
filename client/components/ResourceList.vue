@@ -15,6 +15,9 @@
       <slot v-if="isSuccess"></slot>
     </div>
     <b-navbar type="inverse" variant="chrome" class="fixed-bottom d-flex flex-row align-items-center">
+      <b-button variant="chrome">
+        Blah
+      </b-button>
       <!-- <b-pagination class="p-2 mr-auto no-padding" :size="paginationSize" :total-rows="100" :per-page="10" v-model="currentPage"></b-pagination> -->
       <!-- <b-button variant="inverse" class="p-2 ml-auto">Blah</b-button> -->
       <!-- <b-dropdown text="Reports" variant="chrome" class="p-2 ml-auto no-padding" dropup right>

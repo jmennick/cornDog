@@ -10,7 +10,8 @@ export const state = {
   viewState: VIEW_STATE_HIDDEN,
   modalData: null,
   error: null,
-  resultData: null
+  resultData: null,
+  canSave: true
 }
 
 export const showModal = 'showModal'
@@ -19,6 +20,8 @@ export const saveError = 'saveError'
 export const saveSuccessful = 'saveSuccessful'
 export const closeModal = 'closeModal'
 export const saveData = 'saveData'
+export const enableSaving = 'enableSaving'
+export const disableSaving = 'disableSaving'
 
 export const mutations = {
   [showModal](state, data) {
@@ -43,6 +46,12 @@ export const mutations = {
   [closeModal](state) {
     state.viewState = VIEW_STATE_HIDDEN
     state.resultData = null
+  },
+  [enableSaving](state) {
+    state.canSave = true
+  },
+  [disableSaving](state) {
+    state.canSave = false
   }
 }
 

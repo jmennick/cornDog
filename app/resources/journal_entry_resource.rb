@@ -4,15 +4,40 @@ class JournalEntryResource < ApplicationResource
   attribute :created_at, format: :date
 
   def items
-    @model.items.select(:id, :account_id, :normal_side, :amount, :date).as_json
+    items = @model.items.select(:id, :account_id, :normal_side, :amount, :date)
+    return items.map{|i| {
+      id: i.id,
+      account_id: i.account_id,
+      left_value: (i.left? ? i.amount : nil),
+      right_value: (i.right? ? i.amount : nil),
+      date: DateValueFormatter.format(i.date)
+    }}
   end
+
+  def value_filled?(val)
+    case val
+    when "" then false
+    when nil then false
+    else true
+    end
+  end
+  private :value_filled?
 
   ITEMS_FIELDS = %i(id account_id normal_side amount date)
   def items=(vals)
-    _items = vals.map do |v|
-      v.permit(:id, :account_id, :normal_side, :amount, :date)
+    @model.items_attributes = vals.map do |v|
+      _v = {id: v[:id], account_id: v[:account_id], date: Date.parse(v[:date])}
+      if (value_filled?(v[:left_value]) && !value_filled?(v[:right_value]))
+        _v[:amount] = v[:left_value].to_f
+        _v[:normal_side] = :left
+      elsif (value_filled?(v[:right_value]) && !value_filled?(v[:left_value]))
+        _v[:amount] = v[:right_value].to_f
+        _v[:normal_side] = :right
+      end
+      _p = ActionController::Parameters.new(_v)
+      _p.permit!
+      _p
     end
-    @model.items_attributes = _items
   end
 
   before_create do

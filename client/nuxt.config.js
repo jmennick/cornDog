@@ -17,7 +17,8 @@ module.exports = {
       'bootstrap-vue',
       'vue-awesome',
       'devour-client',
-      'inflection'
+      'inflection',
+      'format'
     ]
   },
   router: {

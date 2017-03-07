@@ -14,7 +14,7 @@ export default (apiClient)=> {
     kind_human: '',
     initial_balance: ''
   }, {
-    readOnly: ['kind_human'],
+    readOnly: ['kind_human', 'created_at', 'created_by'],
     include: 'created_by'
   })
 }

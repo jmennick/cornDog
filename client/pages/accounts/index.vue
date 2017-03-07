@@ -1,9 +1,7 @@
 <template>
   <resource-list @saved="handleSaved">
-    <div slot="form">
-      <account-form />
-    </div>
-    <b-table stripped sortable :items="accounts" :fields="fields">
+    <account-form slot="form"/>
+    <b-table stripped sortable :items="accounts" :fields="fields" class="no-bottom-margin">
       <template slot="active" scope="a">
         <div :class="['badge', 'badge-pill', a.item.active?'badge-success':'badge-danger']">
           <span v-if="a.item.active">Active</span>

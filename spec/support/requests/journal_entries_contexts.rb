@@ -1,11 +1,24 @@
 RSpec.shared_context 'journal entry attributes' do
   let(:attributes){{
-    items: journal_entry.items.to_a.map{|a| {
-      account_id: a.account.id,
-      normal_side: a.normal_side,
-      date: a.date,
-      amount: a.amount.to_f
-    }}
+    items: journal_entry.items.to_a.map{|a|
+      if (a.normal_side == 'left')
+        {
+          account_id: a.account.id,
+          left_value: a.amount.to_f,
+          right_value: nil,
+          date: a.date
+        }
+      elsif (a.normal_side == 'right')
+        {
+          account_id: a.account.id,
+          left_value: nil,
+          right_value: a.amount.to_f,
+          date: a.date
+        }
+      else
+        raise "unknown normal_side value \"#{a.normal_side}\""
+      end
+    }
   }}
   let(:relationships){{
     # created_by: {data: {type: 'users', id: user.id.to_s}}
@@ -15,6 +28,8 @@ end
 RSpec.shared_examples 'correct journal entry attributes' do
   let(:created_str){ DateValueFormatter.format(resource.created_at).to_json }
   it{ is_expected.to be_json_eql(created_str).at_path('created_at') }
+
+  #TODO: test items contents!!!
   it{ is_expected.to have_json_type(Array).at_path('items') }
 end
 
