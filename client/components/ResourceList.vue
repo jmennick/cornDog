@@ -8,6 +8,8 @@
       <resource-form-modal :title="resourceFormTitle" :resource="resourceName">
         <slot name="form"></slot>
       </resource-form-modal>
+      <resource-action-modal>
+      </resource-action-modal>
       <div v-if="isLoading">
         Loading...
       </div>
@@ -33,6 +35,7 @@
 import {mapState, mapGetters} from 'vuex'
 import ToolbarTop from '~components/ToolbarTop'
 import ResourceFormModal from '~components/ResourceFormModal'
+import ResourceActionModal from '~components/ResourceActionModal'
 import ResourceRefreshBtn from '~components/ResourceRefreshBtn'
 import ResourceAddBtn from '~components/ResourceAddBtn'
 import {viewStateIsSuccess} from '~store/resourceForm'
@@ -50,6 +53,7 @@ export default {
   components: {
     ToolbarTop,
     ResourceFormModal,
+    ResourceActionModal,
     ResourceRefreshBtn,
     ResourceAddBtn
   },

@@ -6,7 +6,9 @@
         {{j.item.created_by.name}}
       </template>
       <template slot="actions" scope="j">
-        <nuxt-link class="mr-2 btn btn-secondary btn-sm" :to="{name: 'journals-id', params: {id: j.item.id}}"><icon name="eye"></icon></nuxt-link>
+        <!-- <nuxt-link class="mr-2 btn btn-secondary btn-sm" :to="{name: 'journals-id', params: {id: j.item.id}}"><icon name="eye"></icon></nuxt-link> -->
+        <action-button-bar :actions="actions(j.item)" right>
+        </action-button-bar>
       </template>
     </b-table>
   </resource-list>
@@ -15,11 +17,13 @@
 import {mapState} from 'vuex'
 import ResourceList from '~components/ResourceList'
 import JournalEntryForm from '~components/JournalEntryForm'
+import ActionButtonBar from '~components/ActionButtonBar'
 
 export default {
   components: {
     ResourceList,
-    JournalEntryForm
+    JournalEntryForm,
+    ActionButtonBar
   },
   computed: {
     ...mapState({
@@ -48,6 +52,28 @@ export default {
       created_by: {label: 'Created By'},
       actions: {}
     }
-  })
+  }),
+  methods: {
+    actions(journalEntry) {
+      return [
+        {
+          icon: 'eye',
+          name: 'show',
+          to: {name: 'journals-id', params: {id: journalEntry.id}}
+        },
+        {
+          icon: 'thumbs-up',
+          name: 'post',
+          action: ()=> { this.post(journalEntry) }
+        }
+      ]
+    },
+    post(journalEntry) {
+      this.$store.commit('resourceAction/showAction', {
+        name: 'post',
+        resource: 'journal_entry'
+      })
+    }
+  }
 }
 </script>
