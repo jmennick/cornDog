@@ -20,10 +20,10 @@
             <b-form-input type="date" style="width: 170px" v-model="item.date"></b-form-input>
           </td>
           <td>
-            <b-form-input type="number" class="text-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item)"></b-form-input>
+            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item)"></b-form-input>
           </td>
           <td>
-            <b-form-input type="number" class="text-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item)"></b-form-input>
+            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item)"></b-form-input>
           </td>
           <td>
             <b-button variant="danger" @click="removeItem($index)"><icon name="remove" :disabled="journalEntry.items.length<=1"></icon></b-button>
