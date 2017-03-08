@@ -4,8 +4,10 @@
       <account-form />
     </div>
     <b-table class="table-striped" :items="accounts" :fields="fields">
-      <template slot="actions" scope="account">
-        <b-button size="sm" class="mr-2"><icon name="eye"></icon></b-button>
+      <template slot="actions" scope="a">
+        <action-button-bar :actions="actions(a.item)" right>
+        </action-button-bar>
+        <!--<b-button size="sm" class="mr-2"><icon name="eye"></icon></b-button>-->
       </template>
     </b-table>
   </resource-list>
@@ -13,15 +15,28 @@
 <script>
 import {mapState} from 'vuex'
 import ResourceList from '~components/ResourceList'
+import ActionButtonBar from '~components/ActionButtonBar'
 
 export default {
   components: {
-    ResourceList
+    ResourceList,
+    ActionButtonBar
   },
   computed: {
     ...mapState({
       accounts: ({resource})=> resource.data
     })
+  },
+  methods: {
+    actions(account) {
+      return [
+        {
+          icon: 'eye',
+          name: 'show',
+          to: {name: 'id', params: {id: account.id}}
+        }
+      ]
+    }
   },
   async fetch({params, store}) {
     await store.dispatch('resource/setup', {
