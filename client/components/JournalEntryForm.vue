@@ -46,6 +46,7 @@
 
 <script>
 import format from 'format'
+import {uniq} from 'underscore'
 import apiClient from '~plugins/apiClient'
 import {mapState, mapMutations} from 'vuex'
 import ItemsTable from '~components/journal_entries/ItemsTable'
@@ -79,8 +80,20 @@ export default {
         }
       }, 0)
     },
+    accountsUnique() {
+      const auni = uniq(this.journalEntry.items, false, i => i.account_id)
+      console.log('auni:', auni)
+      console.log('items:', this.journalEntry.items)
+      return auni.length == this.journalEntry.items.length
+    },
     isBalanced() {
-      return (this.totalDebit == this.totalCredit) && (this.totalDebit > 0)
+      if ((this.totalDebit != this.totalCredit) || (this.totalDebit <= 0)) {
+        return false
+      // } else if (!this.accountsUnique) {
+      //   return false
+      } else {
+        return true
+      }
     }
   },
   beforeCreate() {
@@ -88,9 +101,9 @@ export default {
       this.possbleAccounts = accounts.map(a=> ({text: `${a.code} ${a.name}`, value: a.id}))
     })
   },
-  // mounted() {
-  //   this.handleIsBalanced(this.isBalanced)
-  // },
+  mounted() {
+    this.handleIsBalanced(this.isBalanced)
+  },
   data: ()=> ({
     fields: {
       date: {label: 'Date'},
@@ -144,7 +157,7 @@ export default {
   },
   watch: {
     isBalanced(newValue) {
-      this.handleIsBalanced
+      this.handleIsBalanced(newValue)
     }
   }
 }

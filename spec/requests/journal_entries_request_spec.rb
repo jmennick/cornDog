@@ -62,7 +62,7 @@ RSpec.describe JournalEntry, type: :request do
     end
   end
 
-  context 'create', focus: true do
+  context 'create' do
     include_context 'a create request'
     it_behaves_like 'a correct create request'
     it_behaves_like 'a journal entry request'

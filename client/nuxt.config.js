@@ -18,7 +18,8 @@ module.exports = {
       'vue-awesome',
       'devour-client',
       'inflection',
-      'format'
+      'format',
+      'underscore'
     ]
   },
   router: {
