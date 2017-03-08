@@ -9,6 +9,7 @@ class JournalEntry < ApplicationRecord
   has_many :items, class_name: 'JournalEntryItem'
   accepts_nested_attributes_for :items
   validates :items, length: {minimum: 1}
+  validates_associated :items
 
   # make sure the entry is balanced
   validate :must_be_balanced

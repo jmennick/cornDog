@@ -5,7 +5,7 @@ class JournalEntryItem < ApplicationRecord
 
   # the account this item references adding/removing from
   belongs_to :account
-  validates :account, presence: true
+  validates :account, presence: true, uniqueness: {scope: :journal_entry_id}
 
   # whether or not the entry is on the normal side
   # (relative to what side account considers to be "normal")

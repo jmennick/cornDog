@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe JournalEntryItem, type: :model do
   context 'default fabricator' do
     subject { Fabricate.build(:_journal_entry_item) }
@@ -17,6 +15,20 @@ RSpec.describe JournalEntryItem, type: :model do
     context '== nil' do
       subject { Fabricate.build(:_journal_entry_item, account: nil) }
       it { is_expected.to be_invalid }
+    end
+
+    context 'is unique' do
+      let!(:account){Fabricate :account}
+      let!(:journal_entry){Fabricate :journal_entry, items: [
+        Fabricate.build(:journal_entry_item,
+          account: account, normal_side: :left, amount: 42.0
+        ),
+        Fabricate.build(:journal_entry_item,
+          account: account, normal_side: :right, amount: 42.0
+        )
+      ]}
+      subject{journal_entry}
+      it{ is_expected.to be_invalid }
     end
   end
 
