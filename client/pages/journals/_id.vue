@@ -1,5 +1,5 @@
 <template>
-  <resource-detail>
+  <resource-detail no-add no-refresh return-location="/journals">
     <form>
       <b-form-fieldset label="Created By" horizontal>
         <p class="form-control-static">{{journalEntry.created_by.name}}</p>
