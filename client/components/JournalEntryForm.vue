@@ -24,10 +24,10 @@
             </b-form-select>
           </td>
           <td>
-            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item)"></b-form-input>
+            <b-form-input type="number" class="text-right float-right"  :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model.number="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item)"></b-form-input>
           </td>
           <td>
-            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item)"></b-form-input>
+            <b-form-input type="number" class="text-right float-right"  :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model.number="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item)"></b-form-input>
           </td>
           <td>
             <b-button variant="danger" @click="removeItem($index)"><icon name="remove" :disabled="journalEntry.items.length<=1"></icon></b-button>
@@ -43,7 +43,7 @@
         </tr>
       </tfoot>
     </table>
-    <b-button variant="link" size="sm" @click="addItem">Add Item</b-button>
+    <b-button variant="success" @click="addItem">Add Item</b-button>
   </div>
 </template>
 
@@ -134,13 +134,17 @@ export default {
         return null
       }
     },
-    itemIsLeft: (item)=> !!item.left_value,
-    itemIsRight: (item)=> !!item.right_value,
+    itemIsLeft: (item)=> {
+        if (item.right_value == 0 && item.left_value != 0) {return true}
+    },
+    itemIsRight: (item)=> {
+        if (item.left_value == 0 && item.right_value != 0) {return true}
+    },
     addItem() {
       let resource = this.resource
       resource.items.push({
-        left_value: null,
-        right_value: null
+        left_value: 0.00,
+        right_value: 0.00
       })
       this.saveData(resource)
     },
