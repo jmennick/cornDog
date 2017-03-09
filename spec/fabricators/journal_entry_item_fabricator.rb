@@ -1,6 +1,5 @@
 Fabricator(:journal_entry_item) do
   account
-  date { Date.today }
   amount 42.00
   normal_side :left
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222183907) do
+ActiveRecord::Schema.define(version: 20170309050053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20170222183907) do
     t.text     "description"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.date     "date",          null: false
     t.index ["created_by_id"], name: "index_journal_entries_on_created_by_id", using: :btree
   end
 
@@ -52,7 +53,6 @@ ActiveRecord::Schema.define(version: 20170222183907) do
     t.integer  "account_id",                                                null: false
     t.boolean  "normal_side",                               default: true,  null: false
     t.decimal  "amount",           precision: 12, scale: 2, default: "0.0", null: false
-    t.date     "date",                                                      null: false
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.index ["account_id"], name: "index_journal_entry_items_on_account_id", using: :btree

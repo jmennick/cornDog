@@ -13,9 +13,6 @@ class JournalEntryItem < ApplicationRecord
   enum normal_side: {left: false, right: true}
   validates :normal_side, presence: true
 
-  # the date the entry has been applied
-  validates :date, presence: true
-
   # the amount that is added/deducted to/from the account
   # these can be any value other than zero (which wouldn't matter)
   validates :amount, numericality: {other_than: 0.0}

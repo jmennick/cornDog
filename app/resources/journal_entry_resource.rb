@@ -1,16 +1,17 @@
 class JournalEntryResource < ApplicationResource
   has_one :created_by
   attribute :items
-  attribute :created_at, format: :date
+  attribute :date, format: :date
 
   def items
-    items = @model.items.select(:id, :account_id, :normal_side, :amount, :date)
+    _model = @model
+    items = _model.items.select(:id, :account_id, :normal_side, :amount)
     return items.map{|i| {
       id: i.id,
       account_id: i.account_id,
+      account_name: i.account.name,
       left_value: (i.left? ? i.amount : nil),
-      right_value: (i.right? ? i.amount : nil),
-      date: DateValueFormatter.format(i.date)
+      right_value: (i.right? ? i.amount : nil)
     }}
   end
 
@@ -23,10 +24,10 @@ class JournalEntryResource < ApplicationResource
   end
   private :value_filled?
 
-  ITEMS_FIELDS = %i(id account_id normal_side amount date)
+  ITEMS_FIELDS = %i(id account_id normal_side amount)
   def items=(vals)
     @model.items_attributes = vals.map do |v|
-      _v = {id: v[:id], account_id: v[:account_id], date: Date.parse(v[:date])}
+      _v = {id: v[:id], account_id: v[:account_id]}
       if (value_filled?(v[:left_value]) && !value_filled?(v[:right_value]))
         _v[:amount] = v[:left_value].to_f
         _v[:normal_side] = :left
@@ -45,7 +46,7 @@ class JournalEntryResource < ApplicationResource
   end
 
   def self.creatable_fields(context)
-    super - %i(created_at created_by)
+    super - %i(created_by)
   end
 
   def self.updatable_fields(context)

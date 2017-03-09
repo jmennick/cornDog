@@ -1,10 +1,17 @@
 <template>
   <div class="form-body-inner">
+    <div class="container-fluid" style="margin-top: 15px">
+      <!-- <b-form-fieldset label="Name" horizontal>
+        <b-form-input v-model="journalEntry.name" type="string"></b-form-input>
+      </b-form-fieldset> -->
+      <b-form-fieldset label="Date" horizontal>
+        <b-form-input v-model="journalEntry.date" @input="updateProp('date',$event)" type="date" placeholder="Date"></b-form-input>
+      </b-form-fieldset>
+    </div>
     <table class="table table-striped">
       <thead>
         <tr>
           <th>Account</th>
-          <th>Date</th>
           <th class="text-right" style="padding-right: 40px">Debit</th>
           <th class="text-right" style="padding-right: 40px">Credit</th>
           <th></th>
@@ -13,11 +20,8 @@
       <tbody>
         <tr v-for="(item, $index) in journalEntry.items">
           <td>
-            <b-form-select v-model="item.account_id" :options="possbleAccounts" :defaultOption="defaultAccount">
+            <b-form-select v-model="item.account_id" :options="availableAccounts" :defaultOption="defaultAccount" @input="updateItem($index,'account_id',$event)">
             </b-form-select>
-          </td>
-          <td>
-            <b-form-input type="date" style="width: 170px" v-model="item.date"></b-form-input>
           </td>
           <td>
             <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item)"></b-form-input>
@@ -33,7 +37,6 @@
       <tfoot>
         <tr>
           <th>Total</th>
-          <th></th>
           <th class="text-right" style="padding-right: 40px">{{currencyFormatter(totalDebit)}}</th>
           <th class="text-right" style="padding-right: 40px">{{currencyFormatter(totalCredit)}}</th>
           <th></th>
@@ -46,7 +49,7 @@
 
 <script>
 import format from 'format'
-import {uniq} from 'underscore'
+import {reject, isNumber, isString} from 'underscore'
 import apiClient from '~plugins/apiClient'
 import {mapState, mapMutations} from 'vuex'
 import ItemsTable from '~components/journal_entries/ItemsTable'
@@ -65,7 +68,7 @@ export default {
     totalDebit() {
       return this.journalEntry.items.reduce((acc,val)=> {
         if (this.itemIsLeft(val)) {
-          return acc+val.left_value
+          return acc + parseInt(val.left_value)
         } else {
           return acc
         }
@@ -74,23 +77,25 @@ export default {
     totalCredit() {
       return this.journalEntry.items.reduce((acc,val)=> {
         if (this.itemIsRight(val)) {
-          return acc+val.right_value
+          return acc + parseInt(val.right_value)
         } else {
           return acc
         }
       }, 0)
     },
-    accountsUnique() {
-      const auni = uniq(this.journalEntry.items, false, i => i.account_id)
-      console.log('auni:', auni)
-      console.log('items:', this.journalEntry.items)
-      return auni.length == this.journalEntry.items.length
+    availableAccounts() {
+      const usedAccounts = this.journalEntry.items.map(i => i.account_id)
+      return this.possibleAccounts.map(a => {
+        if (usedAccounts.includes(a.value)) {
+          return {...a, disabled: true}
+        } else {
+          return a
+        }
+      })
     },
     isBalanced() {
       if ((this.totalDebit != this.totalCredit) || (this.totalDebit <= 0)) {
         return false
-      // } else if (!this.accountsUnique) {
-      //   return false
       } else {
         return true
       }
@@ -98,7 +103,10 @@ export default {
   },
   beforeCreate() {
     apiClient.findAll('account', {filter: {active: true}}).then(accounts=> {
-      this.possbleAccounts = accounts.map(a=> ({text: `${a.code} ${a.name}`, value: a.id}))
+      this.possibleAccounts = accounts.map(a=> ({
+        text: `${a.code} ${a.name}`,
+        value: a.id
+      }))
     })
   },
   mounted() {
@@ -114,11 +122,13 @@ export default {
       text: 'Select an Account',
       value: null
     },
-    possbleAccounts: []
+    possibleAccounts: []
   }),
   methods: {
     currencyFormatter: (val)=> {
-      if (val == 0 || !!val) {
+      if (isString(val) && !val.length) {
+        return null
+      } else if (val == 0 || !!val) {
         return format('%0.2f', val)
       } else {
         return null
@@ -144,6 +154,11 @@ export default {
       let item = resource.items[$index]
       item[pname] = value
       resource.items[$index] = item
+      this.saveData(resource)
+    },
+    updateProp(pname, value) {
+      let resource = this.resource
+      resource[pname] = value
       this.saveData(resource)
     },
     handleIsBalanced(value) {

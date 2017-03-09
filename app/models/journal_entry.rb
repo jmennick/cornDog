@@ -14,6 +14,9 @@ class JournalEntry < ApplicationRecord
   # make sure the entry is balanced
   validate :must_be_balanced
 
+  # the date the entry was applied
+  validates :date, presence: true
+
   # the journal is balanced when both sides are equal
   def balanced?
     # items.left_subtotal == items.right_subtotal

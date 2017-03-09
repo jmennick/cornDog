@@ -39,13 +39,6 @@ RSpec.describe JournalEntryItem, type: :model do
     end
   end
 
-  context '#date' do
-    context '== nil' do
-      subject { Fabricate.build(:_journal_entry_item, date: nil) }
-      it { is_expected.to be_invalid }
-    end
-  end
-
   context '#amount' do
     context '== 0.00' do
       subject { Fabricate.build(:_journal_entry_item, amount: 0.0) }

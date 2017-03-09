@@ -5,7 +5,7 @@
         <p class="form-control-static">{{journalEntry.created_by.name}}</p>
       </b-form-fieldset>
       <b-form-fieldset label="Created At" horizontal>
-        <p class="form-control-static">{{journalEntry.created_at}}</p>
+        <p class="form-control-static">{{journalEntry.date}}</p>
       </b-form-fieldset>
       <items-table :journal-entry="journalEntry"></items-table>
     </form>
@@ -34,15 +34,13 @@ export default {
       id: params.id,
       query: {include: 'created_by'},
       newResource: {
-        created_by: null,
+        date: new Date(),
         items: [
           {
-            date: new Date(),
             normal_side: 'left',
             amount: 1.0
           },
           {
-            date: new Date(),
             normal_side: 'right',
             amount: 1.0
           }

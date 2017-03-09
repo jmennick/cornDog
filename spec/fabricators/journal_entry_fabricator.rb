@@ -1,5 +1,6 @@
 Fabricator(:_journal_entry, class_name: :journal_entry) do
   created_by(fabricator: :user)
+  date{Date.today}
 end
 
 Fabricator(:journal_entry, from: :_journal_entry) do

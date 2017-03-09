@@ -1,5 +1,11 @@
 <template>
   <b-table stripped :items="journalEntry.items" :fields="fields">
+    <template slot="account_name" scope="x">
+      <template v-if="!!x.item.right_value">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </template>
+      {{x.item.account_name}}
+    </template>
     <template slot="debit" scope="x">
       {{currencyFormatter(x.item.left_value)}}
     </template>
@@ -21,7 +27,7 @@ export default {
   },
   data: ()=> ({
     fields: {
-      date: {label: 'Date'},
+      account_name: {label: 'Account'},
       debit: {label: 'Debit'},
       credit: {label: 'Credit'}
     }

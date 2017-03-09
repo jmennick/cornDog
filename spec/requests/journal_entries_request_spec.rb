@@ -67,25 +67,13 @@ RSpec.describe JournalEntry, type: :request do
     it_behaves_like 'a correct create request'
     it_behaves_like 'a journal entry request'
 
-    let!(:user){Fabricate :user}
+    before{Fabricate :user}
     let!(:acc1){Fabricate :account}
     let!(:acc2){Fabricate :account}
-    let(:attributes){{
-      items: [
-        {
-          left_value: 12.00,
-          right_value: nil,
-          account_id: acc1.id,
-          date: '2017-03-05'
-        },
-        {
-          left_value: nil,
-          right_value: 12.00,
-          account_id: acc2.id,
-          date: '2017-03-05'
-        }
-      ]
-    }}
-    let(:relationships){{}}
+    let(:journal_entry){Fabricate.build :journal_entry, items: [
+      Fabricate.build(:journal_entry_item, normal_side: :left, account: acc1),
+      Fabricate.build(:journal_entry_item, normal_side: :right, account: acc2)
+    ]}
+    include_context 'journal entry attributes'
   end
 end

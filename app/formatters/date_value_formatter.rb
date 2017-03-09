@@ -7,7 +7,8 @@ class DateValueFormatter < JSONAPI::ValueFormatter
     end
 
     def unformat(value)
-      super(Date.strptime(value, FORMAT))
+      # super(Date.strptime(value, FORMAT))
+      super(Date.parse(value))
     end
   end
 end

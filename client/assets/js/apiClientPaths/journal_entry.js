@@ -4,10 +4,10 @@ export default (apiClient)=> {
       jsonApi: 'hasOne',
       type: 'users'
     },
-    created_at: '',
+    date: '',
     items: ''
   }, {
-    readOnly: ['created_at', 'created_by'],
+    readOnly: ['created_by'],
     include: 'created_by'
   })
 }
