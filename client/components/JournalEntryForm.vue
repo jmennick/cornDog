@@ -4,7 +4,7 @@
       <!-- <b-form-fieldset label="Name" horizontal>
         <b-form-input v-model="journalEntry.name" type="string"></b-form-input>
       </b-form-fieldset> -->
-      <b-form-fieldset label="Date" horizontal>
+      <b-form-fieldset label="Date *" :state="!journalEntry.date?'danger':null" horizontal>
         <b-form-input v-model="journalEntry.date" @input="updateProp('date',$event)" type="date" placeholder="Date"></b-form-input>
       </b-form-fieldset>
     </div>
@@ -19,18 +19,18 @@
       </thead>
       <tbody>
         <tr v-for="(item, $index) in journalEntry.items">
-          <td>
+          <td :class="[!item.account_id?'has-danger':null]">
             <b-form-select v-model="item.account_id" :options="availableAccounts" :defaultOption="defaultAccount" @input="updateItem($index,'account_id',$event)">
             </b-form-select>
           </td>
-          <td>
-            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item)"></b-form-input>
+          <td :class="[(!item.left_value && !itemIsRight(item))?'has-danger':null]">
+            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item) && !itemIsLeft(item)"></b-form-input>
+          </td>
+          <td :class="[(!item.right_value && !itemIsLeft(item))?'has-danger':null]">
+            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item) && !itemIsRight(item)"></b-form-input>
           </td>
           <td>
-            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item)"></b-form-input>
-          </td>
-          <td>
-            <b-button variant="danger" @click="removeItem($index)"><icon name="remove" :disabled="journalEntry.items.length<=1"></icon></b-button>
+            <b-button variant="danger" @click="removeItem($index)" :disabled="onlyOneItemLeft"><icon name="remove"></icon></b-button>
           </td>
         </tr>
       </tbody>
@@ -43,7 +43,9 @@
         </tr>
       </tfoot>
     </table>
-    <b-button variant="link" size="sm" @click="addItem">Add Item</b-button>
+    <div class="container-fluid" style="margin-bottom: 15px">
+      <b-button variant="success" @click="addItem">Add Item</b-button>
+    </div>
   </div>
 </template>
 
@@ -99,6 +101,20 @@ export default {
       } else {
         return true
       }
+    },
+    isValid() {
+      if (!this.journalEntry.date) {
+        return false
+      } else if (!this.isBalanced) {
+        return false
+      } else if (!this.journalEntry.items.every(this.itemIsValid)) {
+        return false
+      } else {
+        return true
+      }
+    },
+    onlyOneItemLeft() {
+      return this.journalEntry.items.length==1
     }
   },
   beforeCreate() {
@@ -110,7 +126,7 @@ export default {
     })
   },
   mounted() {
-    this.handleIsBalanced(this.isBalanced)
+    this.handleIsValid(this.isValid)
   },
   data: ()=> ({
     fields: {
@@ -126,19 +142,22 @@ export default {
   }),
   methods: {
     currencyFormatter: (val)=> {
-      if (isString(val) && !val.length) {
+      if (isString(val) && !parseFloat(val)) {
         return null
-      } else if (val == 0 || !!val) {
-        return format('%0.2f', val)
       } else {
-        return null
+        return format('%0.2f', val)
       }
     },
-    itemIsLeft: (item)=> !!item.left_value,
-    itemIsRight: (item)=> !!item.right_value,
+    itemIsLeft: (item)=> {
+      return !!item.left_value
+    },
+    itemIsRight: (item)=> {
+      return !!item.right_value
+    },
     addItem() {
       let resource = this.resource
       resource.items.push({
+        account_id: null,
         left_value: null,
         right_value: null
       })
@@ -161,18 +180,27 @@ export default {
       resource[pname] = value
       this.saveData(resource)
     },
-    handleIsBalanced(value) {
+    handleIsValid(value) {
       if (value) {
         this.enableSaving()
       } else {
         this.disableSaving()
       }
     },
+    itemIsValid(item) {
+      if (!item.account_id) {
+        return false
+      } else if (!item.left_value && !item.right_value) {
+        return false
+      } else {
+        return true
+      }
+    },
     ...mapMutations('resourceForm', {enableSaving, disableSaving})
   },
   watch: {
-    isBalanced(newValue) {
-      this.handleIsBalanced(newValue)
+    isValid(newValue) {
+      this.handleIsValid(newValue)
     }
   }
 }

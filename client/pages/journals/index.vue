@@ -34,9 +34,10 @@ export default {
       name: 'journal_entry',
       query: {include: 'created_by'},
       newResource: {
-        created_by: null,
+        date: null,
         items: [
           {
+            account_id: null,
             left_value: null,
             right_value: null
           }

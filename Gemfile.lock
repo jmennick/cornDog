@@ -57,6 +57,7 @@ GEM
     faker (1.7.3)
       i18n (~> 0.5)
     ffi (1.9.17)
+    ffi (1.9.17-x86-mingw32)
     formatador (0.2.5)
     fuubar (2.2.0)
       rspec-core (~> 3.0)
@@ -120,6 +121,8 @@ GEM
     nio4r (1.2.1)
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
+    nokogiri (1.7.0.1-x86-mingw32)
+      mini_portile2 (~> 2.1.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -133,6 +136,7 @@ GEM
       ruby-rc4
       ttfunk
     pg (0.19.0)
+    pg (0.19.0-x86-mingw32)
     prawn (2.1.0)
       pdf-core (~> 0.6.1)
       ttfunk (~> 1.4.0)
@@ -234,12 +238,15 @@ GEM
     ttfunk (1.4.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2016.10)
+      tzinfo (>= 1.0.0)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   byebug (~> 9.0.5)
@@ -278,4 +285,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.13.6
+   1.14.3

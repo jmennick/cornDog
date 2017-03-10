@@ -1,5 +1,5 @@
 <template>
-  <resource-detail>
+  <resource-detail no-add no-refresh return-location="/journals">
     <form v-if="!!journalEntry">
       <b-form-fieldset label="Created By" horizontal>
         <p class="form-control-static">{{journalEntry.created_by.name}}</p>
@@ -34,15 +34,11 @@ export default {
       id: params.id,
       query: {include: 'created_by'},
       newResource: {
-        date: new Date(),
+        date: null,
         items: [
           {
-            normal_side: 'left',
-            amount: 1.0
-          },
-          {
-            normal_side: 'right',
-            amount: 1.0
+            left_value: null,
+            right_value: null
           }
         ]
       }
