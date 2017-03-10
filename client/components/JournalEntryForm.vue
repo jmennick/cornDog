@@ -24,10 +24,10 @@
             </b-form-select>
           </td>
           <td>
-            <b-form-input type="number" class="text-right float-right"  :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model.number="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item)"></b-form-input>
+            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model.number="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item)"></b-form-input>
           </td>
           <td>
-            <b-form-input type="number" class="text-right float-right"  :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model.number="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item)"></b-form-input>
+            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model.number="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item)"></b-form-input>
           </td>
           <td>
             <b-button variant="danger" @click="removeItem($index)"><icon name="remove" :disabled="journalEntry.items.length<=1"></icon></b-button>
@@ -143,8 +143,8 @@ export default {
     addItem() {
       let resource = this.resource
       resource.items.push({
-        left_value: 0.00,
-        right_value: 0.00
+        left_value: null,
+        right_value: null
       })
       this.saveData(resource)
     },
