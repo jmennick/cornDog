@@ -34,7 +34,7 @@ export const mutations = {
   },
   [saveError](state, error) {
     state.viewState = VIEW_STATE_ERROR
-    state.error = error.toString()
+    state.error = error
   },
   [saveData](state, data) {
     state.modalData = data

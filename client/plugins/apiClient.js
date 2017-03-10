@@ -8,5 +8,10 @@ const apiClient = new DevourClient({
   }
 })
 
+apiClient.replaceMiddleware('errors', {
+  name: 'handle-errors',
+  error: (payload)=> payload.data
+})
+
 apiClientPaths.forEach(p => p(apiClient));
 export default apiClient

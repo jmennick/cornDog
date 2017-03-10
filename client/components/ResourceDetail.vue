@@ -35,6 +35,7 @@ import {mapState, mapGetters} from 'vuex'
 import ToolbarTop from '~components/ToolbarTop'
 import ResourceFormModal from '~components/ResourceFormModal'
 import ResourceRefreshBtn from '~components/ResourceRefreshBtn'
+import ResourceLoadingFailed from '~components/ResourceLoadingFailed'
 import ResourceAddBtn from '~components/ResourceAddBtn'
 import {isSuccess, isLoading, isFailed, labelSingular} from '~store/resource'
 
@@ -57,12 +58,14 @@ export default {
     ToolbarTop,
     ResourceFormModal,
     ResourceRefreshBtn,
+    ResourceLoadingFailed,
     ResourceAddBtn
   },
   computed: {
     ...mapState({
       resourceName: ({resource})=> resource.name,
-      title: ({resource})=> resource.title
+      title: ({resource})=> resource.title,
+      data: ({resource})=> resource.data
     }),
     ...mapGetters('resource', {
       isSuccess,

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Loading Failed</h1>
-    <p class="lead">{{error}}</p>
+    <p class="lead" v-for="e in error.errors">{{e.status}} {{e.detail}}</p>
   </div>
 </template>
 

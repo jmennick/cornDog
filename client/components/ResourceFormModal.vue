@@ -1,5 +1,12 @@
 <template>
   <modal :show="modalShown" @close="closeModal()" :title="title" :size="size">
+    <b-alert :show="viewStateIsError" state="danger" v-if="!!error">
+      <strong>Saving Failed</strong>
+      <p>
+        <span v-for="e in error.errors">{{e.status}} {{e.detail}}<br /></span>
+      </p>
+    </b-alert>
+    <br v-if="viewStateIsError"/>
     <slot></slot>
     <template slot="footer">
       <b-button variant="secondary" @click="closeModal()">
@@ -18,8 +25,8 @@ import Modal from '~components/Modal'
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 
 import {
-  modalShown, closeModal, beginSaving,
-  viewStateIsSaving, save
+  modalShown, closeModal, beginSaving, save,
+  viewStateIsSaving, viewStateIsError
 } from '~store/resourceForm'
 
 export default {
@@ -43,9 +50,12 @@ export default {
   computed: {
     ...mapState({
       modalData: ({resourceForm})=> resourceForm.modalData,
-      canSave: ({resourceForm})=> resourceForm.canSave
+      canSave: ({resourceForm})=> resourceForm.canSave,
+      error: ({resourceForm})=> resourceForm.error
     }),
-    ...mapGetters('resourceForm', {modalShown, viewStateIsSaving}),
+    ...mapGetters('resourceForm', {
+      modalShown, viewStateIsSaving, viewStateIsError
+    }),
     saveButtonIsDisabled() {
       return this.viewStateIsSaving || !this.canSave
     }

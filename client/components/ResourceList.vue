@@ -37,6 +37,7 @@ import ToolbarTop from '~components/ToolbarTop'
 import ResourceFormModal from '~components/ResourceFormModal'
 import ResourceActionModal from '~components/ResourceActionModal'
 import ResourceRefreshBtn from '~components/ResourceRefreshBtn'
+import ResourceLoadingFailed from '~components/ResourceLoadingFailed'
 import ResourceAddBtn from '~components/ResourceAddBtn'
 import {viewStateIsSuccess} from '~store/resourceForm'
 import {
@@ -55,6 +56,7 @@ export default {
     ResourceFormModal,
     ResourceActionModal,
     ResourceRefreshBtn,
+    ResourceLoadingFailed,
     ResourceAddBtn
   },
   computed: {

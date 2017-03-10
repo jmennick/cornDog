@@ -89,7 +89,7 @@ export const actions = {
         commit(loadingSuccessful, data)
       }
     } catch(err) {
-      commit(loadingFailed, err.toString())
+      commit(loadingFailed, err)
     }
   }
 }

@@ -2,6 +2,7 @@ class JournalEntryResource < ApplicationResource
   has_one :created_by
   attribute :items
   attribute :date, format: :date
+  attribute :does_not_exist
 
   def items
     _model = @model

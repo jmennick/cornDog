@@ -3,7 +3,7 @@
     <div slot="form">
       <account-form/>
     </div>
-    <form>
+    <form v-if="!!account">
       <b-form-fieldset label="Account Name" horizontal>
         <p class="form-control-static">{{account.name}}</p>
       </b-form-fieldset>

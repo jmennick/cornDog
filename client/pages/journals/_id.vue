@@ -1,6 +1,6 @@
 <template>
   <resource-detail>
-    <form>
+    <form v-if="!!journalEntry">
       <b-form-fieldset label="Created By" horizontal>
         <p class="form-control-static">{{journalEntry.created_by.name}}</p>
       </b-form-fieldset>
