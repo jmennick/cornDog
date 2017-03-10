@@ -1,8 +1,6 @@
 <template>
-  <resource-detail no-add no-refresh>
-    <div slot="form">
-      <account-form/>
-    </div>
+  <resource-detail no-refresh>
+    <account-form slot="form"/>
     <form v-if="!!account">
       <b-form-fieldset label="Account Name" horizontal>
         <p class="form-control-static">{{account.name}}</p>
