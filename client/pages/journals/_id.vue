@@ -1,10 +1,11 @@
 <template>
-  <resource-detail no-add no-refresh return-location="/journals">
+  <resource-detail no-refresh return-location="/journals">
+    <journal-entry-form slot="form"/>
     <form v-if="!!journalEntry">
       <b-form-fieldset label="Created By" horizontal>
         <p class="form-control-static">{{journalEntry.created_by.name}}</p>
       </b-form-fieldset>
-      <b-form-fieldset label="Created At" horizontal>
+      <b-form-fieldset label="Date" horizontal>
         <p class="form-control-static">{{journalEntry.date}}</p>
       </b-form-fieldset>
       <items-table :journal-entry="journalEntry"></items-table>
@@ -16,12 +17,14 @@
 import {mapState} from 'vuex'
 import ResourceDetail from '~components/ResourceDetail'
 import ItemsTable from '~components/journal_entries/ItemsTable'
+import JournalEntryForm from '~components/JournalEntryForm'
 import {selected} from '~store/resource'
 
 export default {
   components: {
     ResourceDetail,
-    ItemsTable
+    ItemsTable,
+    JournalEntryForm
   },
   computed: {
     ...mapState({
