@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe User, type: :model do
   it 'accepts the default fabricator' do
     user = Fabricate.build(:user)
