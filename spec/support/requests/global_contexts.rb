@@ -1,33 +1,42 @@
-HEADERS = {
-  'Content-Type' => 'application/vnd.api+json',
-  'Accept' => 'application/vnd.api+json'
-}
 
-RSpec.shared_context 'a typed resource request' do
-  let(:type_string) { described_class.to_s.tableize }
+RSpec.shared_context 'a standard resource request' do |opts={}|
+  let(:type_string){ described_class.to_s.tableize }
+  let!(:current_user){Fabricate :user}
+  let(:auth_token){
+    Knock::AuthToken.new(payload: {sub: current_user.id}).token
+  }
+  let(:headers){{
+    'Content-Type' => 'application/vnd.api+json',
+    'Accept' => 'application/vnd.api+json',
+    'Authorization' => "Bearer #{auth_token}"
+  }}
 end
 
 RSpec.shared_context 'an index request' do |opts={}|
-  include_context 'a typed resource request'
+  include_context 'a standard resource request'
   let!(:resource){Fabricate described_class.to_s.underscore}
 
-  opts.reverse_merge! headers: HEADERS
-  before{get "/api/#{type_string}", opts}
+  before{
+    opts.merge! headers: headers
+    get "/api/#{type_string}", opts
+  }
   subject{ response }
 end
 
 RSpec.shared_context 'a show request' do |opts={}|
-  include_context 'a typed resource request'
+  include_context 'a standard resource request'
   let!(:resource){Fabricate described_class.to_s.underscore}
 
-  opts.reverse_merge! headers: HEADERS
-  before{get "/api/#{type_string}/#{resource.id}", opts}
+  before{
+    opts.merge! headers: headers
+    get "/api/#{type_string}/#{resource.id}", opts
+  }
   subject{ response }
 end
 
 RSpec.shared_context 'a create request' do
-  include_context 'a typed resource request'
-  before{post "/api/#{type_string}", headers: HEADERS, params: {data: {
+  include_context 'a standard resource request'
+  before{post "/api/#{type_string}", headers: headers, params: {data: {
     type: type_string,
     attributes: attributes,
     relationships: relationships
@@ -36,8 +45,8 @@ RSpec.shared_context 'a create request' do
 end
 
 RSpec.shared_context 'an update request' do
-  include_context 'a typed resource request'
-  before{put "/api/#{type_string}/#{id}", headers: HEADERS, params: {
+  include_context 'a standard resource request'
+  before{put "/api/#{type_string}/#{id}", headers: headers, params: {
     data: {
       id: id,
       type: type_string,

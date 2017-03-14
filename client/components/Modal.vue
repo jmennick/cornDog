@@ -59,15 +59,21 @@ export default {
     },
     backdropClicked() {
       this.close()
-    }
-  },
-  watch: {
-    show(newValue) {
+    },
+    handleShowChanged(newValue) {
       if (newValue) {
         setTimeout(()=> {
           this.animateShow = true;
         }, 0);
       }
+    }
+  },
+  mounted() {
+    this.handleShowChanged(this.show)
+  },
+  watch: {
+    show(newValue) {
+      this.handleShowChanged(newValue)
     }
   }
 }

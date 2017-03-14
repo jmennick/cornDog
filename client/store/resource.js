@@ -82,6 +82,15 @@ export const actions = {
     commit(beginLoading)
     try {
       if (state.selectedId == null) {
+        let correctStorage
+        if (typeof(Storage) !== "undefined") {
+          correctStorage = localStorage
+        } else {
+          correctStorage = sessionStorage
+        }
+        const authToken = correctStorage.getItem('authToken')
+        apiClient.headers['Authorization'] = `Bearer ${authToken}`
+
         const data = await apiClient.findAll(state.name, state.query)
         commit(loadingSuccessful, data)
       } else {

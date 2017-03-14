@@ -1,6 +1,6 @@
 RSpec.shared_context 'journal entry attributes' do
   let(:attributes){{
-    date: DateValueFormatter.format(journal_entry.date),
+    date: journal_entry.date.to_s,
     items: journal_entry.items.to_a.map{|a|
       if (a.normal_side == 'left')
         {

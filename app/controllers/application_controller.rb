@@ -1,7 +1,11 @@
-require 'faker'
+class ApplicationController < ActionController::API
+  include JSONAPI::ActsAsResourceController
+  include Knock::Authenticable
+  before_action :authenticate_user
 
-class ApplicationController < JSONAPI::ResourceController
+  protected
+
   def context
-    {current_user: User.create_with(name: Faker::Name.name).first_or_create}
+    {current_user: current_user}
   end
 end

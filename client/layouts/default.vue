@@ -1,14 +1,28 @@
 <template>
   <div :class="{'show-sidebar': showSidebar}">
     <div id="content" class="theme-green">
-      <b-navbar type="inverse" variant="chrome" class="fixed-top">
-        <a class="navbar-brand text-white" @click="toggleSidebar()">
-          <icon name="bars"></icon>
-          <corndog-logo style="height: 23px; width: 23px; margin: -2px 6px 0 15px" />
-          <span>CornDog Accounting</span>
-        </a>
+      <b-navbar type="inverse" variant="chrome" class="d-flex flex-row align-items-center fixed-top text-white">
+        <div class="mr-auto">
+          <a class="navbar-brand" @click="toggleSidebar()">
+            <icon name="bars"></icon>
+          </a>
+          <a class="navbar-brand" style="margin: 0">
+            <corndog-logo style="height: 23px; width: 23px; margin: -2px 6px 0 15px" />
+            <span>CornDog Accounting</span>
+          </a>
+        </div>
+        <span class="p-2 no-bottom-margin">&nbsp;</span>
+        <div class="ml-auto">
+          <p class="navbar-text" v-if="isAuthenticated">
+            Logged In <b-button variant="link" @click="logOut()">Log Out</b-button>
+          </p>
+          <p class="navbar-text" v-else>
+            Logged Out <b-button variant="link" @click="authenticate()">Log In</b-button>
+          </p>
+        </div>
       </b-navbar>
       <nuxt/>
+      <auth-form-modal></auth-form-modal>
     </div>
     <div id="sidebar" class="bg-chrome-under">
       <b-navbar>
@@ -28,21 +42,32 @@
 
 <script>
 import CorndogLogo from '~components/CorndogLogo'
-import {mapState, mapMutations} from 'vuex'
+import {mapState, mapMutations, mapGetters, mapActions} from 'vuex'
+import AuthFormModal from '~components/AuthFormModal'
+
+import {
+  refreshAuthState, isAuthenticated, authenticate, logOut
+} from '~store/auth'
 
 export default {
   components: {
-    CorndogLogo
+    CorndogLogo,
+    AuthFormModal
   },
   computed: {
     ...mapState({
       showSidebar: ({sidebar})=> sidebar.shown
-    })
+    }),
+    ...mapGetters('auth', {isAuthenticated})
+  },
+  mounted() {
+    this.refreshAuthState()
   },
   methods: {
     ...mapMutations({
       toggleSidebar: 'sidebar/toggle'
-    })
+    }),
+    ...mapActions('auth', {refreshAuthState, authenticate, logOut})
   }
 }
 </script>

@@ -67,10 +67,9 @@ RSpec.describe JournalEntry, type: :request do
     it_behaves_like 'a correct create request'
     it_behaves_like 'a journal entry request'
 
-    before{Fabricate :user}
     let!(:acc1){Fabricate :account}
     let!(:acc2){Fabricate :account}
-    let(:journal_entry){Fabricate.build :journal_entry, items: [
+    let(:journal_entry){Fabricate.build :_journal_entry, items: [
       Fabricate.build(:journal_entry_item, normal_side: :left, account: acc1),
       Fabricate.build(:journal_entry_item, normal_side: :right, account: acc2)
     ]}

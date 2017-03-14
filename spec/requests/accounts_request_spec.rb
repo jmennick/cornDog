@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe Account, type: :request do
 
   context 'index' do
@@ -38,7 +36,6 @@ RSpec.describe Account, type: :request do
     include_context 'a create request'
     it_behaves_like 'a correct create request'
 
-    let!(:user){Fabricate :user}
     let(:account){Fabricate.build :account}
     include_context 'account attributes'
   end
@@ -48,7 +45,6 @@ RSpec.describe Account, type: :request do
     it_behaves_like 'a correct update request'
 
     let!(:account){Fabricate :account}
-    let!(:user){account.created_by}
     let!(:id){ account.id }
     include_context 'account attributes'
   end

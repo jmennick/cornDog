@@ -19,8 +19,12 @@ gem 'clockwork', '~> 2.0.0', require: false
 # use JSONAPI spec for exchanging data with client
 gem 'jsonapi-resources', '~> 0.8.1'
 
-# use knock for compatibility with Auth0 login
-# gem 'knock', '~> 1.4.2'
+# use knock for JWT-based authentication
+gem 'knock', '~> 2.1.1'
+
+# to use has_secure_password
+# (so passwords can be secured)
+gem 'bcrypt', '~> 3.1.7'
 
 # use prawn for PDF generation
 # http://prawnpdf.org/api-docs/2.0/
