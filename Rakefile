@@ -2,6 +2,6 @@
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
 require_relative 'config/application'
-require 'rails_stats'
+require 'rails_stats' unless Rails.env.production?
 
 Rails.application.load_tasks
