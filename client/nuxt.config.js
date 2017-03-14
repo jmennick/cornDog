@@ -1,6 +1,6 @@
 module.exports = {
   env: {
-    apiUrl: process.env.API_URL || 'https://corndog.herokuapp.com/api'
+    apiUrl: process.env.API_URL || 'https://corndog.herokuapp.com'
   },
   build: {
     babel: {
