@@ -16,7 +16,14 @@
 # end
 
 ActiveSupport::Inflector.inflections(:en) do |inflect|
+
+  # technical terms
   inflect.acronym 'PDF'
   inflect.acronym 'API'
   inflect.acronym 'STI'
+  inflect.acronym 'JWT'
+
+  # accounting terms
+  inflect.acronym 'EBT'
+  inflect.acronym 'EBIT'
 end
