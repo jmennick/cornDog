@@ -52,6 +52,9 @@ group :development, :test do
   gem 'guard-clockwork', '~> 0.0.6', require: false
   gem 'guard-rspec', '~> 4.7.3', require: false
   gem 'guard-shell', '~> 0.7.1', require: false
+
+  # for generating statistics about the codebase
+  gem 'rails_stats', require: false
 end
 
 group :test do
