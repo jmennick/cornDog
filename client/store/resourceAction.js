@@ -1,4 +1,5 @@
 import {titleize, tableize} from 'inflection'
+import {post} from 'axios'
 
 export const VIEW_STATE_HIDDEN = 'hidden'
 export const VIEW_STATE_SHOWN = 'shown'
@@ -9,10 +10,12 @@ export const VIEW_STATE_SUCCESS = 'success'
 export const state = {
   viewState: VIEW_STATE_HIDDEN,
   name: '',
-  resource: '',
   data: null,
   error: null,
-  result: null
+  result: null,
+  confirmCustomName: null,
+  confirmCustomIcon: null,
+  confirmCustomColor: null
 }
 
 export const showAction = 'showAction'
@@ -23,12 +26,14 @@ export const cancelAction = 'cancelAction'
 export const saveData = 'saveData'
 
 export const mutations = {
-  [showAction](state, {name, resource, data={}}) {
+  [showAction](state, {name, data={}, confirmName=null, confirmIcon=null, confirmColor=null}) {
     let _data = {}; Object.assign(_data, data)
     state.viewState = VIEW_STATE_SHOWN
     state.data = _data
     state.name = name
-    state.resource = resource
+    state.confirmCustomName = confirmName
+    state.confirmCustomIcon = confirmIcon
+    state.confirmCustomColor = confirmColor
   },
   [beginExecuting](state) {
     state.viewState = VIEW_STATE_EXECUTING
@@ -56,7 +61,9 @@ export const viewStateIsSuccess = 'viewStateIsSuccess'
 export const viewStateIsHidden = 'viewStateIsHidden'
 export const modalShown = 'modalShown'
 export const humanActionName = 'humanActionName'
-export const actionPath = 'actionPath'
+export const confirmName = 'confirmName'
+export const confirmIcon = 'confirmIcon'
+export const confirmColor = 'confirmColor'
 
 export const getters = {
   [viewStateIsShown]: ({viewState})=> viewState == VIEW_STATE_SHOWN,
@@ -65,10 +72,10 @@ export const getters = {
   [viewStateIsSuccess]: ({viewState})=> viewState == VIEW_STATE_SUCCESS,
   [viewStateIsHidden]: ({viewState})=> viewState == VIEW_STATE_HIDDEN,
   [modalShown]: ({viewState})=> (viewState != VIEW_STATE_HIDDEN) && (viewState != VIEW_STATE_SUCCESS),
-  [humanActionName]: ({name, resource})=> `${titleize(name)} ${titleize(resource)}`,
-  [actionPath]: ({name, resource})=> {
-    return `${tableize(resource)}/${name}`
-  }
+  [humanActionName]: ({name})=> titleize(name),
+  [confirmName]: ({confirmCustomName}, {humanActionName})=> confirmCustomName || humanActionName,
+  [confirmIcon]: ({confirmCustomIcon})=> confirmCustomIcon,
+  [confirmColor]: ({confirmCustomColor})=> confirmCustomColor || 'primary'
 }
 
 export const execute = 'execute'
@@ -77,8 +84,9 @@ export const actions = {
   [execute]: async ({commit, state})=> {
     commit(beginExecuting)
     try {
-      const response = {message: 'Hooray! It (sort-of) Worked!!'}
-      commit(executeSuccessful, response)
+      const url = `${process.env.apiUrl}/actions/${state.name}`
+      const {data} = await post(url, state.data)
+      commit(executeSuccessful, data)
     } catch(err) {
       commit(executionError, err.toString())
     }

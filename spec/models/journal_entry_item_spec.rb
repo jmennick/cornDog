@@ -1,6 +1,9 @@
 RSpec.describe JournalEntryItem, type: :model do
+  let(:journal_entry){Fabricate :journal_entry}
+  let(:journal_entry_item){journal_entry.items.first}
+  subject{journal_entry_item}
+
   context 'default fabricator' do
-    subject { Fabricate.build(:_journal_entry_item) }
     it { is_expected.to be_valid }
   end
 
@@ -12,37 +15,57 @@ RSpec.describe JournalEntryItem, type: :model do
   end
 
   context '#account' do
-    context '== nil' do
-      subject { Fabricate.build(:_journal_entry_item, account: nil) }
+    context 'where is nil' do
+      before{journal_entry_item.account = nil}
       it { is_expected.to be_invalid }
     end
 
-    context 'is unique' do
-      let!(:account){Fabricate :account}
-      let!(:journal_entry){Fabricate :journal_entry, items: [
-        Fabricate.build(:journal_entry_item,
-          account: account, normal_side: :left, amount: 42.0
-        ),
-        Fabricate.build(:journal_entry_item,
-          account: account, normal_side: :right, amount: 42.0
-        )
-      ]}
-      subject{journal_entry}
+    context 'where is not unique' do
+      let(:other_entry){Fabricate.build :journal_entry_item, account: journal_entry_item.account, journal_entry: journal_entry}
+      subject{other_entry}
       it{ is_expected.to be_invalid }
     end
   end
 
   context '#normal_side' do
-    context '== nil' do
-      subject { Fabricate.build(:_journal_entry_item, normal_side: nil ) }
+    context 'when is nil' do
+      before{journal_entry_item.normal_side = nil}
       it { is_expected.to be_invalid }
     end
   end
 
   context '#amount' do
-    context '== 0.00' do
-      subject { Fabricate.build(:_journal_entry_item, amount: 0.0) }
+    context 'when == 0.00' do
+      before{journal_entry_item.amount = 0.0}
       it { is_expected.to be_invalid }
+    end
+  end
+
+  context '#left_normalized_amount' do
+    subject{journal_entry_item.left_normalized_amount}
+
+    context 'when normal_side is "left"' do
+      before{journal_entry_item.left!}
+      it{ is_expected.to eq(journal_entry_item.amount) }
+    end
+
+    context 'when normal_side is "right"' do
+      before{journal_entry_item.right!}
+      it{ is_expected.to eq(-journal_entry_item.amount) }
+    end
+  end
+
+  context '#right_normalized_amount' do
+    subject{journal_entry_item.right_normalized_amount}
+
+    context 'when normal_side is "left"' do
+      before{journal_entry_item.left!}
+      it{ is_expected.to eq(-journal_entry_item.amount) }
+    end
+
+    context 'when normal_side is "right"' do
+      before{journal_entry_item.right!}
+      it{ is_expected.to eq(journal_entry_item.amount) }
     end
   end
 

@@ -12,6 +12,8 @@ export const state = {
   selectedId: null,
   error: null,
   name: null,
+  baseName: null,
+  baseId: null,
   title: '',
   query: {},
   newResource: {}
@@ -39,9 +41,11 @@ export const mutations = {
     state.viewState = VIEW_STATE_FAILED
     state.error = error
   },
-  [resourceSetup](state, {name, id=null, query={}, newResource={}, title=null}) {
+  [resourceSetup](state, {name, id=null, baseName=null, baseId=null, query={}, newResource={}, title=null}) {
     state.name = name
     state.selectedId = id
+    state.baseName = baseName
+    state.baseId = baseId
     state.query = query
     state.newResource = newResource
     if (title == null) {
@@ -74,25 +78,31 @@ export const setup = 'setup'
 export const fetch = 'fetch'
 
 export const actions = {
-  [setup]: async({commit, dispatch}, {name, id=null, query={}, newResource={}, title=null})=> {
-    commit(resourceSetup, {name, id, query, newResource, title})
+  [setup]: async({commit, dispatch}, {name, id=null, baseName=null, baseId=null, query={}, newResource={}, title=null})=> {
+    commit(resourceSetup, {name, id, baseName, baseId, query, newResource, title})
     await dispatch(fetch)
   },
   [fetch]: async ({commit, state})=> {
     commit(beginLoading)
     try {
-      if (state.selectedId == null) {
-        let correctStorage
-        if (typeof(Storage) !== "undefined") {
-          correctStorage = localStorage
-        } else {
-          correctStorage = sessionStorage
-        }
-        const authToken = correctStorage.getItem('authToken')
-        apiClient.headers['Authorization'] = `Bearer ${authToken}`
+      let correctStorage
+      if (typeof(Storage) !== "undefined") {
+        correctStorage = localStorage
+      } else {
+        correctStorage = sessionStorage
+      }
+      const authToken = correctStorage.getItem('authToken')
+      apiClient.headers['Authorization'] = `Bearer ${authToken}`
 
-        const data = await apiClient.findAll(state.name, state.query)
-        commit(loadingSuccessful, data)
+      if (state.selectedId == null) {
+        if (state.baseName == null) {
+          const data = await apiClient.findAll(state.name, state.query)
+          commit(loadingSuccessful, data)
+        } else {
+          console.log('base:', state.baseName, state.baseId)
+          const data = await apiClient.one(state.baseName, state.baseId).all(state.name).get(state.query)
+          commit(loadingSuccessful, data)
+        }
       } else {
         const data = await apiClient.find(state.name, state.selectedId, state.query)
         commit(loadingSuccessful, data)

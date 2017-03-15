@@ -18,6 +18,9 @@
         <resource-form-modal :title="resourceFormTitle" :resource="resourceName">
           <slot name="form"></slot>
         </resource-form-modal>
+        <resource-action-modal>
+          <slot :name="actionName"></slot>
+        </resource-action-modal>
         <div v-if="isLoading">
           Loading...
         </div>
@@ -34,6 +37,7 @@
 import {mapState, mapGetters} from 'vuex'
 import ToolbarTop from '~components/ToolbarTop'
 import ResourceFormModal from '~components/ResourceFormModal'
+import ResourceActionModal from '~components/ResourceActionModal'
 import ResourceRefreshBtn from '~components/ResourceRefreshBtn'
 import ResourceLoadingFailed from '~components/ResourceLoadingFailed'
 import ResourceAddBtn from '~components/ResourceAddBtn'
@@ -57,6 +61,7 @@ export default {
   components: {
     ToolbarTop,
     ResourceFormModal,
+    ResourceActionModal,
     ResourceRefreshBtn,
     ResourceLoadingFailed,
     ResourceAddBtn
@@ -64,6 +69,7 @@ export default {
   computed: {
     ...mapState({
       resourceName: ({resource})=> resource.name,
+      actionName: ({resourceAction})=> resourceAction.name,
       title: ({resource})=> resource.title,
       data: ({resource})=> resource.data
     }),

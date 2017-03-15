@@ -8,6 +8,11 @@
         <action-button-bar :actions="actions(a.item)" right>
         </action-button-bar>
       </template>
+      <template slot="ledger_balance" scope="a">
+        <span class="text-right">
+          {{currencyFormatter(a.item.ledger_balance)}}
+        </span>
+      </template>
     </b-table>
   </resource-list>
 </template>
@@ -18,6 +23,7 @@
   import ActionButtonBar from '~components/ActionButtonBar'
   import AccountForm from '~components/accounts/AccountForm'
   import {showModal} from '~store/resourceForm'
+  import format from 'format'
 
   export default {
     components: {
@@ -42,6 +48,13 @@
             to: {name: 'ledger-id', params: {id: account.id}}
           }
         ]
+      },
+      currencyFormatter: (val)=> {
+        if (val == 0 || !!val) {
+          return format('%0.2f', val)
+        } else {
+          return null
+        }
       }
     },
     async fetch({params, store}) {
@@ -65,7 +78,7 @@
     data: ()=> ({
       fields: {
         name: {label: 'Account', sortable: true},
-        balance: {label: 'Balance', sortable: true},
+        ledger_balance: {label: 'Balance', sortable: true},
         actions: {sortable: false}
       }
     })

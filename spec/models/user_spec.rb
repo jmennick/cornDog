@@ -1,25 +1,38 @@
 RSpec.describe User, type: :model do
-  it 'accepts the default fabricator' do
-    user = Fabricate.build(:user)
-    expect(user).to be_valid
+  let!(:user){Fabricate :user}; subject{user}
+
+  context 'default fabricator' do
+    it{is_expected.to be_valid}
   end
 
   context '#name' do
-    it 'cannot be an empty string' do
-      user = Fabricate.build(:user, name: '')
-      expect(user).not_to be_valid
+    context 'when an empty string' do
+      before{user.name = ''}
+      it{is_expected.to be_invalid}
     end
   end
 
   context '#email' do
-    it 'cannot be a username-style input' do
-      user = Fabricate.build(:user, email: 'gav5')
-      expect(user).not_to be_valid
+    context 'when a username-style input' do
+      before{user.email = 'gav5'}
+      it{is_expected.to be_invalid}
     end
 
-    it 'cannot be an input with an invalid domain' do
-      user = Fabricate.build(:user, email: 'gav5@corndog')
-      expect(user).not_to be_valid
+    context 'when an invalid domain' do
+      before{user.email = 'gav5@corndog'}
+      it{is_expected.to be_invalid}
     end
+  end
+
+  context '#accounts_created' do
+    subject{user.accounts_created}
+    let!(:accounts){Fabricate.times 4, :account, created_by: user}
+    it{is_expected.to contain_exactly(*accounts)}
+  end
+
+  context '#journal_entries_created' do
+    subject{user.journal_entries_created}
+    let!(:journal_entries){Fabricate.times 4, :journal_entry, created_by: user}
+    it{is_expected.to contain_exactly(*journal_entries)}
   end
 end

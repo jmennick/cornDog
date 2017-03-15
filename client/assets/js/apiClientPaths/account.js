@@ -12,9 +12,10 @@ export default (apiClient)=> {
     created_at: '',
     kind: '',
     kind_human: '',
-    initial_balance: ''
+    initial_balance: '',
+    ledger_balance: ''
   }, {
-    readOnly: ['kind_human', 'created_at', 'created_by'],
+    readOnly: ['kind_human', 'created_at', 'created_by', 'ledger_balance'],
     include: 'created_by'
   })
 }

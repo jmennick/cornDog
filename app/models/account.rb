@@ -1,7 +1,7 @@
 class Account < ApplicationRecord
   default_scope -> { order(order: :asc) }
 
-  belongs_to :created_by, class_name: 'User'
+  belongs_to :created_by, class_name: 'User', required: true
 
   # name: string
   validates :name, presence: true, uniqueness: true
@@ -78,4 +78,20 @@ class Account < ApplicationRecord
   scope :asset, -> { where(kind: kinds_grouped[:asset].values) }
   scope :liability, -> { where(kind: kinds_grouped[:liability].values) }
   validates :kind, presence: true
+
+  has_many :journal_entry_items, dependent: :restrict_with_exception
+  # has_many :journal_entries, through: :journal_entry_items
+  has_many :ledger_entries, through: :journal_entry_items
+
+  def ledger_balance
+    most_recent_ledger_entry = ledger_entries.most_recent.first
+    # if there isn't a most recent ledger entry, defer to initial balance
+    return initial_balance if most_recent_ledger_entry.nil?
+
+    case normal_side_physical
+    when :left then most_recent_ledger_entry.left_normalized_amount
+    when :right then most_recent_ledger_entry.right_normalized_amount
+    else raise "incorrect normal side \"#{normal_side_physical}\""
+    end
+  end
 end

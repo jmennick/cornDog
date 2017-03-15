@@ -1,12 +1,13 @@
 class JournalEntry < ApplicationRecord
 
   # the user who created the journal entery
-  belongs_to :created_by, class_name: 'User'
+  belongs_to :created_by, class_name: 'User', required: true
 
   # the items in the journal entry (at least one required)
   # (this requires one, but at least two will be needed to balance)
   # (this is handled by another validation for the balancing)
-  has_many :items, class_name: 'JournalEntryItem'
+  has_many :items, class_name: 'JournalEntryItem',
+    autosave: true, dependent: :restrict_with_exception
   accepts_nested_attributes_for :items
   validates :items, length: {minimum: 1}
   validates_associated :items
@@ -19,7 +20,6 @@ class JournalEntry < ApplicationRecord
 
   # the journal is balanced when both sides are equal
   def balanced?
-    # items.left_subtotal == items.right_subtotal
     if items.loaded?
       # if the list of items is already loaded in
       # treat this as an array of items (because it is)
@@ -39,4 +39,10 @@ class JournalEntry < ApplicationRecord
     end
   end
   private :must_be_balanced
+
+  enum state: {
+    pending: 0,
+    posted: 1,
+    rejected: 2
+  }
 end

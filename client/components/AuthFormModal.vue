@@ -27,10 +27,10 @@ export default {
   components: {
     Modal
   },
-  data: {
+  data: ()=> ({
     email: null,
     password: null
-  },
+  }),
   methods: {
     ...mapActions('auth', {authenticate}),
     signIn() {

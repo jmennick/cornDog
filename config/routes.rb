@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   scope 'api', format: :json do
     jsonapi_resources :accounts
     jsonapi_resources :journal_entries
+    jsonapi_resources :ledger_entries
+  end
+
+  scope 'actions', format: :json do
+    post :post_journal_entry, to: 'post_journal_entry#post'
   end
 
   namespace :pdf, format: :pdf do

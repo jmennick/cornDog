@@ -1,17 +1,21 @@
 <template>
-  <modal :show="modalShown" @close="closeModal()" :title="title" :size="size">
+  <modal :show="modalShown" @close="cancelAction" :title="title" :size="size">
     <slot>Are you sure?</slot>
     <template slot="footer">
-      <b-button variant="secondary" @click="closeModal()">
+      <b-button variant="secondary" @click="cancelAction">
         Cancel
       </b-button>
-      <b-button variant="primary" @click="execute()">
+      <b-button :variant="confirmColor" @click="execute">
         <span v-if="viewStateIsExecuting">
           <icon name="circle-o-notch" spin></icon>
           Executing
         </span>
         <span v-else>
-          Confirm
+          <template v-if="confirmIcon">
+            <icon :name="confirmIcon"></icon>
+            &nbsp;
+          </template>
+          {{confirmName}}
         </span>
       </b-button>
     </template>
@@ -23,7 +27,8 @@ import Modal from '~components/Modal'
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 
 import {
-  modalShown, cancelAction, viewStateIsExecuting, execute, humanActionName
+  modalShown, cancelAction, viewStateIsExecuting, execute, humanActionName,
+  confirmName, confirmIcon, confirmColor
 } from '~store/resourceAction'
 
 export default {
@@ -42,7 +47,8 @@ export default {
       actionName: ({resourceAction})=> resourceAction.name
     }),
     ...mapGetters('resourceAction', {
-      modalShown, viewStateIsExecuting, humanActionName
+      modalShown, viewStateIsExecuting, humanActionName,
+      confirmName, confirmIcon, confirmColor
     }),
     title() {
       return this.humanActionName

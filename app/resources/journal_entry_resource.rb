@@ -2,6 +2,7 @@ class JournalEntryResource < ApplicationResource
   has_one :created_by
   attribute :items
   attribute :date, format: :date
+  attribute :state
 
   def items
     _model = @model

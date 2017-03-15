@@ -17,6 +17,25 @@ class JournalEntryItem < ApplicationRecord
   # these can be any value other than zero (which wouldn't matter)
   validates :amount, numericality: {other_than: 0.0}
 
+  # the ledger entry this item has posted to (only filled in when posted)
+  has_one :ledger_entry, dependent: :restrict_with_exception, required: false
+
+  def left_amount
+    left? ? amount : nil
+  end
+
+  def right_amount
+    right? ? amount : nil
+  end
+
+  def left_normalized_amount
+    left? ? amount : -amount
+  end
+
+  def right_normalized_amount
+    right? ? amount : -amount
+  end
+
   def self.left_subtotal
     left.sum(:amount)
   end

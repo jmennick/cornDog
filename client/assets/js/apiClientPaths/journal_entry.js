@@ -5,9 +5,10 @@ export default (apiClient)=> {
       type: 'users'
     },
     date: '',
-    items: ''
+    items: '',
+    state: ''
   }, {
-    readOnly: ['created_by'],
+    readOnly: ['created_by', 'state'],
     include: 'created_by'
   })
 }

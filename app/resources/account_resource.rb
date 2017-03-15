@@ -9,6 +9,7 @@ class AccountResource < ApplicationResource
   attribute :kind
   attribute :kind_human
   attribute :initial_balance
+  attribute :ledger_balance
 
   filter :active
 

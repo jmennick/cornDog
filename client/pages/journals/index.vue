@@ -5,6 +5,9 @@
       <template slot="created_by" scope="j">
         {{j.item.created_by.name}}
       </template>
+      <template slot="status" scope="j">
+        <span class="badge badge-pill badge-info">{{j.item.status}}</span>
+      </template>
       <template slot="actions" scope="j">
         <action-button-bar :actions="actions(j.item)" right>
         </action-button-bar>
@@ -49,6 +52,7 @@ export default {
     fields: {
       date: {label: 'Date', sortable: true},
       created_by: {label: 'Created By'},
+      state: {label: 'Status'},
       actions: {}
     }
   }),
