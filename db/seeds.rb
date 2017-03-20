@@ -9,7 +9,30 @@
 # require 'fabrication'
 # require 'faker'
 
-User.create(name: 'John Doe', email: 'jdoe@corndog.herokuapp.com')
+User.find_or_create_by!(name: 'John Doe') do |u|
+  u.name = 'John Doe'
+  u.email = 'jdoe@corndog.herokuapp.com'
+  u.role = 'no_access'
+  u.password = '12345'
+end
+
+User.find_or_create_by!(name: 'Joe Admin') do |u|
+  u.email = 'admin@corndog.com'
+  u.role = 'admin'
+  u.password = '12345'
+end
+
+User.find_or_create_by!(name: 'Joe Manager') do |u|
+  u.email = 'manager@corndog.com'
+  u.role = 'manager'
+  u.password = '12345'
+end
+
+User.find_or_create_by!(name: 'Joe Accountant') do |u|
+  u.email = 'accountant@corndog.com'
+  u.role = 'accountant'
+  u.password = '12345'
+end
 
 # acc1 = Account.first
 # acc2 = Account.second

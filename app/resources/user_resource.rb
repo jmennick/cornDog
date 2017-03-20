@@ -1,6 +1,7 @@
 class UserResource < ApplicationResource
   attribute :name
   attribute :email
+  attribute :role
   attribute :password
 
   def fetchable_fields

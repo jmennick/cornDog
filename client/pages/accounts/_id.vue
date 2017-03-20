@@ -1,5 +1,5 @@
 <template>
-  <resource-detail no-refresh>
+  <resource-detail no-refresh return-location="/accounts">
     <account-form slot="form"/>
     <form v-if="!!account">
       <b-form-fieldset label="Account Name" horizontal>
@@ -24,7 +24,11 @@
         <p class="form-control-static">{{account.description}}</p>
       </b-form-fieldset>
       <b-form-fieldset label="Created By" horizontal>
-        <p class="form-control-static">{{account.created_by.name}}</p>
+        <p class="form-control-static">
+          <nuxt-link :to="{name: 'users-id', params: {id: account.created_by.id}}">
+            {{account.created_by.name}}
+          </nuxt-link>
+        </p>
       </b-form-fieldset>
       <b-form-fieldset label="Created At" horizontal>
         <p class="form-control-static">{{account.created_at}}</p>

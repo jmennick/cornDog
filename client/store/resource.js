@@ -1,5 +1,6 @@
 import apiClient from '~plugins/apiClient'
 import {titleize, pluralize} from 'inflection'
+import {result} from 'underscore'
 
 export const VIEW_STATE_LOADING = 'loading'
 export const VIEW_STATE_SUCCESS = 'success'
@@ -8,6 +9,7 @@ export const VIEW_STATE_FAILED = 'failed'
 export const state = {
   viewState: null,
   data: [],
+  meta: null,
   selected: null,
   selectedId: null,
   error: null,
@@ -65,13 +67,19 @@ export const isSuccess = 'isSuccess'
 export const isFailed = 'isFailed'
 export const labelSingular = 'labelSingular'
 export const labelPlural = 'labelPlural'
+export const currentUser = 'currentUser'
 
 export const getters = {
   [isLoading]: ({viewState})=> viewState == VIEW_STATE_LOADING,
   [isSuccess]: ({viewState})=> viewState == VIEW_STATE_SUCCESS,
   [isFailed]: ({viewState})=> viewState == VIEW_STATE_FAILED,
   [labelSingular]: ({name})=> titleize(name),
-  [labelPlural]: ({name})=> pluralize(titleize(name))
+  [labelPlural]: ({name})=> pluralize(titleize(name)),
+  [currentUser]: ({meta})=> result(meta, 'current_user', {
+    name: '???',
+    email: '???',
+    role: 'no_access'
+  })
 }
 
 export const setup = 'setup'
