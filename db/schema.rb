@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315052742) do
+ActiveRecord::Schema.define(version: 20170317032547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,8 @@ ActiveRecord::Schema.define(version: 20170315052742) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.string   "password_digest", default: "", null: false
+    t.integer  "role",            default: 0,  null: false
+    t.index ["role"], name: "index_users_on_role", using: :btree
   end
 
   add_foreign_key "accounts", "users", column: "created_by_id"

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     jsonapi_resources :accounts
     jsonapi_resources :journal_entries
     jsonapi_resources :ledger_entries
+    jsonapi_resources :users
   end
 
   scope 'actions', format: :json do

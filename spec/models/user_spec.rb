@@ -35,4 +35,26 @@ RSpec.describe User, type: :model do
     let!(:journal_entries){Fabricate.times 4, :journal_entry, created_by: user}
     it{is_expected.to contain_exactly(*journal_entries)}
   end
+
+  context '#role' do
+    context 'when is no_access' do
+      before{user.no_access!}
+      it{is_expected.to be_no_access}
+    end
+
+    context 'when is accountant' do
+      before{user.accountant!}
+      it{is_expected.to be_accountant}
+    end
+
+    context 'when is manager' do
+      before{user.manager!}
+      it{is_expected.to be_manager}
+    end
+
+    context 'when is admin' do
+      before{user.admin!}
+      it{is_expected.to be_admin}
+    end
+  end
 end

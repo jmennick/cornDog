@@ -26,6 +26,11 @@ gem 'knock', '~> 2.1.1'
 # (so passwords can be secured)
 gem 'bcrypt', '~> 3.1.7'
 
+# use Pundit for authorization
+# (so roles can be given correct permissions)
+gem 'pundit', '~> 1.1'
+gem 'pundit-resources', '~> 1.1', '>= 1.1.1'
+
 # use prawn for PDF generation
 # http://prawnpdf.org/api-docs/2.0/
 gem 'prawn', '~> 2.1.0'

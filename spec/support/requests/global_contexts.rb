@@ -1,7 +1,8 @@
 
 RSpec.shared_context 'a standard resource request' do |opts={}|
   let(:type_string){ described_class.to_s.tableize }
-  let!(:current_user){Fabricate :user}
+  opts.reverse_merge! role: :accountant
+  role = opts[:role]; let!(:current_user){Fabricate :user, role: role}
   let(:auth_token){
     Knock::AuthToken.new(payload: {sub: current_user.id}).token
   }
@@ -13,29 +14,34 @@ RSpec.shared_context 'a standard resource request' do |opts={}|
 end
 
 RSpec.shared_context 'an index request' do |opts={}|
-  include_context 'a standard resource request'
-  let!(:resource){Fabricate described_class.to_s.underscore}
+  role = opts.delete(:role)
+  include_context 'a standard resource request', {role: role}
 
-  before{
-    opts.merge! headers: headers
-    get "/api/#{type_string}", opts
-  }
+  opts.reverse_merge! fabricator: described_class.to_s.underscore
+  fabricator = opts.delete(:fabricator)
+  let!(:resource){Fabricate fabricator}
+
+  before{opts.merge! headers: headers}
+  before{get "/api/#{type_string}", opts}
   subject{ response }
 end
 
 RSpec.shared_context 'a show request' do |opts={}|
-  include_context 'a standard resource request'
-  let!(:resource){Fabricate described_class.to_s.underscore}
+  role = opts.delete(:role)
+  include_context 'a standard resource request', {role: role}
 
-  before{
-    opts.merge! headers: headers
-    get "/api/#{type_string}/#{resource.id}", opts
-  }
+  opts.reverse_merge! fabricator: described_class.to_s.underscore
+  fabricator = opts.delete(:fabricator)
+  let!(:resource){Fabricate fabricator}
+
+  before{opts.merge! headers: headers}
+  before{get "/api/#{type_string}/#{resource.id}", opts}
   subject{ response }
 end
 
-RSpec.shared_context 'a create request' do
-  include_context 'a standard resource request'
+RSpec.shared_context 'a create request' do |opts={}|
+  role = opts.delete(:role)
+  include_context 'a standard resource request', {role: role}
   before{post "/api/#{type_string}", headers: headers, params: {data: {
     type: type_string,
     attributes: attributes,
@@ -44,8 +50,9 @@ RSpec.shared_context 'a create request' do
   subject{ response }
 end
 
-RSpec.shared_context 'an update request' do
-  include_context 'a standard resource request'
+RSpec.shared_context 'an update request' do |opts={}|
+  role = opts.delete(:role)
+  include_context 'a standard resource request', {role: role}
   before{put "/api/#{type_string}/#{id}", headers: headers, params: {
     data: {
       id: id,
@@ -68,21 +75,24 @@ RSpec.shared_context 'included' do
   subject{ JSON.parse(response.body)['included'].to_json }
 end
 
-RSpec.shared_context 'first item attributes' do
-  subject{ JSON.parse(response.body)['data'][0]['attributes'].to_json }
+RSpec.shared_context 'first item attributes' do |opts={}|
+  opts.reverse_merge! offset: 0; _o = opts[:offset]
+  subject{ JSON.parse(response.body)['data'][_o]['attributes'].to_json }
 end
 
-RSpec.shared_context 'first item relationships' do
-  subject{ JSON.parse(response.body)['data'][0]['relationships'].to_json }
+RSpec.shared_context 'first item relationships' do |opts={}|
+  opts.reverse_merge! offset: 0; _o = opts[:offset]
+  subject{ JSON.parse(response.body)['data'][_o]['relationships'].to_json }
 end
 
 RSpec.shared_context 'base meta fields' do
   subject{ JSON.parse(response.body)['meta'].to_json }
 end
 
-RSpec.shared_examples 'a correct index request' do
-  include_examples 'a response with status', :ok
-  include_examples 'a response with quantity', 1
+RSpec.shared_examples 'a correct index request' do |opts={}|
+  opts.reverse_merge! status: :ok, quantity: 1
+  include_examples 'a response with status', opts[:status]
+  include_examples 'a response with quantity', opts[:quantity]
 
   context 'response type' do
     include_context 'response array first type'
@@ -124,7 +134,7 @@ end
 RSpec.shared_examples 'a response with quantity' do |quantity|
   context 'response quantity' do
     subject{ response.body }
-    it{ is_expected.to have_json_size(1).at_path('data') }
+    it{ is_expected.to have_json_size(quantity).at_path('data') }
   end
 end
 
