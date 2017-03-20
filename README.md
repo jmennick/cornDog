@@ -3,6 +3,13 @@
 
 A web-based accounting software.
 
+### Account Access
+The account info that works is as follows:
+```
+username: jdoe@corndog.herokuapp.com
+password: 12345
+```
+
 ### Development Dependencies
 In order to install, you will need the following:
 * [Docker](https://www.docker.com): used to spin up supporting services
