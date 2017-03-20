@@ -1,12 +1,30 @@
 # Corn Dog
-[ ![Codeship Status for jmennick/cornDog](https://app.codeship.com/projects/94d87570-cafa-0134-24ca-36c4adfc6db3/status?branch=master)](https://app.codeship.com/projects/199789)
-
 A web-based accounting software.
 
 ### Account Access
 The account info that works is as follows:
+
+###### No Access User
 ```
 username: jdoe@corndog.herokuapp.com
+password: 12345
+```
+
+###### Accountant User
+```
+username: accountant@corndog.com
+password: 12345
+```
+
+###### Manager User
+```
+username: manager@corndog.com
+password: 12345
+```
+
+###### Admin User
+```
+username: admin@corndog.com
 password: 12345
 ```
 
