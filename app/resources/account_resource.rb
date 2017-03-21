@@ -11,6 +11,9 @@ class AccountResource < ApplicationResource
   attribute :initial_balance
   attribute :ledger_balance
 
+  has_many :ledger_entries
+  has_many :journal_entries
+
   filter :active
 
   def kind_human
