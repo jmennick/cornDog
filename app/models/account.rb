@@ -84,14 +84,6 @@ class Account < ApplicationRecord
   has_many :ledger_entries, through: :journal_entry_items
 
   def ledger_balance
-    most_recent_ledger_entry = ledger_entries.most_recent.first
-    # if there isn't a most recent ledger entry, defer to initial balance
-    return initial_balance if most_recent_ledger_entry.nil?
-
-    case normal_side_physical
-    when :left then most_recent_ledger_entry.left_normalized_amount
-    when :right then most_recent_ledger_entry.right_normalized_amount
-    else raise "incorrect normal side \"#{normal_side_physical}\""
-    end
+    ledger_entries.most_recent.pluck(:balance).first || initial_balance
   end
 end
