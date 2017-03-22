@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   scope 'actions', format: :json do
     post :post_journal_entry, to: 'post_journal_entry#post'
+    post :reject_journal_entry, to: 'reject_journal_entry#reject'
   end
 
   namespace :pdf, format: :pdf do

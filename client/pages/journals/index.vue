@@ -5,8 +5,8 @@
       <template slot="created_by" scope="j">
         {{j.item.created_by.name}}
       </template>
-      <template slot="status" scope="j">
-        <span class="badge badge-pill badge-info">{{j.item.status}}</span>
+      <template slot="state" scope="j">
+        <div :class="['badge', 'badge-pill', stateBadgeColor(j.item.state)]">{{titleize(j.item.state)}}</div>
       </template>
       <template slot="actions" scope="j">
         <action-button-bar :actions="actions(j.item)" right>
@@ -20,6 +20,7 @@ import {mapState} from 'vuex'
 import ResourceList from '~components/ResourceList'
 import JournalEntryForm from '~components/JournalEntryForm'
 import ActionButtonBar from '~components/ActionButtonBar'
+import {titleize} from 'inflection'
 
 export default {
   components: {
@@ -66,12 +67,14 @@ export default {
         }
       ]
     },
-    post(journalEntry) {
-      this.$store.commit('resourceAction/showAction', {
-        name: 'post',
-        resource: 'journal_entry'
-      })
-    }
+    stateBadgeColor: (state)=> {
+      switch(state) {
+        case 'posted': return 'badge-success'
+        case 'rejected': return 'badge-danger'
+        default: return 'badge-default'
+      }
+    },
+    titleize: titleize
   }
 }
 </script>

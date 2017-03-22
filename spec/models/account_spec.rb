@@ -166,6 +166,7 @@ RSpec.describe Account, type: :model do
   context '#ledger_balance' do
     include_context 'ledger_entries test'
     subject{account.ledger_balance}
-    it{is_expected.to eq(account.ledger_entries.most_recent.first.journal_entry_item.left_normalized_amount)}
+    let(:actual){account.ledger_entries.most_recent.first.balance}
+    it{is_expected.to eq(actual)}
   end
 end

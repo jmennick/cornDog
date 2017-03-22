@@ -13,6 +13,9 @@ class PostJournalEntryJob < ApplicationJob
       # (done this way so it happens in one query)
       # (it's far more efficient this way)
       LedgerEntry.create!(ledger_entries)
+      #TODO: record who did this
+      #TODO: record when this was done
+      #TODO: record any comment from the user
       # mark the journal entry as "posted"
       journal_entry.update!(state: :posted)
     end

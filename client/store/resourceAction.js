@@ -84,8 +84,20 @@ export const actions = {
   [execute]: async ({commit, state})=> {
     commit(beginExecuting)
     try {
+      let correctStorage
+      if (typeof(Storage) !== "undefined") {
+        correctStorage = localStorage
+      } else {
+        correctStorage = sessionStorage
+      }
+      const authToken = correctStorage.getItem('authToken')
       const url = `${process.env.apiUrl}/actions/${state.name}`
-      const {data} = await post(url, state.data)
+      const {data} = await post(url, state.data, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': `Bearer ${authToken}`
+        }
+      })
       commit(executeSuccessful, data)
     } catch(err) {
       commit(executionError, err.toString())

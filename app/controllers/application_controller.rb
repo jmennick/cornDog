@@ -18,9 +18,9 @@ class ApplicationController < ActionController::API
     }
   end
 
-  private
-
-  def __resource_name
-    self.class.name.underscore.sub(/_controller$/, '').singularize
-  end
+  # private
+  #
+  # def __resource_name
+  #   self.class.name.underscore.sub(/_controller$/, '').singularize
+  # end
 end
