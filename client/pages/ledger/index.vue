@@ -3,7 +3,30 @@
     <div slot="form">
       <account-form />
     </div>
-    <b-table stripped sortable :items="accounts" :fields="fields">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th class="text-right">Balance</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="a in accounts">
+          <td>
+            <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
+              {{a.name}}
+            </nuxt-link>
+          </td>
+          <td class="text-right">{{currencyFormatter(a.ledger_balance)}}</td>
+          <td>
+            <action-button-bar :actions="actions(a)">
+            </action-button-bar>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <b-table stripped sortable :items="accounts" :fields="fields">
       <template slot="actions" scope="a">
         <action-button-bar :actions="actions(a.item)" right>
         </action-button-bar>
@@ -13,7 +36,7 @@
           {{currencyFormatter(a.item.ledger_balance)}}
         </span>
       </template>
-    </b-table>
+    </b-table> -->
   </resource-list>
 </template>
 
@@ -33,7 +56,10 @@
     },
     computed: {
       ...mapState({
-        accounts: ({resource})=> resource.data
+        accounts: ({resource})=> resource.data.filter( (a)=> {
+          //NOTE: this is temporary! should do this server-side eventually
+          return parseFloat(a.ledger_balance) != 0.0
+        })
       })
     },
     methods: {
@@ -51,7 +77,11 @@
       },
       currencyFormatter: (val)=> {
         if (val == 0 || !!val) {
-          return format('%0.2f', val)
+          if (val >= 0) {
+            return format('%0.2f', val)
+          } else {
+            return format('(%0.2f)', -val)
+          }
         } else {
           return null
         }
@@ -61,26 +91,20 @@
       await store.dispatch('resource/setup', {
         name: 'account',
         title: 'General Ledger',
-        query: {include: 'created_by'},
-        newResource: {
-          active: false,
-          code: null,
-          description: null,
-          kind: 'current_asset',
-          created_by_id: 1,
-          initial_balance: 0.0,
-          name: null,
-          order: null,
-          type: 'accounts'
+        query: {
+          include: 'created_by',
+          filter: {
+            // nonzero_ledger_balance: true
+          }
         }
       })
     },
     data: ()=> ({
-      fields: {
-        name: {label: 'Account', sortable: true},
-        ledger_balance: {label: 'Balance', sortable: true},
-        actions: {sortable: false}
-      }
+      // fields: {
+      //   name: {label: 'Account', sortable: true},
+      //   ledger_balance: {label: 'Balance', sortable: true},
+      //   actions: {sortable: false}
+      // }
     })
   }
 </script>

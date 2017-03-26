@@ -2,9 +2,7 @@
   <resource-list @saved="handleSaved">
     <b-table stripped :items="users" :fields="fields" class="no-bottom-margin">
       <template slot="role" scope="x">
-        <div class="badge badge-pill badge-info">
-          {{titleize(x.item.role)}}
-        </div>
+        {{titleize(x.item.role)}}
       </template>
       <template slot="actions" scope="x">
         <action-button-bar :actions="actions(x.item)" right>

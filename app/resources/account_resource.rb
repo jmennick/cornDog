@@ -15,6 +15,9 @@ class AccountResource < ApplicationResource
   has_many :journal_entries
 
   filter :active
+  # filter :nonzero_ledger_balance, apply: ->(records, value, _options) {
+  #   records.nonzero_ledger_balance
+  # }
 
   def kind_human
     kind.titleize

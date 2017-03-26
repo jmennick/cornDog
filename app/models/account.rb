@@ -86,4 +86,8 @@ class Account < ApplicationRecord
   def ledger_balance
     ledger_entries.most_recent.pluck(:balance).first || initial_balance
   end
+
+  # scope :nonzero_ledger_balance, ->{
+  #   joins(:ledger_entries).where('COUNT(ledger_entries) > 0')
+  # }
 end
