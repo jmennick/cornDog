@@ -41,6 +41,8 @@ export default {
   async fetch({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'account',
+      listRouteName: 'index',
+      showRouteBase: '',
       title: 'Chart of Accounts',
       query: {
         filter: {active: true},

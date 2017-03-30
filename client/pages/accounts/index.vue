@@ -51,7 +51,7 @@ export default {
     },
     ...mapMutations('resourceForm', {showModal}),
     editAccount(account) {
-      this.showModal(account)
+      this.showModal(account, 'edit')
     },
     handleSaved(event) {
       this.$router.push({name: 'accounts-id', params: {id: event.id}})

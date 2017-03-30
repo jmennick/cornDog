@@ -7,7 +7,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "babel-loader": "6.3.1",
-    "bootstrap-vue": "^0.9.2",
+    "bootstrap-vue": "^0.10.2",
     "devour-client": "^1.4.1",
     "format": "0.2.2",
     "inflection": "^1.12.0",

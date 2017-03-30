@@ -1,5 +1,5 @@
 <template>
-  <resource-detail no-add no-refresh return-location="/">
+  <resource-detail>
     <div slot="form">
       <account-form/>
     </div>
@@ -58,6 +58,9 @@
     async fetch({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
+        listRouteName: 'index',
+        backButtonTitle: 'CoA',
+        showRouteBase: '',
         id: params.id,
         query: {include: 'created_by'},
         newResource: {

@@ -27,9 +27,11 @@ import Modal from '~components/Modal'
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
 
 import {
-  modalShown, cancelAction, viewStateIsExecuting, execute, humanActionName,
-  confirmName, confirmIcon, confirmColor
+  modalShown, cancelAction, viewStateIsExecuting, viewStateIsSuccess, execute,
+  humanActionName, confirmName, confirmIcon, confirmColor
 } from '~store/resourceAction'
+
+import {fetch} from '~store/resource'
 
 export default {
   props: {
@@ -44,11 +46,12 @@ export default {
   computed: {
     ...mapState({
       data: ({resourceAction})=> resourceAction.data,
-      actionName: ({resourceAction})=> resourceAction.name
+      actionName: ({resourceAction})=> resourceAction.name,
+      refreshOnSuccess: ({resourceAction})=> resourceAction.refreshOnSuccess
     }),
     ...mapGetters('resourceAction', {
       modalShown, viewStateIsExecuting, humanActionName,
-      confirmName, confirmIcon, confirmColor
+      confirmName, confirmIcon, confirmColor, viewStateIsSuccess
     }),
     title() {
       return this.humanActionName
@@ -56,7 +59,15 @@ export default {
   },
   methods: {
     ...mapMutations('resourceAction', {cancelAction}),
-    ...mapActions('resourceAction', {execute})
+    ...mapActions('resourceAction', {execute}),
+    ...mapActions('resource', {fetch})
+  },
+  watch: {
+    viewStateIsSuccess(newValue, oldValue) {
+      if ((newValue == true) && (oldValue == false) && this.refreshOnSuccess) {
+        this.fetch()
+      }
+    }
   }
 }
 </script>

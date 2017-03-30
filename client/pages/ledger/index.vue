@@ -26,17 +26,6 @@
         </tr>
       </tbody>
     </table>
-    <!-- <b-table stripped sortable :items="accounts" :fields="fields">
-      <template slot="actions" scope="a">
-        <action-button-bar :actions="actions(a.item)" right>
-        </action-button-bar>
-      </template>
-      <template slot="ledger_balance" scope="a">
-        <span class="text-right">
-          {{currencyFormatter(a.item.ledger_balance)}}
-        </span>
-      </template>
-    </b-table> -->
   </resource-list>
 </template>
 
@@ -90,6 +79,7 @@
     async fetch({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
+        listRouteName: 'ledger',
         title: 'General Ledger',
         query: {
           include: 'created_by',
@@ -98,13 +88,6 @@
           }
         }
       })
-    },
-    data: ()=> ({
-      // fields: {
-      //   name: {label: 'Account', sortable: true},
-      //   ledger_balance: {label: 'Balance', sortable: true},
-      //   actions: {sortable: false}
-      // }
-    })
+    }
   }
 </script>

@@ -1,10 +1,13 @@
 <template>
-  <b-button-group size="sm" :class="[showDropdown?'show':'']">
+  <b-button-group :class="[showDropdown?'show':'']">
     <template v-for="a in shownActions">
       <slot :name="a.name">
-        <b-button variant="secondary" :to="a.to" @click="clickAction(a)">
-          <icon :name="a.icon"></icon>
-        </b-button>
+        <!-- FIXME: b-tooltip is causing a bug with routing -->
+        <!-- <b-tooltip :content="titleForAction(a)"> -->
+          <b-button variant="secondary" size="sm" :to="a.to" @click="clickAction(a)">
+            <icon :name="a.icon"></icon>
+          </b-button>
+        <!-- </b-tooltip> -->
       </slot>
     </template>
     <b-button variant="secondary" class="dropdown-toggle dropdown-toggle-split" v-if="burriedActions.length" @click="toggleDropdown">
@@ -19,6 +22,8 @@
 </template>
 
 <script>
+import {titleize} from 'inflection'
+
 export default {
   props: {
     actions: {
@@ -43,7 +48,8 @@ export default {
     burriedActions: ({actions, sizeLimit})=> actions.slice(sizeLimit)
   },
   data: ()=> ({
-    showDropdown: false
+    showDropdown: false,
+    actionsPrivate: []
   }),
   mounted() {
     if (typeof document !== 'undefined') {
@@ -74,7 +80,9 @@ export default {
     },
     clickOut() {
       this.setShowDropdown(false);
-    }
+    },
+    titleForAction: ({name})=> titleize(name),
+    titleize
   }
 }
 </script>

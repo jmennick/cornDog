@@ -2,10 +2,10 @@
   <div>
     <toolbar-top :title="toolbarTitle">
       <div slot="left">
-        <resource-refresh-btn v-if="!noRefresh"/>
-        <nuxt-link class="return-location" v-else :to="returnLocation">
+        <!-- <resource-refresh-btn v-if="!noRefresh"/> -->
+        <nuxt-link class="return-location" :to="listRoute">
           <b-button variant="theme">
-            <icon name="arrow-left"></icon> Return
+            <icon name="arrow-left"></icon> {{backButtonTitle}}
           </b-button>
         </nuxt-link>
       </div>
@@ -34,13 +34,17 @@
 
 <script>
 import {mapState, mapGetters} from 'vuex'
+import resourceBaseMixin from '~assets/js/mixins/resourceBaseMixin'
 import ToolbarTop from '~components/ToolbarTop'
 import ResourceFormModal from '~components/ResourceFormModal'
 import ResourceActionModal from '~components/ResourceActionModal'
 import ResourceRefreshBtn from '~components/ResourceRefreshBtn'
 import ResourceLoadingFailed from '~components/ResourceLoadingFailed'
 import ResourceAddBtn from '~components/ResourceAddBtn'
-import {isSuccess, isLoading, isFailed, labelSingular} from '~store/resource'
+
+import {
+  isSuccess, isLoading, isFailed, labelSingular, listRoute
+} from '~store/resource'
 
 export default {
   props: {
@@ -48,19 +52,16 @@ export default {
       type: Boolean,
       default: ()=> false
     },
-    noRefresh: {
-      type: Boolean,
-      default: ()=> false
-    },
-    returnLocation: {
-      type: String,
-      default: '/accounts'
-    },
+    // returnLocation: {
+    //   type: String,
+    //   default: '/accounts'
+    // },
     title: {
       type: [String, null],
       default: null
     }
   },
+  mixins: [resourceBaseMixin],
   components: {
     ToolbarTop,
     ResourceFormModal,
@@ -74,13 +75,16 @@ export default {
       resourceName: ({resource})=> resource.name,
       actionName: ({resourceAction})=> resourceAction.name,
       titleBase: ({resource})=> resource.title,
-      data: ({resource})=> resource.data
+      data: ({resource})=> resource.data,
+      backButtonTitle: ({resource})=> resource.backButtonTitle,
+      formParadigm: ({resourceForm})=> resourceForm.paradigm
     }),
     ...mapGetters('resource', {
       isSuccess,
       isLoading,
       isFailed,
-      labelSingular
+      labelSingular,
+      listRoute
     }),
     resourceFormTitle() {
       return `Save ${this.labelSingular}`

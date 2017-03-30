@@ -19,7 +19,7 @@ export default {
   methods: {
     ...mapMutations('resourceForm', {showModal}),
     addNew() {
-      this.showModal(this.newResource)
+      this.showModal(this.newResource, 'add')
     }
   }
 }

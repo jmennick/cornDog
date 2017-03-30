@@ -1,4 +1,5 @@
 import apiClient from '~plugins/apiClient'
+import {cloneDeep, isNull} from 'lodash'
 
 export const VIEW_STATE_HIDDEN = 'hidden'
 export const VIEW_STATE_SHOWN = 'shown'
@@ -25,23 +26,22 @@ export const disableSaving = 'disableSaving'
 
 export const mutations = {
   [showModal](state, data) {
-    let _data = {}; Object.assign(_data, data)
     state.viewState = VIEW_STATE_SHOWN
-    state.modalData = _data
+    state.modalData = cloneDeep(data)
   },
   [beginSaving](state) {
     state.viewState = VIEW_STATE_SAVING
   },
   [saveError](state, error) {
     state.viewState = VIEW_STATE_ERROR
-    state.error = error
+    state.error = cloneDeep(error)
   },
   [saveData](state, data) {
-    state.modalData = data
+    state.modalData = cloneDeep(data)
   },
   [saveSuccessful](state, data) {
     state.viewState = VIEW_STATE_SUCCESS
-    state.resultData = data
+    state.resultData = cloneDeep(data)
   },
   [closeModal](state) {
     state.viewState = VIEW_STATE_HIDDEN
@@ -77,6 +77,8 @@ export const actions = {
   [save]: async ({commit, state}, resourceName)=> {
     commit(beginSaving)
     try {
+      // const meth = isNull(state.modalData.id)?apiClient.create:apiClient.update
+      // const data = await meth(resourceName, state.modalData)
       let data
       if (state.modalData.id == null) {
         data = await apiClient.create(resourceName, state.modalData)

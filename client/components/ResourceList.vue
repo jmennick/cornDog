@@ -17,9 +17,9 @@
       <slot v-if="isSuccess"></slot>
     </div>
     <b-navbar type="inverse" variant="chrome" class="fixed-bottom d-flex flex-row align-items-center">
-      <b-button variant="chrome">
+      <!-- <b-button variant="chrome">
         Blah
-      </b-button>
+      </b-button> -->
       <!-- <b-pagination class="p-2 mr-auto no-padding" :size="paginationSize" :total-rows="100" :per-page="10" v-model="currentPage"></b-pagination> -->
       <!-- <b-button variant="inverse" class="p-2 ml-auto">Blah</b-button> -->
       <!-- <b-dropdown text="Reports" variant="chrome" class="p-2 ml-auto no-padding" dropup right>
@@ -33,6 +33,7 @@
 
 <script>
 import {mapState, mapGetters} from 'vuex'
+import resourceBaseMixin from '~assets/js/mixins/resourceBaseMixin'
 import ToolbarTop from '~components/ToolbarTop'
 import ResourceFormModal from '~components/ResourceFormModal'
 import ResourceActionModal from '~components/ResourceActionModal'
@@ -51,6 +52,7 @@ export default {
       default: ()=> false
     }
   },
+  mixins: [resourceBaseMixin],
   components: {
     ToolbarTop,
     ResourceFormModal,
@@ -91,13 +93,13 @@ export default {
     // paginationSize() {
     //   return this.showSidebar ? 'sm' : 'md'
     // }
-  },
-  watch: {
-    viewStateIsSuccess(newValue) {
-      if (newValue == true) {
-        this.$emit('saved', this.saveResult)
-      }
-    }
   }
+  // watch: {
+  //   viewStateIsSuccess(newValue) {
+  //     if (newValue == true) {
+  //       this.$emit('saved', this.saveResult)
+  //     }
+  //   }
+  // }
 }
 </script>

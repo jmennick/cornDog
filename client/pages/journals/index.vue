@@ -36,6 +36,7 @@ export default {
   async fetch({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'journal_entry',
+      listRouteName: 'journals',
       query: {include: 'created_by'},
       newResource: {
         date: null,
@@ -73,6 +74,9 @@ export default {
         case 'rejected': return 'badge-danger'
         default: return 'badge-default'
       }
+    },
+    handleSaved(event) {
+      this.$router.push({name: 'journals-id', params: {id: event.id}})
     },
     titleize: titleize
   }

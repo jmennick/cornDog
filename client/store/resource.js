@@ -1,6 +1,7 @@
 import apiClient from '~plugins/apiClient'
-import {titleize, pluralize} from 'inflection'
+import {titleize, pluralize, tableize} from 'inflection'
 import {result} from 'underscore'
+import {defaultTo, isNull} from 'lodash'
 
 export const VIEW_STATE_LOADING = 'loading'
 export const VIEW_STATE_SUCCESS = 'success'
@@ -18,7 +19,11 @@ export const state = {
   baseId: null,
   title: '',
   query: {},
-  newResource: {}
+  newResource: {},
+  showRouteArticle: null,
+  listRouteName: null,
+  showRouteBase: null,
+  backButtonTitle: null
 }
 
 export const beginLoading = 'beginLoading'
@@ -43,22 +48,21 @@ export const mutations = {
     state.viewState = VIEW_STATE_FAILED
     state.error = error
   },
-  [resourceSetup](state, {name, id=null, baseName=null, baseId=null, query={}, newResource={}, title=null}) {
+  [resourceSetup](state, {name, id=null, baseName=null, baseId=null, query={}, newResource={}, title=null, showRouteArticle=null, listRouteName=null, showRouteBase=null, backButtonTitle=null}) {
     state.name = name
+    state.data = []
     state.selectedId = id
     state.baseName = baseName
     state.baseId = baseId
     state.query = query
     state.newResource = newResource
-    if (title == null) {
-      if (id == null) {
-        state.title = pluralize(titleize(name))
-      } else {
-        state.title = titleize(name)
-      }
-    } else {
-      state.title = title
-    }
+    state.showRouteArticle = defaultTo(showRouteArticle, 'id')
+    state.listRouteName = defaultTo(listRouteName, pluralize(tableize(name)))
+    state.showRouteBase = defaultTo(showRouteBase, state.listRouteName)
+    state.backButtonTitle = defaultTo(backButtonTitle, titleize(state.listRouteName))
+
+    const defaultTitle = isNull(id) ? pluralize(titleize(name)) : titleize(name)
+    state.title = defaultTo(title, defaultTitle)
   }
 }
 
@@ -68,6 +72,9 @@ export const isFailed = 'isFailed'
 export const labelSingular = 'labelSingular'
 export const labelPlural = 'labelPlural'
 export const currentUser = 'currentUser'
+export const showRouteName = 'showRouteName'
+export const showRoute = 'showRoute'
+export const listRoute = 'listRoute'
 
 export const getters = {
   [isLoading]: ({viewState})=> viewState == VIEW_STATE_LOADING,
@@ -79,15 +86,27 @@ export const getters = {
     name: '???',
     email: '???',
     role: 'no_access'
-  })
+  }),
+  [showRouteName]: ({showRouteBase, showRouteArticle})=> {
+    return `${showRouteBase}${showRouteBase.length?'-':''}${showRouteArticle}`
+  },
+  [showRoute]: ({showRouteArticle, selectedId}, {showRouteName})=> ({
+    name: showRouteName,
+    params: {[showRouteArticle]: selectedId}
+  }),
+  [listRoute]: ({listRouteName})=> {
+    return {
+      name: listRouteName
+    }
+  }
 }
 
 export const setup = 'setup'
 export const fetch = 'fetch'
 
 export const actions = {
-  [setup]: async({commit, dispatch}, {name, id=null, baseName=null, baseId=null, query={}, newResource={}, title=null})=> {
-    commit(resourceSetup, {name, id, baseName, baseId, query, newResource, title})
+  [setup]: async({commit, dispatch}, {name, id=null, baseName=null, baseId=null, query={}, newResource={}, title=null, showRouteArticle=null, listRouteName=null, showRouteBase=null, backButtonTitle=null})=> {
+    commit(resourceSetup, {name, id, baseName, baseId, query, newResource, title, showRouteArticle, listRouteName, showRouteBase, backButtonTitle})
     await dispatch(fetch)
   },
   [fetch]: async ({commit, state})=> {

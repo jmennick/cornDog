@@ -1,5 +1,5 @@
 <template>
-  <resource-detail no-add no-refresh return-location="/ledger" :title="account?account.name:''">
+  <resource-detail :title="account?account.name:''">
     <small slot="title-left">{{account?account.code:''}}</small>
     <div slot="form">
       <account-form/>
@@ -27,18 +27,13 @@
     },
     computed: {
       ...mapState({
-        // ledgerEntries: ({resource}) => resource.data
         account: ({resource})=> resource.selected
       })
     },
     async fetch({params, store}) {
-      // await store.dispatch('resource/setup', {
-      //   name: 'ledger_entry',
-      //   title: '',
-      //   query: {filter: {account_id: params.id}}
-      // })
       await store.dispatch('resource/setup', {
         name: 'account',
+        listRouteName: 'ledger',
         id: params.id,
         title: '',
         query: {include: 'ledger_entries'}

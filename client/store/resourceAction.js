@@ -15,7 +15,8 @@ export const state = {
   result: null,
   confirmCustomName: null,
   confirmCustomIcon: null,
-  confirmCustomColor: null
+  confirmCustomColor: null,
+  refreshOnSuccess: true
 }
 
 export const showAction = 'showAction'
@@ -26,7 +27,7 @@ export const cancelAction = 'cancelAction'
 export const saveData = 'saveData'
 
 export const mutations = {
-  [showAction](state, {name, data={}, confirmName=null, confirmIcon=null, confirmColor=null}) {
+  [showAction](state, {name, data={}, confirmName=null, confirmIcon=null, confirmColor=null, refreshOnSuccess=true}) {
     let _data = {}; Object.assign(_data, data)
     state.viewState = VIEW_STATE_SHOWN
     state.data = _data
@@ -34,6 +35,7 @@ export const mutations = {
     state.confirmCustomName = confirmName
     state.confirmCustomIcon = confirmIcon
     state.confirmCustomColor = confirmColor
+    state.refreshOnSuccess = refreshOnSuccess
   },
   [beginExecuting](state) {
     state.viewState = VIEW_STATE_EXECUTING

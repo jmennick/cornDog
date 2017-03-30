@@ -23,10 +23,13 @@
 <script>
 import Modal from '~components/Modal'
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
+import {isNull} from 'lodash'
+
+import {showRouteName, fetch} from '~store/resource'
 
 import {
   modalShown, closeModal, beginSaving, save,
-  viewStateIsSaving, viewStateIsError
+  viewStateIsSaving, viewStateIsError, viewStateIsSuccess
 } from '~store/resourceForm'
 
 export default {
@@ -50,11 +53,14 @@ export default {
   computed: {
     ...mapState({
       modalData: ({resourceForm})=> resourceForm.modalData,
+      resultData: ({resourceForm})=> resourceForm.resultData,
       canSave: ({resourceForm})=> resourceForm.canSave,
-      error: ({resourceForm})=> resourceForm.error
+      error: ({resourceForm})=> resourceForm.error,
+      paradigm: ({resourceForm})=> resourceForm.paradigm,
+      showRouteArticle: ({resource})=> resource.showRouteArticle
     }),
     ...mapGetters('resourceForm', {
-      modalShown, viewStateIsSaving, viewStateIsError
+      modalShown, viewStateIsSaving, viewStateIsError, viewStateIsSuccess
     }),
     saveButtonIsDisabled() {
       return this.viewStateIsSaving || !this.canSave
@@ -62,7 +68,8 @@ export default {
   },
   methods: {
     ...mapMutations('resourceForm', {closeModal, beginSaving}),
-    ...mapActions('resourceForm', {save})
+    ...mapActions('resourceForm', {save}),
+    ...mapActions('resource', {fetch})
   }
 }
 </script>

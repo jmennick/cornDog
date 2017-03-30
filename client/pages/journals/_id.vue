@@ -1,5 +1,5 @@
 <template>
-  <resource-detail no-refresh return-location="/journals" v-if="!!journalEntry">
+  <resource-detail v-if="!!journalEntry">
     <journal-entry-form slot="form"/>
     <post-journal-entry-form slot="post_journal_entry"/>
     <post-journal-entry-form slot="reject_journal_entry"/>
@@ -106,6 +106,7 @@ export default {
   async fetch({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'journal_entry',
+      listRouteName: 'journals',
       id: params.id,
       query: {include: 'created_by'},
       newResource: {
