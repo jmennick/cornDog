@@ -23,8 +23,8 @@ group :dev do
     watch(%r{^spec/(support|factories)/})
     watch(%r{^spec/factory.rb})
 
-    callback(:start_begin) { `docker-compose up -d` }
-    callback(:stop_end) { `docker-compose stop` }
+    # callback(:start_begin) { `docker-compose up -d` }
+    # callback(:stop_end) { `docker-compose stop` }
     callback(:stop_end) { `spring stop` }
   end
 
