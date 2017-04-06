@@ -44,7 +44,17 @@
       </tfoot>
     </table>
     <div class="container-fluid" style="margin-bottom: 15px">
+      <!-- <b-form-fieldset v-if="bottomErrorMessage" :state="bottomErrorMessage.state" :description="bottomErrorMessage.description" :feedback="bottomErrorMessage.feedback">
+      </b-form-fieldset> -->
       <b-button variant="success" @click="addItem">Add Item</b-button>
+      <br /><br />
+      <div v-for="message in bottomErrorMessages" :class="['form-group', message.state]">
+        <div v-if="message.feedback" class="form-control-feedback">
+          <icon :name="message.icon"></icon>&nbsp;
+          <span v-html="message.feedback"></span>
+        </div>
+        <small v-if="message.description" class="form-text text-muted" v-html="message.description"></small>
+      </div>
     </div>
   </div>
 </template>
@@ -115,6 +125,49 @@ export default {
     },
     onlyOneItemLeft() {
       return this.journalEntry.items.length==1
+    },
+    bottomErrorMessages() {
+      let messages = []
+      if (!this.journalEntry.date) {
+        messages.push({
+          state: 'has-danger',
+          icon: 'times',
+          feedback: 'No Date Provided',
+          description: 'All journal entries require a date be provided.'
+        })
+      }
+      switch (this.journalEntry.items.length) {
+        case 0:
+          messages.push({
+            state: 'has-danger',
+            icon: 'times',
+            feedback: 'No Items Provided',
+            description: 'Please add an item via the "Add Item" button.'
+          })
+        case 1:
+          messages.push({
+            state: 'has-danger',
+            icon: 'times',
+            feedback: 'Single Item Provided',
+            description: 'A single item cannot be balanced. Please add another item via the "Add Item" button.'
+          })
+      }
+      if (!this.journalEntry.items.every(this.itemIsValid)) {
+        messages.push({
+          state: 'has-danger',
+          icon: 'times',
+          feedback: 'Invalid Items',
+          description: 'One or more of the items in this journal entry are invalid. Please ensure each item has an account and a debit or credit value.'
+        })
+      } else if (!this.isBalanced) {
+        messages.push({
+          state: 'has-danger',
+          icon: 'times',
+          feedback: 'Unbalanced Items',
+          description: 'The items in this journal entry do not add up correctly. Please correct the items so they add up correctly.'
+        })
+      }
+      return messages
     }
   },
   beforeCreate() {
