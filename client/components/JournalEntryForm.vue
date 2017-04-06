@@ -24,10 +24,10 @@
             </b-form-select>
           </td>
           <td :class="[(!item.left_value && !itemIsRight(item))?'has-danger':null]">
-            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item) && !itemIsLeft(item)"></b-form-input>
+            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter v-model="item.left_value" @input="updateItem($index,'left_value',$event)" :disabled="itemIsRight(item) && !itemIsLeft(item)"></b-form-input>
           </td>
           <td :class="[(!item.right_value && !itemIsLeft(item))?'has-danger':null]">
-            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter style="width: 130px" v-model="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item) && !itemIsRight(item)"></b-form-input>
+            <b-form-input type="number" class="text-right float-right" :formatter="currencyFormatter" lazy-formatter v-model="item.right_value" @input="updateItem($index,'right_value',$event)" :disabled="itemIsLeft(item) && !itemIsRight(item)"></b-form-input>
           </td>
           <td>
             <b-button variant="danger" @click="removeItem($index)" :disabled="onlyOneItemLeft"><icon name="remove"></icon></b-button>
