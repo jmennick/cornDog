@@ -58,8 +58,14 @@ RSpec.describe JournalEntry, type: :request do
         include_context 'included'
         let(:created_by){ resource.created_by }
 
-        let(:attrs){{name: created_by.name, email: created_by.email}}
-        it{ is_expected.to be_json_eql(attrs.to_json).at_path('0/attributes') }
+        let(:cb_name){ created_by.name.to_json }
+        it{ is_expected.to be_json_eql(cb_name).at_path('0/attributes/name') }
+
+        let(:cb_email){ created_by.email.to_json }
+        it{ is_expected.to be_json_eql(cb_email).at_path('0/attributes/email') }
+
+        let(:cb_role){ created_by.role.to_json }
+        it{ is_expected.to be_json_eql(cb_role).at_path('0/attributes/role') }
 
         let(:id){ created_by.id.to_s }
         it{ is_expected.to be_json_eql(id.to_json).at_path('0/id') }
