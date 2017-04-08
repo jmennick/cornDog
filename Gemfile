@@ -35,6 +35,9 @@ gem 'pundit-resources', '~> 1.1', '>= 1.1.1'
 # use Amazon S3 to store file uploads
 #TODO: include S3
 
+# used to track changes to records
+gem 'paper_trail', '~> 7.0'
+
 # use prawn for PDF generation
 # http://prawnpdf.org/api-docs/2.0/
 gem 'prawn', '~> 2.1.0'
