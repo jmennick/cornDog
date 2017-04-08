@@ -4,6 +4,7 @@ RSpec.describe Account, type: :model do
 
   context 'default fabricator' do
     it{is_expected.to be_valid}
+    it{is_expected.to be_versioned}
   end
 
   context '#name' do
