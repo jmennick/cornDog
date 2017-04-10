@@ -1,16 +1,19 @@
 <template>
-  <b-button-group :class="[showDropdown?'show':'']">
+  <b-button-group :class="[showDropdown?'show':'']" size="sm">
     <template v-for="a in shownActions">
       <slot :name="a.name">
         <!-- FIXME: b-tooltip is causing a bug with routing -->
         <!-- <b-tooltip :content="titleForAction(a)"> -->
-          <b-button variant="secondary" size="sm" :to="a.to" @click="clickAction(a)">
+          <b-button variant="secondary" :to="a.to" v-if="a.to">
+            <icon :name="a.icon"></icon>
+          </b-button>
+          <b-button variant="secondary" @click="clickAction(a)" v-else>
             <icon :name="a.icon"></icon>
           </b-button>
         <!-- </b-tooltip> -->
       </slot>
     </template>
-    <b-button variant="secondary" class="dropdown-toggle dropdown-toggle-split" v-if="burriedActions.length" @click="toggleDropdown">
+    <b-button variant="secondary" class="dropdown-toggle dropdown-toggle-split" v-if="burriedActions.length" @click.stop="toggleDropdown">
       <span class="sr-only">Toggle Dropdown</span>
     </b-button>
     <div :class="['dropdown-menu',right?'dropdown-menu-right':'']" v-if="showDropdown">
@@ -23,6 +26,7 @@
 
 <script>
 import {titleize} from 'inflection'
+import {defer} from 'lodash'
 
 export default {
   props: {
@@ -65,24 +69,21 @@ export default {
       }
     },
     toggleDropdown() {
-      this.setShowDropdown(!this.showDropdown)
-    },
-    setShowDropdown(value) {
-      if (this.showDropdown === value) {
-        return;
-      } // Avoid duplicated emits
-      this.showDropdown = value;
-      if (this.showDropdown) {
-        this.$emit('dropdown-shown');
-      } else {
-        this.$emit('dropdown-hidden');
-      }
+      this.showDropdown = !this.showDropdown
     },
     clickOut() {
-      this.setShowDropdown(false);
+      this.showDropdown = false
     },
     titleForAction: ({name})=> titleize(name),
     titleize
+  },
+  watch: {
+    showDropdown(newValue, oldValue) {
+      if (newValue == oldValue) {
+        return
+      }
+      this.$emit(newValue?'dropdown-shown':'dropdown-hidden')
+    }
   }
 }
 </script>
