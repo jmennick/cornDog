@@ -25,15 +25,6 @@
       <b-form-fieldset label="Description" horizontal>
         <b-form-input v-model="description" type="text" placeholder="Description"></b-form-input>
       </b-form-fieldset>
-      <b-form-fieldset label="Active" horizontal>
-        <!-- <b-form-checkbox v-model="active" :_value="true">Active</b-form-checkbox> -->
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" v-model="active">
-            Active
-          </label>
-        </div>
-      </b-form-fieldset>
     </form>
   </div>
 </template>

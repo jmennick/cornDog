@@ -12,6 +12,12 @@
         <span v-else-if="x.item.event=='reject'">
           <span class="text-danger"><icon name="times"></icon> Reject</span>
         </span>
+        <span v-else-if="x.item.event=='activate'">
+          <span class="text-success"><icon name="thumbs-up"></icon> Activate</span>
+        </span>
+        <span v-else-if="x.item.event=='deactivate'">
+          <span class="text-danger"><icon name="thumbs-down"></icon> Deactivate</span>
+        </span>
         <span v-else>
           {{titleize(x.item.event)}}
         </span>

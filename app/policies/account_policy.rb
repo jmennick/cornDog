@@ -29,4 +29,12 @@ class AccountPolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def activate?
+    user.admin?
+  end
+
+  def deactivate?
+    user.admin?
+  end
 end

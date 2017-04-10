@@ -22,6 +22,7 @@ import ResourceList from '~components/ResourceList'
 import ActionButtonBar from '~components/ActionButtonBar'
 import AccountForm from '~components/accounts/AccountForm'
 import {showModal} from '~store/resourceForm'
+import {showAction} from '~store/resourceAction'
 
 export default {
   components: {
@@ -40,16 +41,25 @@ export default {
     },
     toggleActive(account) {
       if (account.active) {
-        if (confirm('Are you sure you want to deactivate this account?')) {
-          alert('-Deactivate Account-')
-        }
+        this.showAction({
+          name: 'deactivate_account',
+          data: {id: account.id},
+          confirmName: 'Deactivate',
+          confirmIcon: 'thumbs-down',
+          confirmColor: 'danger'
+        })
       } else {
-        if (confirm('Are you sure you want to activate this account?')) {
-          alert('-Activate Account-')
-        }
+        this.showAction({
+          name: 'activate_account',
+          data: {id: account.id},
+          confirmName: 'Activate',
+          confirmIcon: 'thumbs-up',
+          confirmColor: 'success'
+        })
       }
     },
     ...mapMutations('resourceForm', {showModal}),
+    ...mapMutations('resourceAction', {showAction}),
     editAccount(account) {
       this.showModal(account, 'edit')
     },
@@ -69,6 +79,7 @@ export default {
           action: ()=> { this.editAccount(account) }
         },
         {
+          icon: account.active?'thumbs-down':'thumbs-up',
           name: account.active?'Deactivate Account':'Activate Account',
           action: ()=> { this.toggleActive(account) }
         }
@@ -87,8 +98,7 @@ export default {
         created_by_id: 1,
         initial_balance: 0.0,
         name: null,
-        order: null,
-        type: 'accounts'
+        order: null
       }
     })
   },

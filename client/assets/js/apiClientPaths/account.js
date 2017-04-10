@@ -19,7 +19,7 @@ export default (apiClient)=> {
       type: 'ledger_entries'
     }
   }, {
-    readOnly: ['kind_human', 'created_at', 'created_by', 'ledger_balance'],
+    readOnly: ['kind_human', 'created_at', 'created_by', 'ledger_balance', 'ledger_entries', 'active'],
     include: ['created_by', 'ledger_entries']
   })
 }
