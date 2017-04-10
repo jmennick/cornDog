@@ -1,6 +1,8 @@
 
 RSpec.shared_context 'a standard resource request' do |opts={}|
-  let(:type_string){ described_class.to_s.tableize }
+  let(:type_string){
+    opts.fetch(:type_string, described_class.to_s.tableize).to_s
+  }
   opts.reverse_merge! role: :accountant
   role = opts[:role]; let!(:current_user){Fabricate :user, role: role}
   let(:auth_token){
