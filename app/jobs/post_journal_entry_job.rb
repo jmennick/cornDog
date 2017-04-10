@@ -17,6 +17,7 @@ class PostJournalEntryJob < ApplicationJob
       #TODO: record when this was done
       #TODO: record any comment from the user
       # mark the journal entry as "posted"
+      journal_entry.paper_trail_event = 'post'
       journal_entry.update!(state: :posted)
     end
   end

@@ -1,4 +1,5 @@
 class JournalEntry < ApplicationRecord
+  has_paper_trail
 
   # the user who created the journal entery
   belongs_to :created_by, class_name: 'User', required: true
