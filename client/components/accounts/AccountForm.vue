@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <form>
-      <b-form-fieldset label="Name *" :state="[!name?'danger':null]" horizontal>
+      <b-form-fieldset label="Name*" :state="!name?'danger':null" horizontal>
         <b-form-input v-model="name" type="text" placeholder="Account Name"></b-form-input>
       </b-form-fieldset>
       <b-form-fieldset label="Kind" horizontal>
@@ -16,10 +16,10 @@
       <b-form-fieldset label="Initial Balance" horizontal>
         <b-form-input v-model="initial_balance" type="number" placeholder="Initial Balance"></b-form-input>
       </b-form-fieldset>
-      <b-form-fieldset label="Code" :state="[!code?'danger':null]" horizontal>
+      <b-form-fieldset label="Code*" :state="!code?'danger':null" horizontal>
         <b-form-input v-model="code" type="number" placeholder="Account Code"></b-form-input>
       </b-form-fieldset>
-      <b-form-fieldset label="Order" :state="[!order?'danger':null]" horizontal>
+      <b-form-fieldset label="Order*" :state="!order?'danger':null" horizontal>
         <b-form-input v-model="order" type="number" placeholder="Order"></b-form-input>
       </b-form-fieldset>
       <b-form-fieldset label="Description" horizontal>
