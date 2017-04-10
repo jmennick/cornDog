@@ -14,12 +14,13 @@ export default (apiClient)=> {
     kind_human: '',
     initial_balance: '',
     ledger_balance: '',
+    normal_side_physical: '',
     ledger_entries: {
       jsonApi: 'hasMany',
       type: 'ledger_entries'
     }
   }, {
-    readOnly: ['kind_human', 'created_at', 'created_by', 'ledger_balance', 'ledger_entries', 'active'],
+    readOnly: ['kind_human', 'created_at', 'created_by', 'ledger_balance', 'ledger_entries', 'active', 'normal_side_physical'],
     include: ['created_by', 'ledger_entries']
   })
 }
