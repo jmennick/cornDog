@@ -11,7 +11,7 @@
         <p class="form-control-static">{{user.role}}</p>
       </b-form-fieldset>
     </form>
-  </resoure-detail>
+  </resource-detail>
 </template>
 
 <script>
