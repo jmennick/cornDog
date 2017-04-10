@@ -10,6 +10,7 @@ class AccountResource < ApplicationResource
   attribute :kind_human
   attribute :initial_balance
   attribute :ledger_balance
+  attribute :normal_side_physical
 
   has_many :ledger_entries
   has_many :journal_entries
@@ -28,10 +29,10 @@ class AccountResource < ApplicationResource
   end
 
   def self.creatable_fields(context)
-    super - %i(created_at created_by)
+    super - %i(created_at created_by active normal_side_physical)
   end
 
   def self.updatable_fields(context)
-    super - %i(created_at created_by)
+    super - %i(created_at created_by active normal_side_physical)
   end
 end

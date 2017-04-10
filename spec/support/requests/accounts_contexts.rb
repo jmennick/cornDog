@@ -21,6 +21,9 @@ RSpec.shared_examples 'correct account attributes' do
 
   let(:created_str){ DateValueFormatter.format(resource.created_at).to_json }
   it { is_expected.to be_json_eql(created_str).at_path('created_at') }
+
+  let(:nsp){ resource.normal_side_physical.to_json }
+  it{ is_expected.to be_json_eql(nsp).at_path('normal_side_physical') }
 end
 
 RSpec.shared_examples 'correct account relationships' do
