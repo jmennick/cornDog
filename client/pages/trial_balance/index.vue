@@ -84,11 +84,9 @@
           return null
         }
         return this.accounts.reduce((a, i) => {
-          if (i.normal_side_physical == 'left') {
-            const v = i.ledger_balance
+            const v = i.normal_side_physical == 'left' ? i.ledger_balance : 0
             a = !a ? 0 : a
             return (!v) ? a : (a + parseFloat(v))
-          }
         }, 0)
       },
       totalCredits() {
@@ -96,11 +94,9 @@
           return null
         }
         return this.accounts.reduce((a, i) => {
-          if (i.normal_side_physical == 'right') {
-            const v = i.ledger_balance
+          const v = i.normal_side_physical == 'right' ? i.ledger_balance : 0
             a = !a ? 0 : a
             return (!v) ? a : (a + parseFloat(v))
-          }
         }, 0)
       }
     },
