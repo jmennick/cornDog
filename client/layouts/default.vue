@@ -74,6 +74,7 @@ export default {
             this.coeModule,
             this.journalsModule,
             this.ledgerModule,
+            this.tbModule,
             this.changesModule
           ]
         case 'manager':
@@ -81,6 +82,7 @@ export default {
             this.coeModule,
             this.journalsModule,
             this.ledgerModule,
+            this.tbModule,
             this.usersModule,
             this.changesModule
           ]
@@ -90,8 +92,10 @@ export default {
             this.accountsModule,
             this.journalsModule,
             this.ledgerModule,
+            this.tbModule,
             this.usersModule,
             this.changesModule
+
           ]
         default:
           return []
@@ -101,8 +105,10 @@ export default {
     accountsModule: ()=> ({title: 'Manage Accounts', to: '/accounts'}),
     journalsModule: ()=> ({title: 'Journal Entries', to: '/journals'}),
     ledgerModule: ()=> ({title: 'General Ledger', to: '/ledger'}),
+    tbModule: ()=> ({title: 'Trial Balance', to: '/trial_balance'}),
     usersModule: ()=> ({title: 'Users', to: '/users'}),
     changesModule: ()=> ({title: 'Changes', to: '/changes'})
+
   },
   mounted() {
     this.refreshAuthState()
