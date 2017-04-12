@@ -1,46 +1,86 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
 
 # require 'fabrication'
-# require 'faker'
+require 'faker'
 
-User.find_or_create_by!(name: 'John Doe') do |u|
-  u.name = 'John Doe'
-  u.email = 'jdoe@corndog.herokuapp.com'
-  u.role = 'no_access'
-  u.password = '12345'
-end
+jdoe = User.create!(
+  name: 'John Doe',
+  email: 'jdoe@corndog.herokuapp.com',
+  role: 'no_access',
+  password: '12345'
+)
 
-User.find_or_create_by!(name: 'Joe Admin') do |u|
-  u.email = 'admin@corndog.com'
-  u.role = 'admin'
-  u.password = '12345'
-end
+admin = User.create!(
+  name: 'Joe Admin'
+  email: 'admin@corndog.com',
+  role: 'admin',
+  password: '12345'
+)
 
-User.find_or_create_by!(name: 'Joe Manager') do |u|
-  u.email = 'manager@corndog.com'
-  u.role = 'manager'
-  u.password = '12345'
-end
+manager = User.create!(
+  name: 'Joe Manager',
+  email: 'manager@corndog.com',
+  role: 'manager',
+  password: '12345'
+)
 
-User.find_or_create_by!(name: 'Joe Accountant') do |u|
-  u.email = 'accountant@corndog.com'
-  u.role = 'accountant'
-  u.password = '12345'
-end
+accountant = User.create!(
+  name: 'Joe Accountant',
+  email: 'accountant@corndog.com',
+  role: 'accountant',
+  password: '12345'
+)
 
-# acc1 = Account.first
-# acc2 = Account.second
-#
-# 10.times do
-#   je = Fabricate.build :journal_entry, items: [
-#     Fabricate.build(:journal_entry_item, account: acc1),
-#     Fabricate.build(:journal_entry_item, account: acc2)
-#   ]
-#   je.save!
-# end
+# Build The Default Accounts
+
+cash = Account.create!(
+  name: 'Cash',
+  code: 101,
+  order: 101,
+  active: false,
+  description: Faker::Yoda.quote,
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :current_asset
+)
+
+ap = Account.create!(
+  name: 'Accounts Payable',
+  code: 202,
+  order: 202,
+  active: false,
+  description: Faker::Yoda.quote,
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :current_liability
+)
+
+# Activate Necessary Accounts
+
+ActivateAccountJob.perform_now(cash)
+ActivateAccountJob.perform_now(ap)
+
+# Build The Default Journal Entries
+
+je01 = JournalEntry.create!(
+  created_by_id: accountant.id,
+  description: Faker::Yoda.quote,
+  date: Date.new(2017, 1, 30),
+  items_attributes: [
+    {
+      account_id: cash.id,
+      normal_side: :left,
+      amount: 42_000.00
+    },
+    {
+      account_id: ap.id,
+      normal_side: :right,
+      amount: 42_000.00
+    }
+  ]
+)
+
+# Post The Necessary Journal Entries
+
+PostJournalEntryJob.perform_now(je01)
