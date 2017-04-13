@@ -13,8 +13,6 @@
         <td>
           <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
             {{a.name}}
-
-
           </nuxt-link>
         </td>
         <td class="text-right">
