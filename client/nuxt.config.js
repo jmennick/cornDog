@@ -19,7 +19,8 @@ module.exports = {
       'devour-client',
       'inflection',
       'format',
-      'underscore'
+      'underscore',
+      'moment'
     ]
   },
   router: {
