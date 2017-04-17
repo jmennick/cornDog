@@ -4,6 +4,7 @@ require 'faker'
 
 # delete existing records so we can seed new ones in
 # order matters here because of dependencies
+PaperTrail::Version.delete_all
 LedgerEntry.delete_all
 JournalEntryItem.delete_all
 JournalEntry.delete_all
