@@ -4,37 +4,36 @@
       <table class="balance-sheet-tables table table-striped">
         <thead>
         <tr>
-          <th>Assets</th>
+          <th>Current Assets</th>
           <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in assetAccounts">
+        <tr v-for="a in currentAssetAccounts" class="underline">
           <td>
             <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
               {{a.name}}
             </nuxt-link>
           </td>
           <td class="text-right">
-              {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+            <span>{{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Total Current Assets</td>
+          <td class="text-right">
+            <u>{{currencyFormatter(sumAssets('current'), 'left')}}</u>
           </td>
         </tr>
         </tbody>
-        <tfoot>
-        <tr>
-          <td>Total</td>
-          <td class="text-right">{{currencyFormatter(sumAssets, 'left')}}</td>
-        </tr>
-        </tfoot>
-      </table>
-      <table class="balance-sheet-tables table table-striped">
         <thead>
         <tr>
-          <th>Liabilities</th>
+          <th>Long-Term Assets</th>
+          <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in liabilityAccounts">
+        <tr v-for="a in longAssetAccounts">
           <td>
             <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
               {{a.name}}
@@ -44,14 +43,83 @@
             {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
           </td>
         </tr>
+        <tr>
+          <td>Total Long-Term Assets</td>
+          <td class="text-right">
+            <u>{{currencyFormatter(sumAssets('long'), 'left')}}</u>
+          </td>
+        </tr>
         </tbody>
         <tfoot>
         <tr>
-          <td>Total</td>
-          <td class="text-right">{{currencyFormatter(sumLiabilities, 'right')}}</td>
+          <td>Total Assets</td>
+          <td class="text-right">
+            <span class="double-underline">{{currencyFormatter(sumAssets(), 'left')}}</span>
+          </td>
         </tr>
         </tfoot>
       </table>
+      <!--Liabilities-->
+      <table class="balance-sheet-tables table table-striped">
+        <thead>
+        <tr>
+          <th>Current Liabilities</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="a in currentLiabilityAccounts">
+          <td>
+            <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
+              {{a.name}}
+            </nuxt-link>
+          </td>
+          <td class="text-right">
+            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+          </td>
+        </tr>
+        <tr>
+          <td>Total Current Liabilities</td>
+          <td class="text-right">
+            <u>{{currencyFormatter(sumLiabilities('current'), 'right')}}</u>
+          </td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+          <th>Long-Term Liabilities</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="a in longLiabilityAccounts">
+          <td>
+            <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
+              {{a.name}}
+            </nuxt-link>
+          </td>
+          <td class="text-right">
+            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+          </td>
+        </tr>
+        <tr>
+          <td>Total Long-Term Liabilities</td>
+          <td class="text-right">
+            <u>{{currencyFormatter(sumLiabilities('long'), 'right')}}</u>
+          </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td>Total Liabilities</td>
+          <td class="text-right">
+            <span class="double-underline">{{currencyFormatter(sumLiabilities(), 'right')}}</span>
+          </td>
+        </tr>
+        </tfoot>
+      </table>
+      <!--Owners Equity-->
+      <!--add table here-->
     </div>
   </resource-list>
 </template>
@@ -60,6 +128,10 @@
     max-width: calc(50% - 30px);
     margin-right: 10px;
     margin-left: 20px;
+  }
+
+  .double-underline {
+    border-bottom: 3px black double;
   }
 </style>
 <script>
@@ -82,17 +154,22 @@
         })
       }),
       assetAccounts() {
-          return this.accounts.filter((a)=> (a.kind == 'current_asset') || (a.kind == 'long_term_asset'))
+        return this.accounts.filter((a) => (a.kind == 'current_asset') || (a.kind == 'long_term_asset'))
+      },
+      currentAssetAccounts() {
+        return this.accounts.filter((a) => (a.kind == 'current_asset'))
+      },
+      longAssetAccounts() {
+        return this.accounts.filter((a) => (a.kind == 'long_term_asset'))
       },
       liabilityAccounts() {
-        return this.accounts.filter((a)=> (a.kind == 'current_liability') || (a.kind == 'long_term_liabilities'))
+        return this.accounts.filter((a) => (a.kind == 'current_liability') || (a.kind == 'long_term_liabilities'))
       },
-      sumAssets() {
-          return sumBy(this.assetAccounts, (a)=> parseFloat(a.ledger_balance))
+      currentLiabilityAccounts() {
+        return this.accounts.filter((a) => (a.kind == 'current_liability'))
       },
-      sumLiabilities() {
-        return sumBy(this.liabilityAccounts, (a)=> parseFloat(a.ledger_balance))
-
+      longLiabilityAccounts() {
+        return this.accounts.filter((a) => (a.kind == 'long_term_liabilities'))
       }
     },
     methods: {
@@ -119,7 +196,44 @@
             return null
           }
         }
+      },
+      sumAssets(type) {
+        switch (type) {
+          case 'current':
+            return sumBy(this.currentAssetAccounts, (a) => parseFloat(a.ledger_balance))
+            break;
+          case 'long':
+            return sumBy(this.longAssetAccounts, (a) => parseFloat(a.ledger_balance))
+            break;
+          default:
+            return sumBy(this.assetAccounts, (a) => parseFloat(a.ledger_balance))
+        }
+      },
+      sumLiabilities(type) {
+        switch (type) {
+          case 'current':
+            return sumBy(this.currentLiabilityAccounts, (a) => parseFloat(a.ledger_balance))
+            break;
+          case 'long':
+            return sumBy(this.longLiabilityAccounts, (a) => parseFloat(a.ledger_balance))
+            break;
+          default:
+            return sumBy(this.liabilityAccounts, (a) => parseFloat(a.ledger_balance))
+        }
       }
+    },
+    async fetch({params, store}) {
+      await store.dispatch('resource/setup', {
+        name: 'account',
+        listRouteName: 'ledger',
+        title: 'Balance Sheet',
+        query: {
+          include: 'created_by',
+          filter: {
+            // nonzero_ledger_balance: true
+          }
+        }
+      })
     }
   }
 </script>
