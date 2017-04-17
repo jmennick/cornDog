@@ -75,6 +75,7 @@ export default {
             this.journalsModule,
             this.ledgerModule,
             this.tbModule,
+            this.bsModule,
             this.changesModule
           ]
         case 'manager':
@@ -83,6 +84,7 @@ export default {
             this.journalsModule,
             this.ledgerModule,
             this.tbModule,
+            this.bsModule,
             this.usersModule,
             this.changesModule
           ]
@@ -93,6 +95,7 @@ export default {
             this.journalsModule,
             this.ledgerModule,
             this.tbModule,
+            this.bsModule,
             this.usersModule,
             this.changesModule
 
@@ -106,6 +109,7 @@ export default {
     journalsModule: ()=> ({title: 'Journal Entries', to: '/journals'}),
     ledgerModule: ()=> ({title: 'General Ledger', to: '/ledger'}),
     tbModule: ()=> ({title: 'Trial Balance', to: '/trial_balance'}),
+    bsModule: ()=> ({title: 'Balance Sheet', to: '/balance_sheet'}),
     usersModule: ()=> ({title: 'Users', to: '/users'}),
     changesModule: ()=> ({title: 'Changes', to: '/changes'})
 
