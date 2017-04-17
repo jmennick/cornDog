@@ -2,6 +2,14 @@
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 require 'faker'
 
+# delete existing records so we can seed new ones in
+# order matters here because of dependencies
+LedgerEntry.delete_all
+JournalEntryItem.delete_all
+JournalEntry.delete_all
+Account.delete_all
+User.delete_all
+
 jdoe = User.create!(
   name: 'John Doe',
   email: 'jdoe@corndog.herokuapp.com',
