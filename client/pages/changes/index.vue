@@ -1,6 +1,6 @@
 <template>
   <resource-list no-add>
-    <b-table class="table-striped" :items="changes" :fields="fields">
+    <b-table class="table-striped" :items="changes" :fields="fields" v-if="changes">
       <template slot="whodunnit" scope="x">
         <nuxt-link v-if="x.item.whodunnit" :to="{name: 'users-id', params: {id: x.item.whodunnit}}">{{x.item.whodunnit_name}}</nuxt-link>
         <span v-else class="text-muted">-UNSPECIFIED-</span>
@@ -25,7 +25,7 @@
       <template slot="item" scope="x">
         <span v-if="x.item.item_type == 'Account'">
           <nuxt-link :to="{name: 'accounts-id', params: {id: x.item.item_id}}">
-            <small>{{x.item.object.code}}</small> {{x.item.object.name}}
+            <small>{{objectProp(x.item, 'code')}}</small> {{objectProp(x.item, 'name')}}
           </nuxt-link>
         </span>
         <span v-else-if="x.item.item_type == 'JournalEntry'">
@@ -45,6 +45,7 @@
 import {mapState} from 'vuex'
 import ResourceList from '~components/ResourceList'
 import {titleize} from 'inflection'
+import {get} from 'lodash'
 
 export default {
   components: {
@@ -71,7 +72,13 @@ export default {
     }
   }),
   methods: {
-    titleize
+    titleize,
+    objectProp(change, propName) {
+      return get(change,
+        `object_changes.${propName}[1]`,
+        get(change, `object.${propName}`)
+      )
+    }
   }
 }
 </script>
