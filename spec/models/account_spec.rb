@@ -121,9 +121,9 @@ RSpec.describe Account, type: :model do
       long_term_asset: :left,
       current_liability: :right,
       long_term_liability: :right,
-      revenue: :left,
+      revenue: :right,
       equity: :right,
-      expense: :right
+      expense: :left
     }.each do |k,v|
       context "where \"#{k}\"" do
         before{account.kind = k}

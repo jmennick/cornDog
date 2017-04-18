@@ -34,10 +34,10 @@ class Account < ApplicationRecord
       return :left
     when *kinds_grouped[:liability].keys.map{|k| [k, :liability].join(?_)}
       return :right
-    when 'revenue'
-      return :left
-    when 'equity', 'expense'
+    when 'revenue', 'equity'
       return :right
+    when 'expense'
+      return :left
     else
       raise ArgumentError, "invalid kind: \"#{kind}\""
     end
