@@ -59,7 +59,7 @@ export default {
   async fetch({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'version',
-      title: 'Changes'
+      title: 'Events'
     })
   },
   data: ()=> ({

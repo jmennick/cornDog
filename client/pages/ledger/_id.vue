@@ -22,7 +22,7 @@
           <td></td>
           <td></td>
           <td></td>
-          <td class="text-right">{{account.initial_balance | currency}}</td>
+          <td class="text-right">{{account.initial_balance | currency(true)}}</td>
         </tr>
         <tr v-for="entry in account.ledger_entries">
           <td>{{entry.date}}</td>
@@ -56,7 +56,6 @@
   import ResourceDetail from '~components/ResourceDetail'
   import AccountForm from '~components/accounts/AccountForm'
   import {selected} from '~store/resource'
-  import format from 'format'
 
   export default {
     components: {

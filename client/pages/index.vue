@@ -54,7 +54,7 @@ export default {
     fields: {
       code: {label: 'Code', sortable: true},
       name: {label: 'Name', sortable: true},
-      kind_human: {label: 'Kind', sortable: true},
+      kind_human: {label: 'Category', sortable: true},
       actions: {sortable: false}
     }
   })

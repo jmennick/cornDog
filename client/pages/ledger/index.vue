@@ -1,24 +1,24 @@
 <template>
   <resource-list @saved="handleSaved" no-add>
     <div slot="form">
-      <account-form />
+      <account-form/>
     </div>
     <table class="table table-striped">
       <thead>
-        <tr>
-          <th>Name</th>
-          <th class="text-right">Balance</th>
-          <th></th>
-        </tr>
+      <tr>
+        <th>Name</th>
+        <th class="text-right">Balance</th>
+        <th></th>
+      </tr>
       </thead>
       <tbody>
-        <tr v-for="a in accounts">
+        <tr v-for="(a,i) in accounts">
           <td>
             <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
               {{a.name}}
             </nuxt-link>
           </td>
-          <td class="text-right">{{a.ledger_balance | currency}}</td>
+          <td class="text-right">{{a.ledger_balance | currency(i === 0)}}</td>
           <td>
             <action-button-bar :actions="actions(a)">
             </action-button-bar>
@@ -35,6 +35,7 @@
   import ActionButtonBar from '~components/ActionButtonBar'
   import AccountForm from '~components/accounts/AccountForm'
   import {showModal} from '~store/resourceForm'
+  import {get} from 'lodash'
 
   export default {
     components: {
@@ -44,7 +45,7 @@
     },
     computed: {
       ...mapState({
-        accounts: ({resource})=> resource.data.filter( (a)=> {
+        accounts: ({resource}) => get(resource, 'data', []).filter((a) => {
           //NOTE: this is temporary! should do this server-side eventually
           return parseFloat(a.ledger_balance) != 0.0
         })

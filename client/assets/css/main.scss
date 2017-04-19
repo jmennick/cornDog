@@ -9,18 +9,18 @@
 // }
 
 body, html {
-	-webkit-overflow-scrolling: touch;
-	overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 
 .modal-flex {
-	max-width: 100%;
-	margin-left: 30px;
-	margin-right: 30px;
+  max-width: 100%;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .form-body-inner {
-	margin: -16px -15px -15px -15px;
+  margin: -16px -15px -15px -15px;
 }
 
 .table-lg td, .table-lg td {
@@ -70,24 +70,64 @@ body, html {
 .no-top-padding {
   padding-top: 0 !important;
 }
+
 .no-top-margin {
   margin-top: 0 !important;
 }
+
 .no-right-margin {
   margin-right: 0 !important;
 }
+
 .no-left-margin {
   margin-left: 0 !important;
 }
+
 .no-bottom-padding {
   padding-bottom: 0 !important;
 }
+
 .no-bottom-margin {
   margin-bottom: 0 !important;
 }
+
 .no-padding {
   padding: 0 !important;
 }
+
 .no-margin {
   margin: 0 !important;
+}
+
+.top-border {
+  border-top: 1px solid black !important;
+}
+
+.header-content {
+  width: 100%;
+  line-height: 10%;
+  padding: 10px 0 10px 0;
+  background-color: #27ae60;
+  text-align: center;
+  color: white;
+  border-radius: 2px;
+  margin-top: 10px;
+}
+
+.trial-balance {
+  max-width: 60% !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.font-weight-100 {
+  font-weight: 100;
+}
+
+.double-underline {
+  border-bottom: 3px black double;
+}
+
+.underline {
+  border-bottom: 1px black solid;
 }
