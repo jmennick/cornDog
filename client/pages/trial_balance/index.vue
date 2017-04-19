@@ -20,12 +20,12 @@
         </td>
         <td class="text-right">
           <span :class="{underline: (index === a.length - 1)}" v-if="a.normal_side_physical == 'left'">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+            {{a.ledger_balance | currency(index === 0)}}
           </span>
         </td>
         <td class="text-right">
           <span v-if="a.normal_side_physical == 'right'" :class="{ underline: (index === a.length - 1) }">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+            {{-a.ledger_balance | currency(index === 0)}}
           </span>
         </td>
       </tr>
@@ -34,10 +34,10 @@
       <tr>
         <td>Total</td>
         <td class="text-right">
-          <span class="double-underline">{{currencyFormatter(totalDebits(), 'left')}}</span>
+          <span class="double-underline">{{totalDebits | currency}}</span>
         </td>
         <td class="text-right">
-          <span class="double-underline">{{currencyFormatter(totalCredits(), 'right')}}</span>
+          <span class="double-underline">{{totalCredits | currency}}</span>
         </td>
       </tr>
       </tfoot>
@@ -50,6 +50,7 @@
   import ResourceList from '~components/ResourceList'
   import format from 'format'
   import moment from 'moment'
+  import {get} from 'lodash'
 
   export default {
     components: {
@@ -57,41 +58,12 @@
     },
     computed: {
       ...mapState({
-        accounts: ({resource}) => resource.data.filter((a) => {
+        accounts: ({resource}) => get(resource, 'data', []).filter((a) => {
           //NOTE: this is temporary! should do this server-side eventually
           return parseFloat(a.ledger_balance) != 0.0
         })
-      })
-    },
-    methods: {
-      currencyFormatter: (val, side) => {
-        if (side == 'left') {
-          if (val == 0 || !!val) {
-            if (val >= 0) {
-              return format('%0.2f', val)
-            } else {
-              return format('(%0.2f)', -val)
-            }
-          } else {
-            return null
-          }
-        }
-        else {
-          if (val == 0 || !!val) {
-            if (val >= 0) {
-              return format('(%0.2f)', val)
-            } else {
-              return format('%0.2f', -val)
-            }
-          } else {
-            return null
-          }
-        }
-      },
+      }),
       totalDebits() {
-        if (this.accounts.length == 0) {
-          return null
-        }
         return this.accounts.reduce((a, i) => {
           const v = i.normal_side_physical == 'left' ? i.ledger_balance : 0
           a = !a ? 0 : a
@@ -99,9 +71,6 @@
         }, 0)
       },
       totalCredits() {
-        if (this.accounts.length == 0) {
-          return null
-        }
         return this.accounts.reduce((a, i) => {
           const v = i.normal_side_physical == 'right' ? i.ledger_balance : 0
           a = !a ? 0 : a
@@ -136,11 +105,9 @@
   .double-underline {
     border-bottom: 3px black double;
   }
-
   .underline {
   . border-bottom: 1 px black solid;
   }
-
   .date {
     padding-top: 20px;
     padding-bottom: 20px;

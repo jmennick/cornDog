@@ -18,7 +18,7 @@
               {{a.name}}
             </nuxt-link>
           </td>
-          <td class="text-right">{{currencyFormatter(a.ledger_balance)}}</td>
+          <td class="text-right">{{a.ledger_balance | currency}}</td>
           <td>
             <action-button-bar :actions="actions(a)">
             </action-button-bar>
@@ -35,7 +35,6 @@
   import ActionButtonBar from '~components/ActionButtonBar'
   import AccountForm from '~components/accounts/AccountForm'
   import {showModal} from '~store/resourceForm'
-  import format from 'format'
 
   export default {
     components: {
@@ -63,17 +62,6 @@
             to: {name: 'ledger-id', params: {id: account.id}}
           }
         ]
-      },
-      currencyFormatter: (val)=> {
-        if (val == 0 || !!val) {
-          if (val >= 0) {
-            return format('%0.2f', val)
-          } else {
-            return format('(%0.2f)', -val)
-          }
-        } else {
-          return null
-        }
       }
     },
     async fetch({params, store}) {

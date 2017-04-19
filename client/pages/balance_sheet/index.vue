@@ -9,20 +9,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in currentAssetAccounts" class="underline">
+        <tr v-for="(a,i) in currentAssetAccounts" class="underline">
           <td>
             <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
               {{a.name}}
             </nuxt-link>
           </td>
           <td class="text-right">
-            <span>{{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}</span>
+            {{a.ledger_balance | currency(i === 0)}}
           </td>
         </tr>
         <tr>
           <td>Total Current Assets</td>
           <td class="text-right">
-            <u>{{currencyFormatter(sumAssets('current'), 'left')}}</u>
+            <span class="text-underlined">
+              {{sumAssets('current') | currency(true)}}
+            </span>
           </td>
         </tr>
         </tbody>
@@ -33,20 +35,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in longAssetAccounts">
+        <tr v-for="(a,i) in longAssetAccounts">
           <td>
             <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
               {{a.name}}
             </nuxt-link>
           </td>
           <td class="text-right">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+            {{a.ledger_balance | currency(i === 0)}}
           </td>
         </tr>
         <tr>
           <td>Total Long-Term Assets</td>
           <td class="text-right">
-            <u>{{currencyFormatter(sumAssets('long'), 'left')}}</u>
+            <span class="text-underlined">
+              {{sumAssets('long') | currency(true)}}
+            </span>
           </td>
         </tr>
         </tbody>
@@ -54,7 +58,9 @@
         <tr>
           <td>Total Assets</td>
           <td class="text-right">
-            <span class="double-underline">{{currencyFormatter(sumAssets(), 'left')}}</span>
+            <span class="double-underline">
+              {{sumAssets() | currency(true)}}
+            </span>
           </td>
         </tr>
         </tfoot>
@@ -68,20 +74,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in currentLiabilityAccounts">
+        <tr v-for="(a,i) in currentLiabilityAccounts">
           <td>
             <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
               {{a.name}}
             </nuxt-link>
           </td>
           <td class="text-right">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+            {{a.ledger_balance | currency(i === 0)}}
           </td>
         </tr>
         <tr>
           <td>Total Current Liabilities</td>
           <td class="text-right">
-            <u>{{currencyFormatter(sumLiabilities('current'), 'right')}}</u>
+            <span class="text-underlined">
+              {{sumLiabilities('current') | currency(true)}}
+            </span>
           </td>
         </tr>
         </tbody>
@@ -92,20 +100,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in longLiabilityAccounts">
+        <tr v-for="(a,j) in longLiabilityAccounts">
           <td>
             <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
               {{a.name}}
             </nuxt-link>
           </td>
           <td class="text-right">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+            {{a.ledger_balance | currency(j === 0)}}
           </td>
         </tr>
         <tr>
           <td>Total Long-Term Liabilities</td>
           <td class="text-right">
-            <u>{{currencyFormatter(sumLiabilities('long'), 'right')}}</u>
+            <span class="text-underlined">
+              {{sumLiabilities('long') | currency(true)}}
+            </span>
           </td>
         </tr>
         </tbody>
@@ -113,7 +123,9 @@
         <tr>
           <td>Total Liabilities</td>
           <td class="text-right">
-            <span class="double-underline">{{currencyFormatter(sumLiabilities(), 'right')}}</span>
+            <span class="double-underline">
+              {{sumLiabilities() | currency(true)}}
+            </span>
           </td>
         </tr>
         </tfoot>
@@ -173,30 +185,6 @@
       }
     },
     methods: {
-      currencyFormatter: (val, side) => {
-        if (side == 'left') {
-          if (val == 0 || !!val) {
-            if (val >= 0) {
-              return format('%0.2f', val)
-            } else {
-              return format('(%0.2f)', -val)
-            }
-          } else {
-            return null
-          }
-        }
-        else {
-          if (val == 0 || !!val) {
-            if (val >= 0) {
-              return format('(%0.2f)', val)
-            } else {
-              return format('%0.2f', -val)
-            }
-          } else {
-            return null
-          }
-        }
-      },
       sumAssets(type) {
         switch (type) {
           case 'current':
