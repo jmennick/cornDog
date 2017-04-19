@@ -37,8 +37,8 @@
       <tfoot>
         <tr>
           <th>Total</th>
-          <th class="text-right" style="padding-right: 40px">{{currencyFormatter(totalDebit)}}</th>
-          <th class="text-right" style="padding-right: 40px">{{currencyFormatter(totalCredit)}}</th>
+          <th class="text-right" style="padding-right: 40px">{{totalDebit | currency}}</th>
+          <th class="text-right" style="padding-right: 40px">{{totalCredit | currency}}</th>
           <th></th>
         </tr>
       </tfoot>

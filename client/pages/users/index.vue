@@ -1,6 +1,6 @@
 <template>
   <resource-list @saved="handleSaved">
-    <b-table stripped :items="users" :fields="fields" class="no-bottom-margin">
+    <b-table stripped :items="users" :fields="fields" class="no-bottom-margin" v-if="users.length">
       <template slot="role" scope="x">
         {{titleize(x.item.role)}}
       </template>
@@ -17,6 +17,7 @@ import {mapState, mapMutations} from 'vuex'
 import ResourceList from '~components/ResourceList'
 import ActionButtonBar from '~components/ActionButtonBar'
 import {titleize} from 'inflection'
+import {get} from 'lodash'
 
 export default {
   components: {
@@ -25,7 +26,7 @@ export default {
   },
   computed: {
     ...mapState({
-      users: ({resource})=> resource.data
+      users: ({resource})=> get(resource, 'data', [])
     })
   },
   async fetch({params, store}) {

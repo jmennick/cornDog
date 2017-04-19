@@ -22,7 +22,7 @@
           <td></td>
           <td></td>
           <td></td>
-          <td class="text-right">{{currencyFormatter(account.initial_balance)}}</td>
+          <td class="text-right">{{account.initial_balance | currency(true)}}</td>
         </tr>
         <tr v-for="entry in account.ledger_entries">
           <td>{{entry.date}}</td>
@@ -32,19 +32,22 @@
               #{{entry.transaction_id}}
             </nuxt-link>
           </td>
-          <td class="text-right">{{currencyFormatter(entry.left_amount, 'left')}}</td>
-          <td class="text-right">{{currencyFormatter(entry.right_amount, 'left')}}</td>
-          <td class="text-right">{{currencyFormatter(entry.balance, entry.normal_side_physical)}}</td>
+          <td class="text-right">
+            <span v-if="entry.left_amount !== null">
+              {{entry.left_amount | currency}}
+            </span>
+          </td>
+          <td class="text-right">
+            <span v-if="entry.right_amount !== null">
+              {{entry.right_amount | currency}}
+            </span>
+          </td>
+          <td class="text-right">
+            {{entry.balance | currency}}
+          </td>
         </tr>
       </tbody>
     </table>
-    <!-- <b-table stripped sortable v-if="account" :items="account.ledger_entries" :fields="fields">
-      <template slot="transaction_id" scope="x">
-        <nuxt-link :to="{name: 'journals-id', params: {id: x.item.transaction_id}}">
-          #{{x.item.transaction_id}}
-        </nuxt-link>
-      </template>
-    </b-table> -->
   </resource-detail>
 </template>
 
@@ -53,7 +56,6 @@
   import ResourceDetail from '~components/ResourceDetail'
   import AccountForm from '~components/accounts/AccountForm'
   import {selected} from '~store/resource'
-  import numeral from 'numeral'
 
   export default {
     components: {
@@ -74,34 +76,8 @@
         query: {include: 'ledger_entries'}
       })
     },
-    data: ()=> ({
-      // fields: {
-      //   date: {label: 'Date', sortable: true},
-      //   description: {label: 'Description', sortable: true},
-      //   transaction_id: {label: 'ID', sortable: true},
-      //   left_amount: {label: 'Debit', sortable: true},
-      //   right_amount: {label: 'Credit', sortable: true},
-      //   balance: {label: 'Balance', sortable: true}
-      // }
-    }),
     methods: {
-      accountLabel: (account)=> account?`${account.code} ${account.name}`:'',
-      currencyFormatter: (val, side)=> {
-          if(side =='left') {
-            if (val == 0 || !!val) {
-              return numeral(val).format('(0,0.00)')
-            } else {
-              return null
-            }
-          }
-          else {
-            if (val == 0 || !!val) {
-              return numeral((val * -1)).format('(0,0.00)')
-            } else {
-              return null
-            }
-          }
-      }
+      accountLabel: (account)=> account?`${account.code} ${account.name}`:''
     }
   }
 </script>

@@ -12,18 +12,18 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(a, index) in accounts">
-        <td>
-          <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
-            {{a.name}}
-          </nuxt-link>
-        </td>
-        <td class="text-right">{{currencyFormatter(a.ledger_balance, index)}}</td>
-        <td>
-          <action-button-bar :actions="actions(a)">
-          </action-button-bar>
-        </td>
-      </tr>
+        <tr v-for="(a,i) in accounts">
+          <td>
+            <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
+              {{a.name}}
+            </nuxt-link>
+          </td>
+          <td class="text-right">{{a.ledger_balance | currency(i === 0)}}</td>
+          <td>
+            <action-button-bar :actions="actions(a)">
+            </action-button-bar>
+          </td>
+        </tr>
       </tbody>
     </table>
   </resource-list>
@@ -35,7 +35,7 @@
   import ActionButtonBar from '~components/ActionButtonBar'
   import AccountForm from '~components/accounts/AccountForm'
   import {showModal} from '~store/resourceForm'
-  import numeral from 'numeral'
+  import {get} from 'lodash'
 
   export default {
     components: {
@@ -45,7 +45,7 @@
     },
     computed: {
       ...mapState({
-        accounts: ({resource}) => resource.data.filter((a) => {
+        accounts: ({resource}) => get(resource, 'data', []).filter((a) => {
           //NOTE: this is temporary! should do this server-side eventually
           return parseFloat(a.ledger_balance) != 0.0
         })
@@ -63,13 +63,6 @@
             to: {name: 'ledger-id', params: {id: account.id}}
           }
         ]
-      },
-      currencyFormatter: (val, index) => {
-          if (val == 0 || !!val)
-            return numeral(val).format(index === 0 ? '$(0,0.00)' : '(0,0.00')
-          else
-            return null
-//        }
       }
     },
     async fetch({params, store}) {
