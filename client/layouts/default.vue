@@ -75,8 +75,8 @@ export default {
             this.journalsModule,
             this.ledgerModule,
             this.tbModule,
-            this.bsModule,
             this.isModule,
+            this.bsModule,
             this.changesModule
           ]
         case 'manager':
@@ -85,8 +85,8 @@ export default {
             this.journalsModule,
             this.ledgerModule,
             this.tbModule,
-            this.bsModule,
             this.isModule,
+            this.bsModule,
             this.usersModule,
             this.changesModule
           ]
@@ -97,8 +97,8 @@ export default {
             this.journalsModule,
             this.ledgerModule,
             this.tbModule,
-            this.bsModule,
             this.isModule,
+            this.bsModule,
             this.usersModule,
             this.changesModule
 

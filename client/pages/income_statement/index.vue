@@ -23,7 +23,7 @@
           </nuxt-link>
         </td>
         <td class="text-right">
-          <span>{{r.ledger_balance | currency(index === 0)}}</span>
+          <span>{{-r.ledger_balance | currency(index === 0)}}</span>
         </td>
       </tr>
       <tr>
@@ -48,7 +48,7 @@
           </nuxt-link>
         </td>
         <td :class="{'text-right': true, underline: (index === expenseAccounts.length-1)}">
-          {{e.ledger_balance(index === 1)}}
+          {{e.ledger_balance | currency(index === 0)}}
         </td>
       </tr>
       <tr>
@@ -62,7 +62,7 @@
       </tbody>
       <tfoot>
       <tr>
-        <td>Income</td>
+        <td>{{income}}</td>
         <td class="text-right">
           <span class="double-underline">
             {{sumIncome | currency(true)}}
@@ -110,9 +110,14 @@
         return sumBy(this.expenseAccounts, (a) => parseFloat(a.ledger_balance))
       },
       sumIncome() {
-        return sumBy(this.incomeAccounts, (a) => parseFloat(a.ledger_balance))
+        var sum = sumBy(this.incomeAccounts, (a) => parseFloat(a.ledger_balance))
+        this.income = sum >= 0 ? 'Net Income': 'Net Loss'
+        return sum
       }
     },
+    data: ()=> ({
+        income: 'Net Income'
+    }),
     async fetch({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
