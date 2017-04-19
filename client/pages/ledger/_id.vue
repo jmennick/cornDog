@@ -32,9 +32,9 @@
               #{{entry.transaction_id}}
             </nuxt-link>
           </td>
-          <td class="text-right">{{currencyFormatter(entry.left_amount)}}</td>
-          <td class="text-right">{{currencyFormatter(entry.right_amount)}}</td>
-          <td class="text-right">{{currencyFormatter(entry.balance)}}</td>
+          <td class="text-right">{{currencyFormatter(entry.left_amount, 'left')}}</td>
+          <td class="text-right">{{currencyFormatter(entry.right_amount, 'left')}}</td>
+          <td class="text-right">{{currencyFormatter(entry.balance, entry.normal_side_physical)}}</td>
         </tr>
       </tbody>
     </table>
@@ -53,7 +53,7 @@
   import ResourceDetail from '~components/ResourceDetail'
   import AccountForm from '~components/accounts/AccountForm'
   import {selected} from '~store/resource'
-  import format from 'format'
+  import numeral from 'numeral'
 
   export default {
     components: {
@@ -86,16 +86,21 @@
     }),
     methods: {
       accountLabel: (account)=> account?`${account.code} ${account.name}`:'',
-      currencyFormatter: (val)=> {
-        if (val == 0 || !!val) {
-          if (val >= 0) {
-            return format('%0.2f', val)
-          } else {
-            return format('(%0.2f)', -val)
+      currencyFormatter: (val, side)=> {
+          if(side =='left') {
+            if (val == 0 || !!val) {
+              return numeral(val).format('(0,0.00)')
+            } else {
+              return null
+            }
           }
-        } else {
-          return null
-        }
+          else {
+            if (val == 0 || !!val) {
+              return numeral((val * -1)).format('(0,0.00)')
+            } else {
+              return null
+            }
+          }
       }
     }
   }

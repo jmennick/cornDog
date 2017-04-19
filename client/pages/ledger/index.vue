@@ -1,29 +1,29 @@
 <template>
   <resource-list @saved="handleSaved" no-add>
     <div slot="form">
-      <account-form />
+      <account-form/>
     </div>
     <table class="table table-striped">
       <thead>
-        <tr>
-          <th>Name</th>
-          <th class="text-right">Balance</th>
-          <th></th>
-        </tr>
+      <tr>
+        <th>Name</th>
+        <th class="text-right">Balance</th>
+        <th></th>
+      </tr>
       </thead>
       <tbody>
-        <tr v-for="a in accounts">
-          <td>
-            <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
-              {{a.name}}
-            </nuxt-link>
-          </td>
-          <td class="text-right">{{currencyFormatter(a.ledger_balance)}}</td>
-          <td>
-            <action-button-bar :actions="actions(a)">
-            </action-button-bar>
-          </td>
-        </tr>
+      <tr v-for="(a, index) in accounts">
+        <td>
+          <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
+            {{a.name}}
+          </nuxt-link>
+        </td>
+        <td class="text-right">{{currencyFormatter(a.ledger_balance, index)}}</td>
+        <td>
+          <action-button-bar :actions="actions(a)">
+          </action-button-bar>
+        </td>
+      </tr>
       </tbody>
     </table>
   </resource-list>
@@ -35,7 +35,7 @@
   import ActionButtonBar from '~components/ActionButtonBar'
   import AccountForm from '~components/accounts/AccountForm'
   import {showModal} from '~store/resourceForm'
-  import format from 'format'
+  import numeral from 'numeral'
 
   export default {
     components: {
@@ -45,7 +45,7 @@
     },
     computed: {
       ...mapState({
-        accounts: ({resource})=> resource.data.filter( (a)=> {
+        accounts: ({resource}) => resource.data.filter((a) => {
           //NOTE: this is temporary! should do this server-side eventually
           return parseFloat(a.ledger_balance) != 0.0
         })
@@ -64,16 +64,12 @@
           }
         ]
       },
-      currencyFormatter: (val)=> {
-        if (val == 0 || !!val) {
-          if (val >= 0) {
-            return format('%0.2f', val)
-          } else {
-            return format('(%0.2f)', -val)
-          }
-        } else {
-          return null
-        }
+      currencyFormatter: (val, index) => {
+          if (val == 0 || !!val)
+            return numeral(val).format(index === 0 ? '$(0,0.00)' : '(0,0.00')
+          else
+            return null
+//        }
       }
     },
     async fetch({params, store}) {

@@ -1,7 +1,7 @@
 <template>
   <resource-list @saved="handleSaved">
     <account-form slot="form"/>
-    <b-table stripped sortable :items="accounts" :fields="fields" class="no-bottom-margin">
+    <b-table striped sortable hover :items="accounts" :fields="fields" class="no-bottom-margin">
       <template slot="active" scope="a">
         <div :class="['badge', 'badge-pill', a.item.active?'badge-success':'badge-danger']">
           <span v-if="a.item.active">Active</span>
@@ -106,7 +106,7 @@ export default {
     fields: {
       code: {label: 'Code', sortable: true},
       name: {label: 'Name', sortable: true},
-      kind_human: {label: 'Kind', sortable: true},
+      kind_human: {label: 'Category', sortable: true},
       active: {label: 'Active', sortable: true},
       actions: {sortable: false}
     }

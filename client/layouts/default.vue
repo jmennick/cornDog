@@ -13,11 +13,11 @@
         </div>
         <span class="p-2 no-bottom-margin">&nbsp;</span>
         <div class="ml-auto">
-          <p class="navbar-text" v-if="isAuthenticated">
+          <p class="navbar-text no-bottom-margin no-bottom-padding no-top-padding" v-if="isAuthenticated">
             {{currentUser.name}}&nbsp;
             <b-button variant="link" @click="logOut()">Log Out</b-button>
           </p>
-          <p class="navbar-text" v-else>
+          <p class="navbar-text no-bottom-margin no-bottom-padding no-top-padding" v-else>
             Logged Out <b-button variant="link" @click="authenticate()">Log In</b-button>
           </p>
         </div>
@@ -76,6 +76,7 @@ export default {
             this.ledgerModule,
             this.tbModule,
             this.bsModule,
+            this.isModule,
             this.changesModule
           ]
         case 'manager':
@@ -85,6 +86,7 @@ export default {
             this.ledgerModule,
             this.tbModule,
             this.bsModule,
+            this.isModule,
             this.usersModule,
             this.changesModule
           ]
@@ -96,6 +98,7 @@ export default {
             this.ledgerModule,
             this.tbModule,
             this.bsModule,
+            this.isModule,
             this.usersModule,
             this.changesModule
 
@@ -110,8 +113,9 @@ export default {
     ledgerModule: ()=> ({title: 'General Ledger', to: '/ledger'}),
     tbModule: ()=> ({title: 'Trial Balance', to: '/trial_balance'}),
     bsModule: ()=> ({title: 'Balance Sheet', to: '/balance_sheet'}),
+    isModule: ()=> ({title: 'Income Statement', to: '/income_statement'}),
     usersModule: ()=> ({title: 'Users', to: '/users'}),
-    changesModule: ()=> ({title: 'Changes', to: '/changes'})
+    changesModule: ()=> ({title: 'Events', to: '/changes'})
 
   },
   mounted() {

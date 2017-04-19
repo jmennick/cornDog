@@ -1,22 +1,29 @@
 <template>
   <resource-list no-add>
+    <div class="balance-sheet-header">
+      <div class="header-content">
+        <h4>Corndog Accounting</h4>
+        <h4>Balance Sheet</h4>
+        <h4>As of {{today}}</h4>
+      </div>
+    </div>
     <div class="d-flex flex-row">
       <table class="balance-sheet-tables table table-striped">
         <thead>
         <tr>
-          <th>Current Assets</th>
+          <th><h4>Current Assets</h4></th>
           <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in currentAssetAccounts" class="underline">
+        <tr v-for="(currentA, index) in currentAssetAccounts" class="underline">
           <td>
-            <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
-              {{a.name}}
+            <nuxt-link :to="{'name': 'ledger-id', params: {id: currentA.id}}">
+              {{currentA.name}}
             </nuxt-link>
           </td>
           <td class="text-right">
-            <span>{{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}</span>
+            <span>{{currencyFormatter(currentA.ledger_balance, currentA.normal_side_physical, index)}}</span>
           </td>
         </tr>
         <tr>
@@ -28,19 +35,19 @@
         </tbody>
         <thead>
         <tr>
-          <th>Long-Term Assets</th>
+          <th><h4>Long-Term Assets</h4></th>
           <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in longAssetAccounts">
+        <tr v-for="(longA, index) in longAssetAccounts">
           <td>
-            <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
-              {{a.name}}
+            <nuxt-link :to="{'name': 'ledger-id', params: {id: longA.id}}">
+              {{longA.name}}
             </nuxt-link>
           </td>
           <td class="text-right">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+            {{currencyFormatter(longA.ledger_balance, longA.normal_side_physical, index)}}
           </td>
         </tr>
         <tr>
@@ -54,7 +61,7 @@
         <tr>
           <td>Total Assets</td>
           <td class="text-right">
-            <span class="double-underline">{{currencyFormatter(sumAssets(), 'left')}}</span>
+            <span class="double-underline">{{currencyFormatter(sumAssets(), 'left', 0)}}</span>
           </td>
         </tr>
         </tfoot>
@@ -63,19 +70,19 @@
       <table class="balance-sheet-tables table table-striped">
         <thead>
         <tr>
-          <th>Current Liabilities</th>
+          <th><h4>Current Liabilities</h4></th>
           <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in currentLiabilityAccounts">
+        <tr v-for="(currentL, index) in currentLiabilityAccounts">
           <td>
-            <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
-              {{a.name}}
+            <nuxt-link :to="{'name': 'ledger-id', params: {id: currentL.id}}">
+              {{currentL.name}}
             </nuxt-link>
           </td>
           <td class="text-right">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+            {{currencyFormatter(currentL.ledger_balance, currentL.normal_side_physical, index)}}
           </td>
         </tr>
         <tr>
@@ -87,19 +94,19 @@
         </tbody>
         <thead>
         <tr>
-          <th>Long-Term Liabilities</th>
+          <th><h4>Long-Term Liabilities</h4></th>
           <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="a in longLiabilityAccounts">
+        <tr v-for="(longL, index) in longLiabilityAccounts">
           <td>
-            <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
-              {{a.name}}
+            <nuxt-link :to="{'name': 'ledger-id', params: {id: longL.id}}">
+              {{longL.name}}
             </nuxt-link>
           </td>
           <td class="text-right">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+            {{currencyFormatter(longL.ledger_balance, longL.normal_side_physical, index)}}
           </td>
         </tr>
         <tr>
@@ -113,7 +120,7 @@
         <tr>
           <td>Total Liabilities</td>
           <td class="text-right">
-            <span class="double-underline">{{currencyFormatter(sumLiabilities(), 'right')}}</span>
+            <span class="double-underline">{{currencyFormatter(sumLiabilities(), 'right', 0)}}</span>
           </td>
         </tr>
         </tfoot>
@@ -130,6 +137,12 @@
     margin-left: 20px;
   }
 
+  .balance-sheet-header {
+    max-width: calc(100% - 30px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .double-underline {
     border-bottom: 3px black double;
   }
@@ -137,9 +150,10 @@
 <script>
   import {mapState, mapMutations} from 'vuex'
   import ResourceList from '~components/ResourceList'
-  import format from 'format'
+  import numeral from 'numeral'
   import NuxtLink from "../../.nuxt/components/nuxt-link";
   import {sumBy} from 'lodash'
+  import moment  from 'moment'
 
   export default {
     components: {
@@ -173,25 +187,17 @@
       }
     },
     methods: {
-      currencyFormatter: (val, side) => {
+      currencyFormatter: (val, side, index) => {
         if (side == 'left') {
           if (val == 0 || !!val) {
-            if (val >= 0) {
-              return format('%0.2f', val)
-            } else {
-              return format('(%0.2f)', -val)
-            }
+                return numeral(val).format(index === 0 ? '$(0,0.00)' : '(0,0.00)')
           } else {
             return null
           }
         }
         else {
           if (val == 0 || !!val) {
-            if (val >= 0) {
-              return format('(%0.2f)', val)
-            } else {
-              return format('%0.2f', -val)
-            }
+              return numeral((val * -1)).format(index === 0 ? '$(0,0.00)' : '(0,0.00)')
           } else {
             return null
           }
@@ -225,8 +231,8 @@
     async fetch({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
-        listRouteName: 'ledger',
-        title: 'Balance Sheet',
+        listRouteName: 'balance_sheet',
+        title: '',
         query: {
           include: 'created_by',
           filter: {
@@ -234,6 +240,9 @@
           }
         }
       })
-    }
+    },
+    data: () => ({
+      today: moment().format('MMMM Do YYYY')
+    })
   }
 </script>

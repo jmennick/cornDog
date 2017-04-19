@@ -1,7 +1,11 @@
 <template>
   <resource-list no-add>
-    <div class="date">
-      <p>As of {{today}}</p>
+    <div class="trial-balance">
+      <div class="header-content">
+        <h4>CornDog Accounting</h4>
+        <h4>Trial Balance</h4>
+        <h4>As of {{today}}</h4>
+      </div>
     </div>
     <table class="trial-balance table table-striped">
       <thead>
@@ -14,18 +18,18 @@
       <tbody>
       <tr v-for="(a, index) in accounts">
         <td>
-          <nuxt-link :to="{'name': 'accounts-id', params: {id: a.id}}">
+          <nuxt-link :to="{'name': 'ledger-id', params: {id: a.id}}">
             {{a.name}}
           </nuxt-link>
         </td>
         <td class="text-right">
-          <span :class="{underline: (index === a.length - 1)}" v-if="a.normal_side_physical == 'left'">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+          <span v-if="a.normal_side_physical == 'left'" :class="{'underline' : index === accounts.length - 1}">
+            {{currencyFormatter(a.ledger_balance, a.normal_side_physical, index, false)}}
           </span>
         </td>
         <td class="text-right">
-          <span v-if="a.normal_side_physical == 'right'" :class="{ underline: (index === a.length - 1) }">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical)}}
+          <span v-if="a.normal_side_physical == 'right'" :class="{'underline' : index === accounts.length - 1}">
+            {{currencyFormatter(a.ledger_balance, a.normal_side_physical, index, false)}}
           </span>
         </td>
       </tr>
@@ -34,10 +38,10 @@
       <tr>
         <td>Total</td>
         <td class="text-right">
-          <span class="double-underline">{{currencyFormatter(totalDebits(), 'left')}}</span>
+          <span class="double-underline">{{currencyFormatter(totalDebits(), 'left', 0, false)}}</span>
         </td>
         <td class="text-right">
-          <span class="double-underline">{{currencyFormatter(totalCredits(), 'right')}}</span>
+          <span class="double-underline">{{currencyFormatter(totalCredits(), 'right', 0, true)}}</span>
         </td>
       </tr>
       </tfoot>
@@ -48,8 +52,10 @@
 <script>
   import {mapState, mapMutations} from 'vuex'
   import ResourceList from '~components/ResourceList'
-  import format from 'format'
+  import numeral from 'numeral'
   import moment from 'moment'
+
+  var firstItem = true
 
   export default {
     components: {
@@ -63,29 +69,26 @@
         })
       })
     },
+    props: {
+        test: true
+    },
     methods: {
-      currencyFormatter: (val, side) => {
+      currencyFormatter (val, side, index, reset) {
         if (side == 'left') {
-          if (val == 0 || !!val) {
-            if (val >= 0) {
-              return format('%0.2f', val)
-            } else {
-              return format('(%0.2f)', -val)
-            }
-          } else {
-            return null
-          }
+          if (val == 0 || !!val)
+                return numeral(val).format(index === 0 ? '($0,0.00)' : '(0,0.00)' )
+          else
+              return null
         }
         else {
+            var formattedCurrency
           if (val == 0 || !!val) {
-            if (val >= 0) {
-              return format('(%0.2f)', val)
-            } else {
-              return format('%0.2f', -val)
-            }
-          } else {
-            return null
+            formattedCurrency = numeral((val * -1)).format(firstItem ? '($0,0.00)' : '(0,0.00)' )
+            firstItem = reset
+            return formattedCurrency
           }
+          else
+              return null
         }
       },
       totalDebits() {
@@ -113,7 +116,7 @@
       await store.dispatch('resource/setup', {
         name: 'account',
         listRouteName: 'ledger',
-        title: 'Trial Balance' ,
+        title: '',
         query: {
           include: 'created_by',
           filter: {
@@ -122,31 +125,11 @@
         }
       })
     },
-    data: ()=> ({
-      today: moment().format('MMMM Do YYYY')
-    })
+    data () {
+      return {
+        today: moment().format('MMMM Do YYYY'),
+        firstItem: true
+      }
+    }
   }
 </script>
-<style>
-  .trial-balance {
-    max-width: 60% !important;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .double-underline {
-    border-bottom: 3px black double;
-  }
-
-  .underline {
-  . border-bottom: 1 px black solid;
-  }
-
-  .date {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding-left: 3em;
-  }
-</style>

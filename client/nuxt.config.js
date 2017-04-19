@@ -20,7 +20,8 @@ module.exports = {
       'inflection',
       'format',
       'underscore',
-      'moment'
+      'moment',
+      'numeral'
     ]
   },
   router: {

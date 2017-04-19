@@ -14,7 +14,7 @@
       <!-- <b-button variant="theme" slot="title-right">Edit</b-button> -->
       <template slot="title-right"><slot name="title-right"></slot></template>
     </toolbar-top>
-    <div class="content-container">
+    <div class="content-container space-top">
       <resource-form-modal :title="resourceFormTitle" :resource="resourceName">
         <slot name="form"></slot>
       </resource-form-modal>
@@ -31,7 +31,11 @@
     </b-navbar>
   </div>
 </template>
-
+<style>
+  .space-top {
+    margin-top: 15px;
+  }
+</style>
 <script>
 import {mapState, mapGetters} from 'vuex'
 import resourceBaseMixin from '~assets/js/mixins/resourceBaseMixin'
