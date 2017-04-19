@@ -23,13 +23,13 @@
           </nuxt-link>
         </td>
         <td class="text-right">
-          <span v-if="a.normal_side_physical == 'left'" :class="{'underline' : index === accounts.length - 1}">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical, index, false)}}
+          <span v-if="a.ledger_balance > 0" :class="{'underline' : index === accounts.length - 1}">
+            {{currencyFormatter(a.ledger_balance, 'left', index, false)}}
           </span>
         </td>
         <td class="text-right">
-          <span v-if="a.normal_side_physical == 'right'" :class="{'underline' : index === accounts.length - 1}">
-            {{currencyFormatter(a.ledger_balance, a.normal_side_physical, index, false)}}
+          <span v-if="a.ledger_balance < 0" :class="{'underline' : index === accounts.length - 1}">
+            {{currencyFormatter(a.ledger_balance, 'right', index, false)}}
           </span>
         </td>
       </tr>
@@ -96,7 +96,7 @@
           return null
         }
         return this.accounts.reduce((a, i) => {
-          const v = i.normal_side_physical == 'left' ? i.ledger_balance : 0
+          const v = i.ledger_balance > 0 ? i.ledger_balance : 0
           a = !a ? 0 : a
           return (!v) ? a : (a + parseFloat(v))
         }, 0)
@@ -106,7 +106,7 @@
           return null
         }
         return this.accounts.reduce((a, i) => {
-          const v = i.normal_side_physical == 'right' ? i.ledger_balance : 0
+          const v = i.ledger_balance < 0 ? i.ledger_balance : 0
           a = !a ? 0 : a
           return (!v) ? a : (a + parseFloat(v))
         }, 0)

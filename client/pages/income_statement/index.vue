@@ -101,24 +101,14 @@
       currencyFormatter: (val, side, index) => {
         if (side == 'left') {
           if (val == 0 || !!val) {
-            return numeral(val).format(index ===0 ? '$(0,0.00)' : '(0,0.00)')
-//            if (val >= 0) {
-//              return format('%0.2f', val)
-//            } else {
-//              return format('(%0.2f)', -val)
-//            }
+            return numeral(val).format(index === 0 ? '$(0,0.00)' : '(0,0.00)')
           } else {
             return null
           }
         }
         else {
           if (val == 0 || !!val) {
-            return numeral((val * -1)).format(index ===0 ? '$(0,0.00)' : '(0,0.00)')
-//            if (val <= 0) {
-//              return format('%0.2f', -val)
-//            } else {
-//              return format('(%0.2f)', val)
-//            }
+            return numeral((val * -1)).format(index === 0 ? '$(0,0.00)' : '(0,0.00)')
           } else {
             return null
           }
