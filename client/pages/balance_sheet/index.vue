@@ -177,13 +177,13 @@
         return this.accounts.filter((a) => (a.kind == 'long_term_asset'))
       },
       liabilityAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'current_liability') || (a.kind == 'long_term_liabilities'))
+        return this.accounts.filter((a) => (a.kind == 'current_liability') || (a.kind == 'long_term_liability'))
       },
       currentLiabilityAccounts() {
         return this.accounts.filter((a) => (a.kind == 'current_liability'))
       },
       longLiabilityAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'long_term_liabilities'))
+        return this.accounts.filter((a) => (a.kind == 'long_term_liability'))
       }
     },
     methods: {
