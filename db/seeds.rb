@@ -11,7 +11,7 @@ JournalEntry.delete_all
 Account.delete_all
 User.delete_all
 
-jdoe = User.create!(
+User.create!(
   name: 'John Doe',
   email: 'jdoe@corndog.herokuapp.com',
   role: 'no_access',
@@ -25,7 +25,7 @@ admin = User.create!(
   password: '12345'
 )
 
-manager = User.create!(
+User.create!(
   name: 'Joe Manager',
   email: 'manager@corndog.com',
   role: 'manager',
@@ -122,6 +122,17 @@ ap = Account.create!(
   kind: :current_liability
 )
 
+wages_payable = Account.create!(
+  name: 'Wages Payable',
+  code: 219,
+  order: 219,
+  active: false,
+  description: Faker::ChuckNorris.fact,
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :current_liability
+)
+
 # this is not in the specified chart of accounts
 #TODO: check if Contributed Capital should have a different code
 contributed_capital = Account.create!(
@@ -141,7 +152,7 @@ unearned_revenue = Account.create!(
   code: 250,
   order: 250,
   active: false,
-  description: 'Enhance your calm :P',
+  description: Faker::ChuckNorris.fact,
   created_by_id: admin.id,
   initial_balance: 0.0,
   kind: :long_term_liability
@@ -153,22 +164,10 @@ accumulated_depreciation = Account.create!(
   code: 191,
   order: 191,
   active: false,
-  description: 'Not Found :P',
+  description: Faker::ChuckNorris.fact,
   created_by_id: admin.id,
   initial_balance: 0.0,
   kind: :long_term_asset
-)
-
-# this is not in the specified chart of accounts
-depreciation_expense = Account.create!(
-  name: 'Depreciation Expense',
-  code: 540,
-  order: 540,
-  active: false,
-  description: 'Not Found :P',
-  created_by_id: admin.id,
-  initial_balance: 0.0,
-  kind: :expense
 )
 
 # this is not in the specified chart of accounts
@@ -177,7 +176,7 @@ supplies_expense = Account.create!(
   code: 523,
   order: 523,
   active: false,
-  description: 'Not Found :P',
+  description: Faker::ChuckNorris.fact,
   created_by_id: admin.id,
   initial_balance: 0.0,
   kind: :expense
@@ -189,19 +188,19 @@ rent_expense = Account.create!(
   code: 521,
   order: 521,
   active: false,
-  description: 'Not Found :P',
+  description: Faker::ChuckNorris.fact,
   created_by_id: admin.id,
   initial_balance: 0.0,
   kind: :expense
 )
 
 # this is not in the specified chart of accounts
-insurance_expense= Account.create!(
+insurance_expense = Account.create!(
   name: 'Insurance Expense',
   code: 535,
   order: 405354,
   active: false,
-  description: 'Not Found :P',
+  description: Faker::ChuckNorris.fact,
   created_by_id: admin.id,
   initial_balance: 0.0,
   kind: :expense
@@ -213,7 +212,7 @@ depreciation_expense = Account.create!(
   code: 540,
   order: 540,
   active: false,
-  description: 'Not Found :P',
+  description: Faker::ChuckNorris.fact,
   created_by_id: admin.id,
   initial_balance: 0.0,
   kind: :expense
@@ -225,7 +224,7 @@ salaries_expense = Account.create!(
   code: 522,
   order: 522,
   active: false,
-  description: 'Not Found :P',
+  description: Faker::ChuckNorris.fact,
   created_by_id: admin.id,
   initial_balance: 0.0,
   kind: :expense
@@ -238,20 +237,7 @@ service_revenue = Account.create!(
   code: 404,
   order: 404,
   active: false,
-  description: 'Not Found :P',
-  created_by_id: admin.id,
-  initial_balance: 0.0,
-  kind: :revenue
-)
-
-# this is not in the specified chart of accounts
-#TODO: check if Service Revenue should have a different code
-service_revenue = Account.create!(
-  name: 'Service Revenue',
-  code: 404,
-  order: 404,
-  active: false,
-  description: 'Not Found :P',
+  description: Faker::ChuckNorris.fact,
   created_by_id: admin.id,
   initial_balance: 0.0,
   kind: :revenue
@@ -314,6 +300,7 @@ ActivateAccountJob.perform_now(prepaid_insurance)
 ActivateAccountJob.perform_now(prepaid_rent)
 ActivateAccountJob.perform_now(office_equipment)
 ActivateAccountJob.perform_now(ap)
+ActivateAccountJob.perform_now(wages_payable)
 ActivateAccountJob.perform_now(contributed_capital)
 ActivateAccountJob.perform_now(unearned_revenue)
 ActivateAccountJob.perform_now(service_revenue)
@@ -332,8 +319,11 @@ ActivateAccountJob.perform_now(rent_expense)
 PaperTrail.whodunnit = nil
 
 # Build The Default Journal Entries
+# (all of these done by accountant)
+PaperTrail.whodunnit = accountant
 
-je01 = JournalEntry.create!(
+# je01
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 4),
@@ -366,7 +356,8 @@ je01 = JournalEntry.create!(
   ]
 )
 
-je02 = JournalEntry.create!(
+# je02
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 4),
@@ -384,7 +375,8 @@ je02 = JournalEntry.create!(
   ]
 )
 
-je03 = JournalEntry.create!(
+# je03
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 4),
@@ -402,7 +394,8 @@ je03 = JournalEntry.create!(
   ]
 )
 
-je04 = JournalEntry.create!(
+# je04
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 6),
@@ -420,7 +413,8 @@ je04 = JournalEntry.create!(
   ]
 )
 
-je05 = JournalEntry.create!(
+# je05
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 7),
@@ -438,7 +432,8 @@ je05 = JournalEntry.create!(
   ]
 )
 
-je06 = JournalEntry.create!(
+# je06
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 8),
@@ -456,7 +451,8 @@ je06 = JournalEntry.create!(
   ]
 )
 
-je07 = JournalEntry.create!(
+# je07
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 11),
@@ -474,7 +470,8 @@ je07 = JournalEntry.create!(
   ]
 )
 
-je08 = JournalEntry.create!(
+# je08
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 12),
@@ -492,7 +489,8 @@ je08 = JournalEntry.create!(
   ]
 )
 
-je09 = JournalEntry.create!(
+# je09
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 15),
@@ -510,9 +508,10 @@ je09 = JournalEntry.create!(
   ]
 )
 
+# je10
 #NOTE: used wages expense here
 # this can also apply to salaries in the chart of accounts
-je10 = JournalEntry.create!(
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 15),
@@ -530,7 +529,8 @@ je10 = JournalEntry.create!(
   ]
 )
 
-je11 = JournalEntry.create!(
+# je11
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 15),
@@ -548,7 +548,8 @@ je11 = JournalEntry.create!(
   ]
 )
 
-je12 = JournalEntry.create!(
+# je12
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 18),
@@ -566,7 +567,8 @@ je12 = JournalEntry.create!(
   ]
 )
 
-je13 = JournalEntry.create!(
+# je13
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 22),
@@ -584,7 +586,8 @@ je13 = JournalEntry.create!(
   ]
 )
 
-je14 = JournalEntry.create!(
+# je14
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 22),
@@ -602,7 +605,8 @@ je14 = JournalEntry.create!(
   ]
 )
 
-je15 = JournalEntry.create!(
+# je15
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 25),
@@ -620,7 +624,8 @@ je15 = JournalEntry.create!(
   ]
 )
 
-je16 = JournalEntry.create!(
+# je16
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 27),
@@ -638,7 +643,8 @@ je16 = JournalEntry.create!(
   ]
 )
 
-je17 = JournalEntry.create!(
+# je17
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 28),
@@ -656,7 +662,8 @@ je17 = JournalEntry.create!(
   ]
 )
 
-je18 = JournalEntry.create!(
+# je18
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 29),
@@ -674,7 +681,8 @@ je18 = JournalEntry.create!(
   ]
 )
 
-je19 = JournalEntry.create!(
+# je19
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 29),
@@ -692,7 +700,8 @@ je19 = JournalEntry.create!(
   ]
 )
 
-je20 = JournalEntry.create!(
+# je20
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 29),
@@ -710,7 +719,8 @@ je20 = JournalEntry.create!(
   ]
 )
 
-je21 = JournalEntry.create!(
+# je21
+JournalEntry.create!(
   created_by_id: accountant.id,
   description: Faker::ChuckNorris.fact,
   date: Date.new(2017, 4, 29),
@@ -724,6 +734,120 @@ je21 = JournalEntry.create!(
       account_id: cash.id,
       normal_side: :right,
       amount: 4_500.00
+    }
+  ]
+)
+
+# adj_a
+JournalEntry.create!(
+  created_by_id: accountant.id,
+  description: '[ADJUSTING ENTRY] ' + Faker::ChuckNorris.fact,
+  date: Date.new(2017, 4, 30),
+  items_attributes: [
+    {
+      account_id: insurance_expense.id,
+      normal_side: :left,
+      amount: 150.00
+    },
+    {
+      account_id: prepaid_insurance.id,
+      normal_side: :right,
+      amount: 150.00
+    }
+  ]
+)
+
+# adj_b
+JournalEntry.create!(
+  created_by_id: accountant.id,
+  description: '[ADJUSTING ENTRY] ' + Faker::ChuckNorris.fact,
+  date: Date.new(2017, 4, 30),
+  items_attributes: [
+    {
+      account_id: supplies_expense.id,
+      normal_side: :left,
+      amount: 980
+    },
+    {
+      account_id: supplies.id,
+      normal_side: :right,
+      amount: 980
+    }
+  ]
+)
+
+# adj_c
+JournalEntry.create!(
+  created_by_id: accountant.id,
+  description: '[ADJUSTING ENTRY] ' + Faker::ChuckNorris.fact,
+  date: Date.new(2017, 4, 30),
+  items_attributes: [
+    {
+      account_id: depreciation_expense.id,
+      normal_side: :left,
+      amount: 500
+    },
+    {
+      account_id: accumulated_depreciation.id,
+      normal_side: :right,
+      amount: 500
+    }
+  ]
+)
+
+# adj_d
+JournalEntry.create!(
+  created_by_id: accountant.id,
+  description: '[ADJUSTING ENTRY] ' + Faker::ChuckNorris.fact,
+  date: Date.new(2017, 4, 30),
+  items_attributes: [
+    {
+      account_id: salaries_expense.id,
+      normal_side: :left,
+      amount: 20
+    },
+    {
+      account_id: wages_payable.id,
+      normal_side: :right,
+      amount: 20
+    }
+  ]
+)
+
+# adj_e
+JournalEntry.create!(
+  created_by_id: accountant.id,
+  description: '[ADJUSTING ENTRY] ' + Faker::ChuckNorris.fact,
+  date: Date.new(2017, 4, 30),
+  items_attributes: [
+    {
+      account_id: rent_expense.id,
+      normal_side: :left,
+      amount: 1_500.00
+    },
+    {
+      account_id: prepaid_rent.id,
+      normal_side: :right,
+      amount: 1_500.00
+    }
+  ]
+)
+
+# adj_f
+JournalEntry.create!(
+  created_by_id: accountant.id,
+  description: '[ADJUSTING ENTRY] ' + Faker::ChuckNorris.fact,
+  date: Date.new(2017, 4, 30),
+  items_attributes: [
+    {
+      account_id: unearned_revenue.id,
+      normal_side: :left,
+      amount: 2_000.00
+    },
+    {
+      account_id: service_revenue.id,
+      normal_side: :right,
+      amount: 2_000.00
     }
   ]
 )
