@@ -136,13 +136,109 @@ contributed_capital = Account.create!(
 )
 
 # this is not in the specified chart of accounts
-#TODO: check if Unearned Revenue should have a different code
 unearned_revenue = Account.create!(
   name: 'Unearned Revenue',
-  code: 420,
-  order: 420,
+  code: 250,
+  order: 250,
   active: false,
   description: 'Enhance your calm :P',
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :long_term_liability
+)
+
+# this is not in the specified chart of accounts
+accumulated_depreciation = Account.create!(
+  name: 'Accumulated Depreciation',
+  code: 191,
+  order: 191,
+  active: false,
+  description: 'Not Found :P',
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :long_term_asset
+)
+
+# this is not in the specified chart of accounts
+depreciation_expense = Account.create!(
+  name: 'Depreciation Expense',
+  code: 540,
+  order: 540,
+  active: false,
+  description: 'Not Found :P',
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :expense
+)
+
+# this is not in the specified chart of accounts
+supplies_expense = Account.create!(
+  name: 'Supplies Expense',
+  code: 523,
+  order: 523,
+  active: false,
+  description: 'Not Found :P',
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :expense
+)
+
+# this is not in the specified chart of accounts
+rent_expense = Account.create!(
+  name: 'Rent Expense',
+  code: 521,
+  order: 521,
+  active: false,
+  description: 'Not Found :P',
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :expense
+)
+
+# this is not in the specified chart of accounts
+insurance_expense= Account.create!(
+  name: 'Insurance Expense',
+  code: 535,
+  order: 405354,
+  active: false,
+  description: 'Not Found :P',
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :expense
+)
+
+# this is not in the specified chart of accounts
+depreciation_expense = Account.create!(
+  name: 'Depreciation Expense',
+  code: 540,
+  order: 540,
+  active: false,
+  description: 'Not Found :P',
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :expense
+)
+
+# this is not in the specified chart of accounts
+salaries_expense = Account.create!(
+  name: 'Salaries Expense',
+  code: 522,
+  order: 522,
+  active: false,
+  description: 'Not Found :P',
+  created_by_id: admin.id,
+  initial_balance: 0.0,
+  kind: :expense
+)
+
+# this is not in the specified chart of accounts
+#TODO: check if Service Revenue should have a different code
+service_revenue = Account.create!(
+  name: 'Service Revenue',
+  code: 404,
+  order: 404,
+  active: false,
+  description: 'Not Found :P',
   created_by_id: admin.id,
   initial_balance: 0.0,
   kind: :revenue
@@ -225,6 +321,13 @@ ActivateAccountJob.perform_now(wages_expense)
 ActivateAccountJob.perform_now(advertising_expense)
 ActivateAccountJob.perform_now(telephone_expense)
 ActivateAccountJob.perform_now(utilities_expense)
+ActivateAccountJob.perform_now(insurance_expense)
+ActivateAccountJob.perform_now(supplies_expense)
+ActivateAccountJob.perform_now(depreciation_expense)
+ActivateAccountJob.perform_now(accumulated_depreciation)
+ActivateAccountJob.perform_now(salaries_expense)
+ActivateAccountJob.perform_now(rent_expense)
+
 
 PaperTrail.whodunnit = nil
 
