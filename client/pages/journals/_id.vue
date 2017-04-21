@@ -55,8 +55,22 @@
             </h4>
           </div>
         </div>
+        <br />
       </div>
     </div>
+    <form class="">
+      <div class="container-fluid">
+        <b-form-fieldset label="Description">
+          <p class="form-control-static">
+            <span v-if="journalEntry.description">
+              {{journalEntry.description}}
+            </span>
+            <span v-else class="text-muted">
+              No Description Provided
+            </span>
+          </p>
+        </b-form-fieldset>
+    </form>
   </resource-detail>
 </template>
 

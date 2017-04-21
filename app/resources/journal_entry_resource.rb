@@ -3,6 +3,7 @@ class JournalEntryResource < ApplicationResource
   attribute :items
   attribute :date, format: :date
   attribute :state
+  attribute :description
 
   def items
     _model = @model

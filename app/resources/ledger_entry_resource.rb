@@ -7,6 +7,8 @@ class LedgerEntryResource < ApplicationResource
   attribute :right_amount
   attribute :balance
   attribute :transaction_id
+  attribute :user_name
+  attribute :user_id
 
   filter :account_id, apply: ->(records, value, _options){
     Account.find(value[0]).ledger_entries

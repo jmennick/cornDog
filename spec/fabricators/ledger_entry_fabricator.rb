@@ -1,4 +1,6 @@
 Fabricator(:ledger_entry) do
+  user
+  description{Faker::ChuckNorris.fact}
 end
 
 Fabricator(:_ledger_entry, from: :ledger_entry) do

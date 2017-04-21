@@ -1,5 +1,5 @@
 RSpec.shared_examples 'correct ledger entry attributes' do
-  
+
   let(:date_str){DateValueFormatter.format(resource.date).to_json}
   it{ is_expected.to be_json_eql(date_str).at_path('date') }
 
@@ -17,4 +17,10 @@ RSpec.shared_examples 'correct ledger entry attributes' do
 
   let(:transaction_id){resource.transaction_id.to_json}
   it{ is_expected.to be_json_eql(transaction_id).at_path('transaction_id') }
+
+  let(:user_name){resource.user_name.to_json}
+  it{ is_expected.to be_json_eql(user_name).at_path('user_name') }
+
+  let(:user_id){resource.user_id.to_json}
+  it{ is_expected.to be_json_eql(user_id).at_path('user_id') }
 end

@@ -53,6 +53,7 @@ export default {
   data: ()=> ({
     fields: {
       date: {label: 'Date', sortable: true},
+      description: {label: 'Description'},
       created_by: {label: 'Created By'},
       state: {label: 'Status'},
       actions: {}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170408030251) do
+ActiveRecord::Schema.define(version: 20170421213115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,7 +66,10 @@ ActiveRecord::Schema.define(version: 20170408030251) do
     t.decimal  "balance",               precision: 12, scale: 2, default: "0.0", null: false
     t.datetime "created_at",                                                     null: false
     t.datetime "updated_at",                                                     null: false
+    t.text     "description"
+    t.integer  "user_id"
     t.index ["journal_entry_item_id"], name: "index_ledger_entries_on_journal_entry_item_id", using: :btree
+    t.index ["user_id"], name: "index_ledger_entries_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -95,4 +98,5 @@ ActiveRecord::Schema.define(version: 20170408030251) do
   add_foreign_key "journal_entry_items", "accounts"
   add_foreign_key "journal_entry_items", "journal_entries"
   add_foreign_key "ledger_entries", "journal_entry_items"
+  add_foreign_key "ledger_entries", "users"
 end

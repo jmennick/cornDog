@@ -1,9 +1,11 @@
 class RejectJournalEntryController < ExecutionController
   def reject
     journal_entry = JournalEntry.find(params.require(:id))
-    authorize journal_entry
+    description = params.require(:description)
 
-    RejectJournalEntryJob.perform_now(journal_entry)
+    authorize journal_entry
+    RejectJournalEntryJob.perform_now(journal_entry, description)
+
     render json: {msg: 'blah'}
   end
 end

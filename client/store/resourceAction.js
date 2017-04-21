@@ -1,4 +1,4 @@
-import {titleize, tableize} from 'inflection'
+import {titleize} from 'inflection'
 import {post} from 'axios'
 
 export const VIEW_STATE_HIDDEN = 'hidden'
@@ -27,7 +27,7 @@ export const cancelAction = 'cancelAction'
 export const saveData = 'saveData'
 
 export const mutations = {
-  [showAction](state, {name, data={}, confirmName=null, confirmIcon=null, confirmColor=null, refreshOnSuccess=true}) {
+  [showAction] (state, {name, data = {}, confirmName = null, confirmIcon = null, confirmColor = null, refreshOnSuccess = true}) {
     let _data = {}; Object.assign(_data, data)
     state.viewState = VIEW_STATE_SHOWN
     state.data = _data
@@ -37,21 +37,21 @@ export const mutations = {
     state.confirmCustomColor = confirmColor
     state.refreshOnSuccess = refreshOnSuccess
   },
-  [beginExecuting](state) {
+  [beginExecuting] (state) {
     state.viewState = VIEW_STATE_EXECUTING
   },
-  [executionError](state, error) {
+  [executionError] (state, error) {
     state.viewState = VIEW_STATE_ERROR
     state.error = error
   },
-  [executeSuccessful](state, result) {
+  [executeSuccessful] (state, result) {
     state.viewState = VIEW_STATE_SUCCESS
     state.result = result
   },
-  [cancelAction](state) {
+  [cancelAction] (state) {
     state.viewState = VIEW_STATE_HIDDEN
   },
-  [saveData](state, data) {
+  [saveData] (state, data) {
     state.data = data
   }
 }
@@ -68,26 +68,26 @@ export const confirmIcon = 'confirmIcon'
 export const confirmColor = 'confirmColor'
 
 export const getters = {
-  [viewStateIsShown]: ({viewState})=> viewState == VIEW_STATE_SHOWN,
-  [viewStateIsExecuting]: ({viewState})=> viewState == VIEW_STATE_EXECUTING,
-  [viewStateIsError]: ({viewState})=> viewState == VIEW_STATE_ERROR,
-  [viewStateIsSuccess]: ({viewState})=> viewState == VIEW_STATE_SUCCESS,
-  [viewStateIsHidden]: ({viewState})=> viewState == VIEW_STATE_HIDDEN,
-  [modalShown]: ({viewState})=> (viewState != VIEW_STATE_HIDDEN) && (viewState != VIEW_STATE_SUCCESS),
-  [humanActionName]: ({name})=> titleize(name),
-  [confirmName]: ({confirmCustomName}, {humanActionName})=> confirmCustomName || humanActionName,
-  [confirmIcon]: ({confirmCustomIcon})=> confirmCustomIcon,
-  [confirmColor]: ({confirmCustomColor})=> confirmCustomColor || 'primary'
+  [viewStateIsShown]: ({viewState}) => viewState === VIEW_STATE_SHOWN,
+  [viewStateIsExecuting]: ({viewState}) => viewState === VIEW_STATE_EXECUTING,
+  [viewStateIsError]: ({viewState}) => viewState === VIEW_STATE_ERROR,
+  [viewStateIsSuccess]: ({viewState}) => viewState === VIEW_STATE_SUCCESS,
+  [viewStateIsHidden]: ({viewState}) => viewState === VIEW_STATE_HIDDEN,
+  [modalShown]: ({viewState}) => (viewState !== VIEW_STATE_HIDDEN) && (viewState !== VIEW_STATE_SUCCESS),
+  [humanActionName]: ({name}) => titleize(name),
+  [confirmName]: ({confirmCustomName}, {humanActionName}) => confirmCustomName || humanActionName,
+  [confirmIcon]: ({confirmCustomIcon}) => confirmCustomIcon,
+  [confirmColor]: ({confirmCustomColor}) => confirmCustomColor || 'primary'
 }
 
 export const execute = 'execute'
 
 export const actions = {
-  [execute]: async ({commit, state})=> {
+  [execute]: async ({commit, state}) => {
     commit(beginExecuting)
     try {
       let correctStorage
-      if (typeof(Storage) !== "undefined") {
+      if (typeof (Storage) !== 'undefined') {
         correctStorage = localStorage
       } else {
         correctStorage = sessionStorage
@@ -101,7 +101,7 @@ export const actions = {
         }
       })
       commit(executeSuccessful, data)
-    } catch(err) {
+    } catch (err) {
       commit(executionError, err.toString())
     }
   }

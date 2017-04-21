@@ -48,6 +48,10 @@
       </b-form-fieldset> -->
       <b-button variant="success" @click="addItem">Add Item</b-button>
       <br /><br />
+      <b-form-fieldset label="Description">
+        <b-form-input textarea v-model="journalEntry.description" @input="updateProp('description',$event)"></b-form-input>
+      </b-form-fieldset>
+      <br /><br />
       <div v-for="message in bottomErrorMessages" :class="['form-group', message.state]">
         <div v-if="message.feedback" class="form-control-feedback">
           <icon :name="message.icon"></icon>&nbsp;

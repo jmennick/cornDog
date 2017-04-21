@@ -39,11 +39,6 @@ RSpec.describe LedgerEntry, type: :model do
     it{ is_expected.to eq(ledger_entry.created_at.to_date) }
   end
 
-  context '#description' do
-    subject{ledger_entry.description}
-    it{ is_expected.to eq(journal_entry.description) }
-  end
-
   context '#transaction_id' do
     subject{ledger_entry.transaction_id}
     it{ is_expected.to eq(journal_entry.id) }
