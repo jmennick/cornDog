@@ -11,6 +11,7 @@ class AccountResource < ApplicationResource
   attribute :initial_balance
   attribute :ledger_balance
   attribute :normal_side_physical
+  attribute :can_deactivate, delegate: :can_deactivate?
 
   has_many :ledger_entries
   has_many :journal_entries
@@ -29,10 +30,10 @@ class AccountResource < ApplicationResource
   end
 
   def self.creatable_fields(context)
-    super - %i(created_at created_by active normal_side_physical)
+    super - %i(created_at created_by active normal_side_physical can_deactivate)
   end
 
   def self.updatable_fields(context)
-    super - %i(created_at created_by active normal_side_physical)
+    super - %i(created_at created_by active normal_side_physical can_deactivate)
   end
 end

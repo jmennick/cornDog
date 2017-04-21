@@ -12,12 +12,13 @@ RSpec.shared_context 'account attributes' do
 end
 
 RSpec.shared_examples 'correct account attributes' do
-  it { is_expected.to have_json_type(String).at_path('name') }
-  it { is_expected.to have_json_type(Integer).at_path('code') }
-  it { is_expected.to have_json_type(Integer).at_path('order') }
-  it { is_expected.to be_json_eql(true.to_json).at_path('active') }
-  it { is_expected.to have_json_type(String).at_path('description') }
-  it { is_expected.to be_json_eql(resource.kind.to_json).at_path('kind') }
+  it{ is_expected.to have_json_type(String).at_path('name') }
+  it{ is_expected.to have_json_type(Integer).at_path('code') }
+  it{ is_expected.to have_json_type(Integer).at_path('order') }
+  it{ is_expected.to be_json_eql(true.to_json).at_path('active') }
+  it{ is_expected.to have_json_type(String).at_path('description') }
+  it{ is_expected.to be_json_eql(resource.kind.to_json).at_path('kind') }
+  it{ is_expected.to be_json_eql(resource.can_deactivate?.to_json).at_path('can_deactivate') }
 
   let(:created_str){ DateValueFormatter.format(resource.created_at).to_json }
   it { is_expected.to be_json_eql(created_str).at_path('created_at') }

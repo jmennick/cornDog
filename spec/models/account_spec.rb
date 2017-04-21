@@ -170,4 +170,32 @@ RSpec.describe Account, type: :model do
     let(:actual){account.ledger_entries.most_recent.first.balance}
     it{is_expected.to eq(actual)}
   end
+
+  context '#can_deactivate?' do
+    subject{ account.can_deactivate? }
+
+    context 'initial_balance == 0.0, journal_entry_items == []' do
+      before{account.initial_balance = 0.0.to_d}
+      before{account.journal_entry_items = []}
+      it{is_expected.to eq(true)}
+    end
+
+    context 'initial_balance == 0.0, journal_entry_items != []' do
+      before{account.initial_balance = 0.0.to_d}
+      include_context 'ledger_entries test'
+      it{is_expected.to eq(false)}
+    end
+
+    context 'initial_balance != 0.0, journal_entry_items == []' do
+      before{account.initial_balance = 42.0.to_d}
+      before{account.journal_entry_items = []}
+      it{is_expected.to eq(false)}
+    end
+
+    context 'initial_balance != 0.0, journal_entry_items != []' do
+      before{account.initial_balance = 42.to_d}
+      include_context 'ledger_entries test'
+      it{is_expected.to eq(false)}
+    end
+  end
 end

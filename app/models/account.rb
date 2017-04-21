@@ -91,4 +91,16 @@ class Account < ApplicationRecord
   # scope :nonzero_ledger_balance, ->{
   #   joins(:ledger_entries).where('COUNT(ledger_entries) > 0')
   # }
+
+  # indicates if the user can deactivate the account
+  def can_deactivate?
+    # cannot deactivate if there is a nonzero initial balance
+    # (this is a performance optimization to avoid db query)\
+    return false unless initial_balance.zero?
+    # cannot deactivate if there are any journal entries
+    return false if journal_entry_items.any?
+    # otherwise, this hasn't been touched
+    # should be able to be deactivated
+    return true
+  end
 end

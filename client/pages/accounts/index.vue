@@ -81,7 +81,8 @@ export default {
         {
           icon: account.active?'thumbs-down':'thumbs-up',
           name: account.active?'Deactivate Account':'Activate Account',
-          action: ()=> { this.toggleActive(account) }
+          action: ()=> { this.toggleActive(account) },
+          disabled: account.active?!account.can_deactivate:true
         }
       ]
     }

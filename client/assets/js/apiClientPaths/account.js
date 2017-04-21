@@ -18,9 +18,10 @@ export default (apiClient)=> {
     ledger_entries: {
       jsonApi: 'hasMany',
       type: 'ledger_entries'
-    }
+    },
+    can_deactivate: ''
   }, {
-    readOnly: ['kind_human', 'created_at', 'created_by', 'ledger_balance', 'ledger_entries', 'active', 'normal_side_physical'],
+    readOnly: ['kind_human', 'created_at', 'created_by', 'ledger_balance', 'ledger_entries', 'active', 'normal_side_physical', 'can_deactivate'],
     include: ['created_by', 'ledger_entries']
   })
 }
