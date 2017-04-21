@@ -320,7 +320,7 @@ PaperTrail.whodunnit = nil
 
 # Build The Default Journal Entries
 # (all of these done by accountant)
-PaperTrail.whodunnit = accountant
+PaperTrail.whodunnit = accountant.id
 
 # je01
 JournalEntry.create!(
