@@ -57,10 +57,25 @@ body, html {
 .content-container {
   position: fixed;
   top: 108px;
-  bottom: 54px;
+  bottom: 0;
   left: 0;
   right: 0;
   overflow-y: auto;
+
+  & > .list-group {
+    margin-top: -1px;
+    margin-bottom: -1px;
+    .list-group-item {
+      &:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+      &:last-child {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
 }
 
 .td-actions {

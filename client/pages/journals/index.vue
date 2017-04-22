@@ -3,10 +3,10 @@
     <journal-entry-form slot="form"/>
     <b-table class="table-striped" :items="transactions" :fields="fields">
       <template slot="created_by" scope="j">
-        {{j.item.created_by.name}}
+        {{get(j, 'item.created_by.name', '???')}}
       </template>
       <template slot="state" scope="j">
-        <div :class="['badge', 'badge-pill', stateBadgeColor(j.item.state)]">{{titleize(j.item.state)}}</div>
+        <div :class="['badge', 'badge-pill', stateBadgeColor(j.item.state)]">{{titleize(get(j, 'item.state', '???'))}}</div>
       </template>
       <template slot="actions" scope="j">
         <action-button-bar :actions="actions(j.item)" right>
@@ -21,6 +21,7 @@ import ResourceList from '~components/ResourceList'
 import JournalEntryForm from '~components/JournalEntryForm'
 import ActionButtonBar from '~components/ActionButtonBar'
 import {titleize} from 'inflection'
+import {get} from 'lodash'
 
 export default {
   components: {
@@ -30,10 +31,10 @@ export default {
   },
   computed: {
     ...mapState({
-      transactions: ({resource})=> resource.data
+      transactions: ({resource}) => get(resource, 'data', [])
     })
   },
-  async fetch({params, store}) {
+  async fetch ({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'journal_entry',
       listRouteName: 'journals',
@@ -50,7 +51,7 @@ export default {
       }
     })
   },
-  data: ()=> ({
+  data: () => ({
     fields: {
       date: {label: 'Date', sortable: true},
       description: {label: 'Description'},
@@ -60,7 +61,7 @@ export default {
     }
   }),
   methods: {
-    actions(journalEntry) {
+    actions (journalEntry) {
       return [
         {
           icon: 'eye',
@@ -69,17 +70,18 @@ export default {
         }
       ]
     },
-    stateBadgeColor: (state)=> {
-      switch(state) {
+    stateBadgeColor: (state) => {
+      switch (state) {
         case 'posted': return 'badge-success'
         case 'rejected': return 'badge-danger'
         default: return 'badge-default'
       }
     },
-    handleSaved(event) {
+    handleSaved (event) {
       this.$router.push({name: 'journals-id', params: {id: event.id}})
     },
-    titleize: titleize
+    titleize,
+    get
   }
 }
 </script>
