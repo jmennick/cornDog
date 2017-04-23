@@ -76,7 +76,9 @@ export default {
             this.ledgerModule,
             this.tbModule,
             this.isModule,
+            this.reModule,
             this.bsModule,
+            this.dashboardModule,
             this.changesModule
           ]
         case 'manager':
@@ -86,7 +88,9 @@ export default {
             this.ledgerModule,
             this.tbModule,
             this.isModule,
+            this.reModule,
             this.bsModule,
+            this.dashboardModule,
             this.usersModule,
             this.changesModule
           ]
@@ -98,7 +102,9 @@ export default {
             this.ledgerModule,
             this.tbModule,
             this.isModule,
+            this.reModule,
             this.bsModule,
+            this.dashboardModule,
             this.usersModule,
             this.changesModule
 
@@ -114,6 +120,8 @@ export default {
     tbModule: ()=> ({title: 'Trial Balance', to: '/trial_balance'}),
     bsModule: ()=> ({title: 'Balance Sheet', to: '/balance_sheet'}),
     isModule: ()=> ({title: 'Income Statement', to: '/income_statement'}),
+    reModule: ()=> ({title: 'Retained Earnings', to: '/retained_earnings'}),
+    dashboardModule: ()=> ({title: 'Dashboard', to: '/dashboard'}),
     usersModule: ()=> ({title: 'Users', to: '/users'}),
     changesModule: ()=> ({title: 'Events', to: '/changes'})
 

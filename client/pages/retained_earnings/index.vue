@@ -3,8 +3,8 @@
     <div class="trial-balance" v-if="accounts.length">
       <div class="header-content">
         <h4 class="font-weight-100">CornDog Accounting</h4>
-        <h4 class="font-weight-100">Income Statement</h4>
-        <h4 class="font-weight-100">For the Year Ended {{today}}</h4>
+        <h4 class="font-weight-100">Statement of Retained Earnings</h4>
+        <h4 class="font-weight-100">For the Year Ended {{endOfMonth}}</h4>
       </div>
     </div>
     <table class="trial-balance table table-striped">
@@ -16,56 +16,34 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(r, index) in revenueAccounts">
+      <tr>
         <td>
-          <nuxt-link :to="{'name': 'ledger-id', params: {id: r.id}}">
-            {{r.name}}
-          </nuxt-link>
+          Beg Retained Earnings, {{begOfMonth}}
         </td>
         <td class="text-right">
-          <span>{{-r.ledger_balance | currency(index === 0)}}</span>
+          <span v-if="retainedEarning">{{retainedEarning.ledger_balance | currency(true)}}</span>
+          <span v-else>{{0 | currency(true)}}</span>
         </td>
       </tr>
       <tr>
-        <td>Total Revenue</td>
-        <td :class="{'text-right': true, underline: (index === revenueAccounts.length-1)}">
-          <u>{{sumRevenue | currency}}</u>
-        </td>
-      </tr>
-      </tbody>
-      <thead>
-      <tr>
-        <th colspan="2">
-          <h4 class="font-weight-100">Expense Accounts</h4>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(e, index) in expenseAccounts">
-        <td>
-          <nuxt-link :to="{'name': 'ledger-id', params: {id: e.id}}">
-            {{e.name}}
-          </nuxt-link>
-        </td>
-        <td :class="{'text-right': true, underline: (index === expenseAccounts.length-1)}">
-          {{e.ledger_balance | currency(index === 0)}}
+        <td>Add: {{income}}</td>
+        <td :class="{'text-right': true}">
+          <u>{{sumIncome | currency}}</u>
         </td>
       </tr>
       <tr>
-        <td>Total Expense</td>
-        <td class="text-right">
-          <span class="underline">
-            {{sumExpense | currency}}
-          </span>
+        <td>Less: Dividends</td>
+        <td :class="{'text-right': true, underline: true}">
+          <u>{{sumDividends | currency}}</u>
         </td>
       </tr>
       </tbody>
       <tfoot>
       <tr>
-        <td>{{income}}</td>
+        <td>End Retained Earnings, {{endOfMonth}}</td>
         <td class="text-right">
           <span class="double-underline">
-            {{sumIncome | currency(true)}}
+            {{sumEarnings | currency(true)}}
           </span>
         </td>
       </tr>
@@ -94,34 +72,34 @@
           return parseFloat(a.ledger_balance) != 0.0
         })
       }),
-      revenueAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'revenue'))
+      retainedEarning() {
+        return this.accounts.filter((a) => (a.name == 'Retained Earnings'))
       },
-      expenseAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'expense'))
+      dividendAccounts() {
+        return this.accounts.filter((a) => (a.name == 'Dividends'))
       },
       incomeAccounts() {
         return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense'))
       },
-      sumRevenue() {
-        return sumBy(this.revenueAccounts, (a) => -parseFloat(a.ledger_balance))
+      earingAccounts() {
+        return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense') || a.name == 'Retained Earnings' || a.name == 'Dividends')
       },
-      sumExpense() {
-        return sumBy(this.expenseAccounts, (a) => parseFloat(a.ledger_balance))
+      sumDividends() {
+        return sumBy(this.dividendAccounts, (a) => parseFloat(a.ledger_balance))
       },
       sumIncome() {
         var sum = sumBy(this.incomeAccounts, (a) => parseFloat(a.ledger_balance))
         this.income = sum >= 0 ? 'Net Income': 'Net Loss'
         return sum
+      },
+      sumEarnings() {
+        return sumBy(this.earningAccoutns, (a) => parseFloat(a.ledger_balance))
       }
     },
-    data: ()=> ({
-        income: 'Net Income'
-    }),
     async fetch({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
-        listRouteName: 'income_statement',
+        listRouteName: 'retained_earnings',
         title: '',
         query: {
           include: 'created_by',
@@ -132,7 +110,9 @@
       })
     },
     data: () => ({
-      today: moment().endOf('month').format('MMMM Do YYYY'),
+      endOfMonth: moment().endOf('month').format('MMMM Do YYYY'),
+      begOfMonth: moment().startOf('month').format('MMMM, Do YYYY'),
+      income: 'Net Income'
     })
   }
 </script>
