@@ -27,8 +27,8 @@
       <resource-loading-failed v-if="isFailed"/>
       <slot v-if="isSuccess"></slot>
     </div>
-    <b-navbar type="inverse" variant="chrome" class="fixed-bottom d-flex flex-row align-items-center">
-    </b-navbar>
+    <!-- <b-navbar type="inverse" variant="chrome" class="fixed-bottom d-flex flex-row align-items-center">
+    </b-navbar> -->
   </div>
 </template>
 <style>

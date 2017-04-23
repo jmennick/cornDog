@@ -31,7 +31,8 @@ module.exports = {
     '~plugins/bootstrap-vue',
     '~plugins/vue-awesome',
     '~plugins/apiClient',
-    '~plugins/currencyFormatter'
+    '~plugins/currencyFormatter',
+    '~plugins/inflectFilters'
   ],
   head: {
     title: 'Corn Dog',
