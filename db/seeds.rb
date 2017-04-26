@@ -1,11 +1,12 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+# frozen_string_literal: true
+
 require 'faker'
 
 # delete existing records so we can seed new ones in
 # order matters here because of dependencies
 PaperTrail::Version.delete_all
 LedgerEntry.delete_all
+SourceDocument.delete_all
 JournalEntryItem.delete_all
 JournalEntry.delete_all
 Account.delete_all
@@ -88,7 +89,7 @@ prepaid_insurance = Account.create!(
 )
 
 # this is not in the specified chart of accounts
-#TODO: check if Prepaid Rent should have a different code
+# TODO: check if Prepaid Rent should have a different code
 prepaid_rent = Account.create!(
   name: 'Prepaid Rent',
   code: 146,
@@ -134,7 +135,7 @@ wages_payable = Account.create!(
 )
 
 # this is not in the specified chart of accounts
-#TODO: check if Contributed Capital should have a different code
+# TODO: check if Contributed Capital should have a different code
 contributed_capital = Account.create!(
   name: 'Contributed Capital',
   code: 330,
@@ -198,7 +199,7 @@ rent_expense = Account.create!(
 insurance_expense = Account.create!(
   name: 'Insurance Expense',
   code: 535,
-  order: 405354,
+  order: 535,
   active: false,
   description: Faker::ChuckNorris.fact,
   created_by_id: admin.id,
@@ -231,7 +232,7 @@ salaries_expense = Account.create!(
 )
 
 # this is not in the specified chart of accounts
-#TODO: check if Service Revenue should have a different code
+# TODO: check if Service Revenue should have a different code
 service_revenue = Account.create!(
   name: 'Service Revenue',
   code: 404,
@@ -314,9 +315,6 @@ ActivateAccountJob.perform_now(depreciation_expense)
 ActivateAccountJob.perform_now(accumulated_depreciation)
 ActivateAccountJob.perform_now(salaries_expense)
 ActivateAccountJob.perform_now(rent_expense)
-
-
-PaperTrail.whodunnit = nil
 
 # Build The Default Journal Entries
 # (all of these done by accountant)
@@ -509,7 +507,7 @@ JournalEntry.create!(
 )
 
 # je10
-#NOTE: used wages expense here
+# NOTE: used wages expense here
 # this can also apply to salaries in the chart of accounts
 JournalEntry.create!(
   created_by_id: accountant.id,

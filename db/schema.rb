@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170421213115) do
+ActiveRecord::Schema.define(version: 20170426163447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,12 +40,13 @@ ActiveRecord::Schema.define(version: 20170421213115) do
   end
 
   create_table "journal_entries", force: :cascade do |t|
-    t.integer  "created_by_id",             null: false
+    t.integer  "created_by_id",                null: false
     t.text     "description"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.date     "date",                      null: false
-    t.integer  "state",         default: 0, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.date     "date",                         null: false
+    t.integer  "state",            default: 0, null: false
+    t.json     "source_documents"
     t.index ["created_by_id"], name: "index_journal_entries_on_created_by_id", using: :btree
     t.index ["state"], name: "index_journal_entries_on_state", using: :btree
   end
@@ -70,6 +71,16 @@ ActiveRecord::Schema.define(version: 20170421213115) do
     t.integer  "user_id"
     t.index ["journal_entry_item_id"], name: "index_ledger_entries_on_journal_entry_item_id", using: :btree
     t.index ["user_id"], name: "index_ledger_entries_on_user_id", using: :btree
+  end
+
+  create_table "source_documents", force: :cascade do |t|
+    t.integer  "journal_entry_id", null: false
+    t.string   "name"
+    t.string   "mime_type"
+    t.json     "file"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["journal_entry_id"], name: "index_source_documents_on_journal_entry_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -99,4 +110,5 @@ ActiveRecord::Schema.define(version: 20170421213115) do
   add_foreign_key "journal_entry_items", "journal_entries"
   add_foreign_key "ledger_entries", "journal_entry_items"
   add_foreign_key "ledger_entries", "users"
+  add_foreign_key "source_documents", "journal_entries"
 end

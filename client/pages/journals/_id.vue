@@ -70,6 +70,20 @@
             </span>
           </p>
         </b-form-fieldset>
+        <b-form-fieldset label="Source Documents">
+          <p class="form-control-static">
+            <ul v-if="journalEntry.source_documents.length">
+              <li v-for="doc in journalEntry.source_documents">
+                <a :href="fileURL(doc)" target="_blank">
+                  <icon name="file"></icon> {{doc.name}}
+                </a>
+              </li>
+            </ul>
+            <span v-else class="text-muted">
+              No Source Documents Provided
+            </span>
+          </p>
+        </b-form-fieldset>
     </form>
   </resource-detail>
 </template>
@@ -80,7 +94,7 @@ import ResourceDetail from '~components/ResourceDetail'
 import ItemsTable from '~components/journal_entries/ItemsTable'
 import PostJournalEntryForm from '~components/journal_entries/PostJournalEntryForm'
 import JournalEntryForm from '~components/JournalEntryForm'
-import {selected, isSuccess} from '~store/resource'
+import {isSuccess} from '~store/resource'
 import {showAction} from '~store/resourceAction'
 
 export default {
@@ -92,13 +106,13 @@ export default {
   },
   computed: {
     ...mapState({
-      journalEntry: ({resource})=> resource.selected
+      journalEntry: ({resource}) => resource.selected
     }),
     ...mapGetters('resource', {isSuccess})
   },
   methods: {
     ...mapMutations('resourceAction', {showAction}),
-    post() {
+    post () {
       this.showAction({
         name: 'post_journal_entry',
         data: {id: this.journalEntry.id},
@@ -107,7 +121,7 @@ export default {
         confirmColor: 'success'
       })
     },
-    reject() {
+    reject () {
       this.showAction({
         name: 'reject_journal_entry',
         data: {id: this.journalEntry.id},
@@ -115,9 +129,12 @@ export default {
         confirmIcon: 'times',
         confirmColor: 'danger'
       })
+    },
+    fileURL (doc) {
+      return JSON.parse(doc.data)
     }
   },
-  async fetch({params, store}) {
+  async fetch ({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'journal_entry',
       listRouteName: 'journals',

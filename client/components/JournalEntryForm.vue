@@ -44,10 +44,13 @@
       </tfoot>
     </table>
     <div class="container-fluid" style="margin-bottom: 15px">
-      <!-- <b-form-fieldset v-if="bottomErrorMessage" :state="bottomErrorMessage.state" :description="bottomErrorMessage.description" :feedback="bottomErrorMessage.feedback">
-      </b-form-fieldset> -->
       <b-button variant="success" @click="addItem">Add Item</b-button>
       <br /><br />
+      <b-form-fieldset label="Source Document">
+        <file-entry
+          @completed="onFilesCompleted" @loading="onFilesLoading" multiple
+        ></file-entry>
+      </b-form-fieldset>
       <b-form-fieldset label="Description">
         <b-form-input textarea v-model="journalEntry.description" @input="updateProp('description',$event)"></b-form-input>
       </b-form-fieldset>
@@ -65,24 +68,26 @@
 
 <script>
 import format from 'format'
-import {reject, isNumber, isString} from 'underscore'
+import {isString} from 'underscore'
 import apiClient from '~plugins/apiClient'
 import {mapState, mapMutations} from 'vuex'
 import ItemsTable from '~components/journal_entries/ItemsTable'
+import FileEntry from '~components/FileEntry'
 import resourceFormMixin from '~assets/js/mixins/resourceFormMixin'
 import {enableSaving, disableSaving} from '~store/resourceForm'
 
 export default {
   mixins: [resourceFormMixin],
   components: {
-    ItemsTable
+    ItemsTable,
+    FileEntry
   },
   computed: {
     ...mapState({
-      journalEntry: ({resourceForm})=> resourceForm.modalData
+      journalEntry: ({resourceForm}) => resourceForm.modalData
     }),
-    totalDebit() {
-      return this.journalEntry.items.reduce((acc,val)=> {
+    totalDebit () {
+      return this.journalEntry.items.reduce((acc, val) => {
         if (this.itemIsLeft(val)) {
           return acc + parseInt(val.left_value)
         } else {
@@ -90,8 +95,8 @@ export default {
         }
       }, 0)
     },
-    totalCredit() {
-      return this.journalEntry.items.reduce((acc,val)=> {
+    totalCredit () {
+      return this.journalEntry.items.reduce((acc, val) => {
         if (this.itemIsRight(val)) {
           return acc + parseInt(val.right_value)
         } else {
@@ -99,7 +104,7 @@ export default {
         }
       }, 0)
     },
-    availableAccounts() {
+    availableAccounts () {
       const usedAccounts = this.journalEntry.items.map(i => i.account_id)
       return this.possibleAccounts.map(a => {
         if (usedAccounts.includes(a.value)) {
@@ -109,15 +114,17 @@ export default {
         }
       })
     },
-    isBalanced() {
-      if ((this.totalDebit != this.totalCredit) || (this.totalDebit <= 0)) {
+    isBalanced () {
+      if ((this.totalDebit !== this.totalCredit) || (this.totalDebit <= 0)) {
         return false
       } else {
         return true
       }
     },
-    isValid() {
+    isValid () {
       if (!this.journalEntry.date) {
+        return false
+      } else if (this.loadingFiles) {
         return false
       } else if (!this.isBalanced) {
         return false
@@ -127,10 +134,10 @@ export default {
         return true
       }
     },
-    onlyOneItemLeft() {
-      return this.journalEntry.items.length==1
+    onlyOneItemLeft () {
+      return this.journalEntry.items.length === 1
     },
-    bottomErrorMessages() {
+    bottomErrorMessages () {
       let messages = []
       if (!this.journalEntry.date) {
         messages.push({
@@ -148,6 +155,7 @@ export default {
             feedback: 'No Items Provided',
             description: 'Please add an item via the "Add Item" button.'
           })
+          break
         case 1:
           messages.push({
             state: 'has-danger',
@@ -155,6 +163,7 @@ export default {
             feedback: 'Single Item Provided',
             description: 'A single item cannot be balanced. Please add another item via the "Add Item" button.'
           })
+          break
       }
       if (!this.journalEntry.items.every(this.itemIsValid)) {
         messages.push({
@@ -174,18 +183,18 @@ export default {
       return messages
     }
   },
-  beforeCreate() {
-    apiClient.findAll('account', {filter: {active: true}}).then(accounts=> {
-      this.possibleAccounts = accounts.map(a=> ({
+  beforeCreate () {
+    apiClient.findAll('account', {filter: {active: true}}).then(accounts => {
+      this.possibleAccounts = accounts.map(a => ({
         text: `${a.code} ${a.name}`,
         value: a.id
       }))
     })
   },
-  mounted() {
+  mounted () {
     this.handleIsValid(this.isValid)
   },
-  data: ()=> ({
+  data: () => ({
     fields: {
       date: {label: 'Date'},
       credit: {label: 'Credit'},
@@ -195,23 +204,31 @@ export default {
       text: 'Select an Account',
       value: null
     },
-    possibleAccounts: []
+    possibleAccounts: [],
+    loadingFiles: false
   }),
   methods: {
-    currencyFormatter: (val)=> {
+    currencyFormatter: (val) => {
       if (isString(val) && !parseFloat(val)) {
         return null
       } else {
         return format('%0.2f', val)
       }
     },
-    itemIsLeft: (item)=> {
+    onFilesCompleted (files) {
+      this.loadingFiles = false
+      this.updateProp('source_documents', files)
+    },
+    onFilesLoading (files) {
+      this.loadingFiles = true
+    },
+    itemIsLeft: (item) => {
       return !!item.left_value
     },
-    itemIsRight: (item)=> {
+    itemIsRight: (item) => {
       return !!item.right_value
     },
-    addItem() {
+    addItem () {
       let resource = this.resource
       resource.items.push({
         account_id: null,
@@ -220,31 +237,31 @@ export default {
       })
       this.saveData(resource)
     },
-    removeItem($index) {
+    removeItem ($index) {
       let resource = this.resource
       resource.items.splice($index, 1)
       this.saveData(resource)
     },
-    updateItem($index, pname, value) {
+    updateItem ($index, pname, value) {
       let resource = this.resource
       let item = resource.items[$index]
       item[pname] = value
       resource.items[$index] = item
       this.saveData(resource)
     },
-    updateProp(pname, value) {
+    updateProp (pname, value) {
       let resource = this.resource
       resource[pname] = value
       this.saveData(resource)
     },
-    handleIsValid(value) {
+    handleIsValid (value) {
       if (value) {
         this.enableSaving()
       } else {
         this.disableSaving()
       }
     },
-    itemIsValid(item) {
+    itemIsValid (item) {
       if (!item.account_id) {
         return false
       } else if (!item.left_value && !item.right_value) {
@@ -256,7 +273,7 @@ export default {
     ...mapMutations('resourceForm', {enableSaving, disableSaving})
   },
   watch: {
-    isValid(newValue) {
+    isValid (newValue) {
       this.handleIsValid(newValue)
     }
   }

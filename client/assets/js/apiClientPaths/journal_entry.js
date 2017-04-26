@@ -7,7 +7,8 @@ export default (apiClient) => {
     date: '',
     items: '',
     state: '',
-    description: ''
+    description: '',
+    source_documents: ''
   }, {
     readOnly: ['created_by', 'state'],
     include: 'created_by'

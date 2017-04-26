@@ -33,7 +33,9 @@ gem 'pundit', '~> 1.1'
 gem 'pundit-resources', '~> 1.1', '>= 1.1.1'
 
 # use Amazon S3 to store file uploads
-#TODO: include S3
+gem 'carrierwave', '~> 1.0'
+gem 'carrierwave-aws', '~> 1.1'
+gem 'carrierwave-base64', '~> 2.5'
 
 # used to track changes to records
 gem 'paper_trail', '~> 7.0'

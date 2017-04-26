@@ -8,29 +8,31 @@
 //   opacity: 0;
 // }
 
-body, html {
-  -webkit-overflow-scrolling: touch;
+body,
+html {
   overflow: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-flex {
-  max-width: 100%;
   margin-left: 30px;
   margin-right: 30px;
+  max-width: 100%;
 }
 
 .form-body-inner {
-  margin: -16px -15px -15px -15px;
+  margin: -16px -15px -15px;
 }
 
-.table-lg td, .table-lg td {
+.table-lg td,
+.table-lg td {
   font-size: 1.5em;
   font-weight: 200;
 }
 
 .fa-icon {
+  height: 1em;
   width: auto;
-  height: 1em; /* or any other relative font sizes */
 }
 
 .btn .fa-icon {
@@ -38,15 +40,20 @@ body, html {
 }
 
 .btn-inverse {
-  background-color: #292b2c;
-  border-color: #292b2c;
-  color: #fff;
+  $main-color: #292b2c;
+  $text-color: #fff;
+  background-color: $main-color;
+  border-color: $main-color;
+  color: $text-color;
 }
 
 .btn-inverse:hover {
-  background-color: #555;
-  border-color: #333;
-  color: #fff;
+  $background-color: #555;
+  $border-color: #333;
+  $color: #fff;
+  background-color: $background-color;
+  border-color: $border-color;
+  color: $color;
   text-decoration: none;
 }
 
@@ -55,25 +62,25 @@ body, html {
 }
 
 .content-container {
-  position: fixed;
-  top: 108px;
   bottom: 0;
   left: 0;
-  right: 0;
   overflow-y: auto;
+  position: fixed;
+  right: 0;
+  top: 108px;
 
-  & > .list-group {
-    margin-top: -1px;
+  > .list-group {
     margin-bottom: -1px;
-    .list-group-item {
-      &:first-child {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-      }
-      &:last-child {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
+    margin-top: -1px;
+
+    .list-group-item:first-child {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    .list-group-item:last-child {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
 }
