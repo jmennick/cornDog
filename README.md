@@ -1,6 +1,9 @@
 # Corn Dog
 A web-based accounting software.
 
+### Production Client
+https://corndog-bhbrtqngto.now.sh
+
 ### Account Access
 The account info that works is as follows:
 
