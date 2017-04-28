@@ -79,11 +79,10 @@ RSpec.describe JournalEntry, type: :request do
   end
 
   context 'create' do
-    context 'as an accountant', focus: true do
+    context 'as an accountant' do
       include_context 'a create request', role: :accountant
       it_behaves_like 'a correct create request'
       it_behaves_like 'a journal entry request'
-      after{puts "response: #{response.body}"}
 
       let!(:acc1) { Fabricate :account }
       let!(:acc2) { Fabricate :account }

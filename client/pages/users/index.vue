@@ -1,5 +1,6 @@
 <template>
   <resource-list @saved="handleSaved">
+    <user-form slot="form" />
     <b-table stripped :items="users" :fields="fields" class="no-bottom-margin" v-if="users.length">
       <template slot="role" scope="x">
         {{titleize(x.item.role)}}
@@ -13,23 +14,25 @@
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex'
+import {mapState} from 'vuex'
 import ResourceList from '~components/ResourceList'
 import ActionButtonBar from '~components/ActionButtonBar'
+import UserForm from '~components/users/UserForm'
 import {titleize} from 'inflection'
 import {get} from 'lodash'
 
 export default {
   components: {
     ResourceList,
-    ActionButtonBar
+    ActionButtonBar,
+    UserForm
   },
   computed: {
     ...mapState({
-      users: ({resource})=> get(resource, 'data', [])
+      users: ({resource}) => get(resource, 'data', [])
     })
   },
-  async fetch({params, store}) {
+  async fetch ({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'user',
       newResource: {
@@ -40,7 +43,7 @@ export default {
       }
     })
   },
-  data: ()=> ({
+  data: () => ({
     fields: {
       name: {label: 'Name'},
       email: {label: 'Email'},
@@ -49,10 +52,10 @@ export default {
     }
   }),
   methods: {
-    handleSaved(event) {
+    handleSaved (event) {
       this.$router.push({name: 'users-id', params: {id: event.id}})
     },
-    actions(user) {
+    actions (user) {
       return [
         {
           icon: 'eye',

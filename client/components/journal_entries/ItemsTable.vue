@@ -57,7 +57,7 @@ export default {
         return (v == null) ? a : (a + parseFloat(v))
       }, 0.0)
     },
-    totalCredit() {
+    totalCredit () {
       if (this.journalEntry == null) {
         return null
       }

@@ -17,10 +17,10 @@ export default {
       data: ({resourceAction}) => resourceAction.data
     }),
     description: {
-      get() {
+      get () {
         return this.data.description
       },
-      set(newValue) {
+      set (newValue) {
         this.saveData({...this.data, description: newValue})
       }
     }

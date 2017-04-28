@@ -1,5 +1,4 @@
 RSpec.describe Account, type: :request do
-
   context 'index' do
     context 'as an accountant' do
       include_context 'an index request', role: :accountant
