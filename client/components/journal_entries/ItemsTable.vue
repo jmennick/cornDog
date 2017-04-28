@@ -8,37 +8,33 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in journalEntry.items">
-        <td>
-          <span v-if="!!item.right_value">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </span>
-          {{item.account_name}}
-        </td>
+      <tr v-for="(item, index) in leftJournalEntry">
+        <td>{{item.account_name}}</td>
         <td class="text-right">
-          <span v-if="item.left_value !== null">
             {{item.left_value | currency(index === 0)}}
-          </span>
         </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr v-for="(item,index) in rightJournalEntry">
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{item.account_name}}</td>
+        <td></td>
         <td class="text-right">
-          <span v-if="item.right_value !== null">
             {{item.right_value | currency(index === 0)}}
-          </span>
         </td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
         <th>Totals</th>
-        <th class="text-right">{{totalDebit | currency}}</th>
-        <th class="text-right">{{totalCredit | currency}}</th>
+        <th class="text-right">{{totalDebit | currency(true)}}</th>
+        <th class="text-right">{{totalCredit | currency(true)}}</th>
       </tr>
     </tfoot>
   </table>
 </template>
 
 <script>
-import format from 'format'
+import {filter, get} from 'lodash'
 
 export default {
   props: {
@@ -48,6 +44,12 @@ export default {
     }
   },
   computed: {
+    leftJournalEntry() {
+      return filter(get(this.journalEntry, 'items', []), i => i.left_value !== null)
+    },
+    rightJournalEntry() {
+      return filter(get(this.journalEntry, 'items', []), i => i.right_value !== null)
+    },
     totalDebit() {
       if (this.journalEntry == null) {
         return null
@@ -65,6 +67,9 @@ export default {
         const v = i.right_value
         return (v == null) ? a : (a + parseFloat(v))
       }, 0.0)
+    },
+    rightJournalEntryItems() {
+        return this.journalEntry.items.filter((j) => {j.right_value != null})
     }
   }
 }

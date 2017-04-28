@@ -9,76 +9,76 @@
     </div>
     <div class="d-flex flex-row">
       <div class="balance-sheet-tables">
-      <table class="table">
-        <thead>
-        <tr>
-          <th colspan="2">
-            <h4 class="font-weight-100">Current Assets</h4>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(a,i) in currentAssetAccounts" class="underline">
-          <td>
-            <nuxt-link :to="{'name': 'ledger-id', params: {id: a.id}}">
-              {{a.name}}
+        <table class="table">
+          <thead>
+          <tr>
+            <th colspan="2">
+              <h4 class="font-weight-100">Current Assets</h4>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(a,i) in currentAssetAccounts" class="underline">
+            <td>
+              <nuxt-link :to="{'name': 'ledger-id', params: {id: a.id}}">
+                {{a.name}}
 
-            </nuxt-link>
-          </td>
-          <td :class="{'text-right': true, underline: (i === currentAssetAccounts.length-1)}">
-            {{a.ledger_balance | currency(i === 0)}}
+              </nuxt-link>
+            </td>
+            <td :class="{'text-right': true, underline: (i === currentAssetAccounts.length-1)}">
+              {{a.ledger_balance | currency(i === 0)}}
 
-          </td>
-        </tr>
-        <tr>
-          <td>Total Current Assets</td>
-          <td class="text-right">
+            </td>
+          </tr>
+          <tr>
+            <td>Total Current Assets</td>
+            <td class="text-right">
             <span class="underline">
               {{sumAssets('current') | currency(true)}}
             </span>
-          </td>
-        </tr>
-        </tbody>
-        <thead>
-        <tr>
-          <th colspan="2">
-            <h4 class="font-weight-100">Long-Term Assets</h4>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(a,i) in longAssetAccounts">
-          <td>
-            <nuxt-link :to="{'name': 'ledger-id', params: {id: a.id}}">
-              {{a.name}}
+            </td>
+          </tr>
+          </tbody>
+          <thead>
+          <tr>
+            <th colspan="2">
+              <h4 class="font-weight-100">Long-Term Assets</h4>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(a,i) in longAssetAccounts">
+            <td>
+              <nuxt-link :to="{'name': 'ledger-id', params: {id: a.id}}">
+                {{a.name}}
 
-            </nuxt-link>
-          </td>
-          <td :class="{'text-right': true, underline: (i === longAssetAccounts.length-1)}">
-            {{a.ledger_balance | currency(i === 0)}}
+              </nuxt-link>
+            </td>
+            <td :class="{'text-right': true, underline: (i === longAssetAccounts.length-1)}">
+              {{a.ledger_balance | currency(i === 0)}}
 
-          </td>
-        </tr>
-        <tr>
-          <td>Total Long-Term Assets</td>
-          <td class="text-right">
+            </td>
+          </tr>
+          <tr>
+            <td>Total Long-Term Assets</td>
+            <td class="text-right">
             <span class="underline">
               {{sumAssets('long') | currency(true)}}
             </span>
-          </td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-          <td><span class="font-weight-bold">Total Assets</span></td>
-          <td class="text-right">
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td><span class="font-weight-bold">Total Assets</span></td>
+            <td class="text-right">
             <span class="double-underline">
               {{sumAssets() | currency(true)}}
             </span>
-          </td>
-        </tr>
-        </tfoot>
-      </table>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
       </div>
       <!--Liabilities-->
       <div class="d-column balance-sheet-tables">
@@ -99,7 +99,7 @@
               </nuxt-link>
             </td>
             <td :class="{'text-right': true, underline: (i === currentLiabilityAccounts.length-1)}">
-              {{a.ledger_balance | currency(i === 0)}}
+              {{-a.ledger_balance | currency(i === 0)}}
 
             </td>
           </tr>
@@ -107,7 +107,7 @@
             <td>Total Current Liabilities</td>
             <td class="text-right">
               <span class="underline">
-                {{sumLiabilities('current') | currency(true)}}
+                {{-sumLiabilities('current') | currency(true)}}
               </span>
             </td>
           </tr>
@@ -128,7 +128,7 @@
               </nuxt-link>
             </td>
             <td :class="{'text-right': true, underline: (i === longLiabilityAccounts.length-1)}">
-              {{a.ledger_balance | currency(i === 0)}}
+              {{-a.ledger_balance | currency(i === 0)}}
 
             </td>
           </tr>
@@ -136,7 +136,7 @@
             <td>Total Long-Term Liabilities</td>
             <td class="text-right">
               <span class="text-underlined underline">
-                {{sumLiabilities('long') | currency(true)}}
+                {{-sumLiabilities('long') | currency(true)}}
               </span>
             </td>
           </tr>
@@ -146,7 +146,7 @@
             <td><span class="font-weight-bold">Total Liabilities</span></td>
             <td class="text-right">
               <span class="double-underline">
-                {{sumLiabilities() | currency(true)}}
+                {{-sumLiabilities() | currency(true)}}
               </span>
             </td>
           </tr>
@@ -183,17 +183,25 @@
             </td>
             <td class="text-right">
               <span class="underline">
-                {{-sumRetainedEarnings() | currency(true)}}
+                {{-sumRetainedEarnings() | currency}}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><span class="font-weight-bold">Total Owners Equity</span></td>
+            <td class="text-right">
+              <span class="double-underline">
+                {{-sumEquity() | currency(true)}}
               </span>
             </td>
           </tr>
           </tbody>
           <tfoot>
           <tr>
-            <td><span class="font-weight-bold">Total Owners Equity</span></td>
+            <td><span class="font-weight-bold">Total Liability and Owners Equity</span></td>
             <td class="text-right">
               <span class="double-underline">
-                {{-sumEquity() | currency(true)}}
+                {{-sumLiabilityAndEquity() | currency(true)}}
               </span>
             </td>
           </tr>
@@ -262,9 +270,15 @@
       },
       allEquityAccounts() {
         return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense') || (a.kind == 'equity'))
+      },
+      allLiabilitiesAndEquityAccounts() {
+        return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense') || (a.kind == 'equity') || (a.kind == 'current_liability') || (a.kind == 'long_term_liability'))
       }
     },
     methods: {
+      sumLiabilityAndEquity() {
+        return sumBy(this.allLiabilitiesAndEquityAccounts, (a) => parseFloat(a.ledger_balance))
+      },
       sumRetainedEarnings() {
         return sumBy(this.incomeAccounts, (a) => parseFloat(a.ledger_balance))
       },
