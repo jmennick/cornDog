@@ -62,10 +62,13 @@
       </tbody>
       <tfoot>
       <tr>
-        <td>{{income}}</td>
+        <td>
+          <span v-if="(sumIncome <= 0)">Net Income</span>
+          <span v-else>Net Loss</span>
+        </td>
         <td class="text-right">
           <span class="double-underline">
-            {{sumIncome | currency(true)}}
+            {{-sumIncome | currency(true)}}
           </span>
         </td>
       </tr>
@@ -111,13 +114,10 @@
       },
       sumIncome() {
         var sum = sumBy(this.incomeAccounts, (a) => parseFloat(a.ledger_balance))
-        this.income = sum >= 0 ? 'Net Income': 'Net Loss'
+        this.income = sum <= 0 ? 'Net Income': 'Net Loss'
         return sum
       }
     },
-    data: ()=> ({
-        income: 'Net Income'
-    }),
     async fetch({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',

@@ -84,6 +84,7 @@
             </span>
           </p>
         </b-form-fieldset>
+      </div>
     </form>
   </resource-detail>
 </template>

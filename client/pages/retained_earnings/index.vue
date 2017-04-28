@@ -28,7 +28,7 @@
       <tr>
         <td>Add: {{income}}</td>
         <td :class="{'text-right': true}">
-          <u>{{sumIncome | currency}}</u>
+          <u>{{-sumIncome | currency}}</u>
         </td>
       </tr>
       <tr>
@@ -43,7 +43,7 @@
         <td>End Retained Earnings, {{endOfMonth}}</td>
         <td class="text-right">
           <span class="double-underline">
-            {{sumEarnings | currency(true)}}
+            {{-sumEarnings | currency(true)}}
           </span>
         </td>
       </tr>
@@ -81,7 +81,7 @@
       incomeAccounts() {
         return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense'))
       },
-      earingAccounts() {
+      earningAccounts() {
         return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense') || a.name == 'Retained Earnings' || a.name == 'Dividends')
       },
       sumDividends() {
@@ -89,11 +89,11 @@
       },
       sumIncome() {
         var sum = sumBy(this.incomeAccounts, (a) => parseFloat(a.ledger_balance))
-        this.income = sum >= 0 ? 'Net Income': 'Net Loss'
+        this.income = sum <= 0 ? 'Net Income': 'Net Loss'
         return sum
       },
       sumEarnings() {
-        return sumBy(this.earningAccoutns, (a) => parseFloat(a.ledger_balance))
+        return sumBy(this.earningAccounts, (a) => parseFloat(a.ledger_balance))
       }
     },
     async fetch({params, store}) {

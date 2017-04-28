@@ -6,13 +6,15 @@
       <th class="text-right"><h4 class="font-weight-100">{{year.lastYear2}}</h4></th>
       <th class="text-right"><h4 class="font-weight-100">{{year.lastYear}}</h4></th>
       <th class="text-right"><h4 class="font-weight-100">{{year.current}}</h4></th>
+      <!--<th class="text-right"><h4 class="font-weight-100">Status</h4></th>-->
       </thead>
       <tbody>
       <tr v-for="l in liquidityRatios">
         <td>{{l.name}}</td>
-        <td class="text-right">{{l.ratios[0]}}</td>
-        <td class="text-right">{{l.ratios[1]}}</td>
-        <td class="text-right">{{l.ratios[2]}}</td>
+        <td class="text-right">{{l.ratios[0] | currency}}</td>
+        <td class="text-right">{{l.ratios[1] | currency}}</td>
+        <td class="text-right">{{l.ratios[2] | currency}}</td>
+        <!--<td></td>-->
       </tr>
       </tbody>
       <thead>
@@ -20,13 +22,15 @@
       <th class="text-right"></th>
       <th class="text-right"></th>
       <th class="text-right"></th>
+      <!--<th class="text-right"></th>-->
       </thead>
       <tbody>
       <tr v-for="o in operatingRatios">
         <td>{{o.name}}</td>
-        <td class="text-right">{{o.ratios[0]}}</td>
-        <td class="text-right">{{o.ratios[1]}}</td>
-        <td class="text-right">{{o.ratios[2]}}</td>
+        <td class="text-right">{{o.ratios[0] | currency}}</td>
+        <td class="text-right">{{o.ratios[1] | currency}}</td>
+        <td class="text-right">{{o.ratios[2] | currency}}</td>
+        <!--<td></td>-->
       </tr>
       </tbody>
       <thead>
@@ -34,13 +38,15 @@
       <th class="text-right"></th>
       <th class="text-right"></th>
       <th class="text-right"></th>
+      <!--<th class="text-right"></th>-->
       </thead>
       <tbody>
       <tr v-for="d in debtManagement">
         <td>{{d.name}}</td>
-        <td class="text-right">{{d.ratios[0]}}</td>
-        <td class="text-right">{{d.ratios[1]}}</td>
-        <td class="text-right">{{d.ratios[2]}}</td>
+        <td class="text-right">{{d.ratios[0] | currency}}</td>
+        <td class="text-right">{{d.ratios[1] | currency}}</td>
+        <td class="text-right">{{d.ratios[2] | currency}}</td>
+        <!--<td></td>-->
       </tr>
       </tbody>
       <thead>
@@ -48,13 +54,15 @@
       <th class="text-right"></th>
       <th class="text-right"></th>
       <th class="text-right"></th>
+      <!--<th class="text-right"></th>-->
       </thead>
       <tbody>
       <tr v-for="p in profitabilityRatios">
         <td>{{p.name}}</td>
-        <td class="text-right">{{p.ratios[0]}}</td>
-        <td class="text-right">{{p.ratios[1]}}</td>
-        <td class="text-right">{{p.ratios[2]}}</td>
+        <td class="text-right">{{p.ratios[0] | currency}}</td>
+        <td class="text-right">{{p.ratios[1] | currency}}</td>
+        <td class="text-right">{{p.ratios[2] | currency}}</td>
+        <!--<td></td>-->
       </tr>
       </tbody>
       <thead>
@@ -62,13 +70,15 @@
       <th class="text-right"></th>
       <th class="text-right"></th>
       <th class="text-right"></th>
+      <!--<th class="text-right"></th>-->
       </thead>
       <tbody>
       <tr v-if="dividendAccount.length > 0" v-for="v in valuationRatios">
         <td>{{v.name}}</td>
-        <td class="text-right">{{v.ratios[0]}}</td>
-        <td class="text-right">{{v.ratios[1]}}</td>
-        <td class="text-right">{{v.ratios[2]}}</td>
+        <td class="text-right">{{v.ratios[0] | currency}}</td>
+        <td class="text-right">{{v.ratios[1 | currency]}}</td>
+        <td class="text-right">{{v.ratios[2] | currency}}</td>
+        <!--<td></td>-->
       </tr>
       <tr v-else>
         <td>No dividends reported</td>
@@ -128,7 +138,7 @@
             ratios: [
               0, //2015
               0, //2016
-              (sumBy(this.currentAssets, (a) => parseFloat(a.ledger_balance)) / sumBy(this.currentLiabilities, (a) => parseFloat(a.ledger_balance))) //2017
+              Math.abs(sumBy(this.currentAssets, (a) => parseFloat(a.ledger_balance)) / sumBy(this.currentLiabilities, (a) => parseFloat(a.ledger_balance))) //2017
             ]
           },
           {
@@ -136,7 +146,7 @@
             ratios: [
               0, //2015
               0,  //2016
-              (sumBy(this.currentAssets, (a) => parseFloat(a.ledger_balance)) - sumBy(this.inventory, (a) => parseFloat(a.ledger_balance))) / sumBy(this.currentLiabilities, (a) => parseFloat(a.ledger_balance))
+              Math.abs((sumBy(this.currentAssets, (a) => parseFloat(a.ledger_balance)) - sumBy(this.inventory, (a) => parseFloat(a.ledger_balance))) / sumBy(this.currentLiabilities, (a) => parseFloat(a.ledger_balance)))
             ]
           },
         ]
@@ -154,7 +164,7 @@
             ratios: [
               0, //2015
               0, //2016
-              (sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance)) / sumBy(this.totalAssets, (a) => parseFloat(a.ledger_balance))) //2017
+              Math.abs(sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance)) / sumBy(this.totalAssets, (a) => parseFloat(a.ledger_balance))) //2017
             ]
           },
           {
@@ -162,7 +172,7 @@
             ratios: [
               0, //2015
               0,  //2016
-              (sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance)) / sumBy(this.inventory, (a) => parseFloat(a.ledger_balance)))
+              Math.abs(sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance)) / sumBy(this.inventory, (a) => parseFloat(a.ledger_balance)))
             ]
           },
         ]
@@ -183,7 +193,7 @@
             ratios: [
               0, //2015
               0, //2016
-              (sumBy(this.longTermDebt, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance))) //2017
+              Math.abs(sumBy(this.longTermDebt, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance))) //2017
             ]
           },
           {
@@ -191,7 +201,7 @@
             ratios: [
               0, //2015
               0,  //2016
-              (sumBy(this.totalLiabilities, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance)))
+              Math.abs(sumBy(this.totalLiabilities, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance)))
             ]
           },
         ]
@@ -206,7 +216,7 @@
             ratios: [
               0, //2015
               0, //2016
-              (sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance))) //2017
+              Math.abs(sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance))) //2017
             ]
           },
           {
@@ -214,7 +224,7 @@
             ratios: [
               0, //2015
               0,  //2016
-              (sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance)))
+              Math.abs(sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance)))
             ]
           },
         ]
@@ -232,7 +242,7 @@
             ratios: [
               0, //2015
               0, //2016
-              (sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / this.dividendAccount.ledger_balance) //2017
+              Math.abs(sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / this.dividendAccount.ledger_balance) //2017
             ]
           },
           {
@@ -240,7 +250,7 @@
             ratios: [
               0, //2015
               0,  //2016
-              ((this.stockPrice) / (sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / this.dividendAccount.ledger_balance)) //2017
+              Math.abs((this.stockPrice) / (sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / this.dividendAccount.ledger_balance)) //2017
             ]
           },
         ]
@@ -250,7 +260,7 @@
       await store.dispatch('resource/setup', {
         name: 'account',
         listRouteName: 'retained_earnings',
-        title: '',
+        title: 'Dashboard',
       })
     }
   }
