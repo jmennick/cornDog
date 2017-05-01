@@ -26,7 +26,6 @@
 
 <script>
 import {titleize} from 'inflection'
-import {defer} from 'lodash'
 
 export default {
   props: {
@@ -48,43 +47,43 @@ export default {
     }
   },
   computed: {
-    shownActions: ({actions, sizeLimit})=> actions.slice(0, sizeLimit),
-    burriedActions: ({actions, sizeLimit})=> actions.slice(sizeLimit)
+    shownActions: ({actions, sizeLimit}) => actions.slice(0, sizeLimit),
+    burriedActions: ({actions, sizeLimit}) => actions.slice(sizeLimit)
   },
-  data: ()=> ({
+  data: () => ({
     showDropdown: false,
     actionsPrivate: []
   }),
-  mounted() {
+  mounted () {
     if (typeof document !== 'undefined') {
-      document.documentElement.addEventListener('click', this.clickOut);
+      document.documentElement.addEventListener('click', this.clickOut)
     }
   },
   methods: {
-    clickAction(a) {
+    clickAction (a) {
       if (a.disabled) {
         return
-      } else if (!!a.action) {
+      } else if (a.action) {
         a.action()
       } else {
         return
       }
     },
-    toggleDropdown() {
+    toggleDropdown () {
       this.showDropdown = !this.showDropdown
     },
-    clickOut() {
+    clickOut () {
       this.showDropdown = false
     },
-    titleForAction: ({name})=> titleize(name),
+    titleForAction: ({name}) => titleize(name),
     titleize
   },
   watch: {
-    showDropdown(newValue, oldValue) {
-      if (newValue == oldValue) {
+    showDropdown (newValue, oldValue) {
+      if (newValue === oldValue) {
         return
       }
-      this.$emit(newValue?'dropdown-shown':'dropdown-hidden')
+      this.$emit(newValue ? 'dropdown-shown' : 'dropdown-hidden')
     }
   }
 }

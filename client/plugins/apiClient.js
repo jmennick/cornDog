@@ -10,15 +10,8 @@ const apiClient = new DevourClient({
 
 apiClient.replaceMiddleware('errors', {
   name: 'handle-errors',
-  error: (payload)=> payload.data
+  error: (payload) => payload.data
 })
 
-// apiClient.insertMiddlewareAfter('HEADER', {
-//   name: 'JWT Auth',
-//   req: (payload)=> {
-//     return payload
-//   }
-// })
-
-apiClientPaths.forEach(p => p(apiClient));
+apiClientPaths.forEach(p => p(apiClient))
 export default apiClient

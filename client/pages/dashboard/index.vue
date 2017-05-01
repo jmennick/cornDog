@@ -94,10 +94,9 @@
   </resource-list>
 </template>
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState} from 'vuex'
   import ResourceList from '~components/ResourceList'
-  import {sumBy} from 'lodash'
-  import {get} from 'lodash'
+  import {sumBy, get} from 'lodash'
   import moment from 'moment'
 
   export default {
@@ -107,11 +106,11 @@
     computed: {
       ...mapState({
         accounts: ({resource}) => get(resource, 'data', []).filter((a) => {
-          //NOTE: this is temporary! should do this server-side eventually
-          return parseFloat(a.ledger_balance) != 0.0
+          // NOTE: should do this server-side eventually
+          return parseFloat(a.ledger_balance) !== 0.0
         })
       }),
-      year() {
+      year () {
         return {
           current: moment().format('YYYY'),
           lastYear: moment().subtract(1, 'years').format('YYYY'),
@@ -119,148 +118,149 @@
         }
       },
       currentAssets () {
-        return this.accounts.filter((a) => (a.kind == 'current_asset'))
+        return this.accounts.filter((a) => (a.kind === 'current_asset'))
       },
       currentLiabilities () {
-        var accounts = this.accounts.filter((a) => (a.kind == 'current_liability'))
-        if (accounts.length == 0)
+        var accounts = this.accounts.filter((a) => (a.kind === 'current_liability'))
+        if (accounts.length === 0) {
           return [{ledger_balance: 1}]
-        else
+        } else {
           return accounts
+        }
       },
-      inventory() {
-        return this.accounts.filter((a) => (a.name == 'Supplies'))
+      inventory () {
+        return this.accounts.filter((a) => (a.name === 'Supplies'))
       },
-      liquidityRatios() {
+      liquidityRatios () {
         return [
           {
             name: 'Current Ratio',
             ratios: [
-              0, //2015
-              0, //2016
-              Math.abs(sumBy(this.currentAssets, (a) => parseFloat(a.ledger_balance)) / sumBy(this.currentLiabilities, (a) => parseFloat(a.ledger_balance))) //2017
+              0, // 2015
+              0, // 2016
+              Math.abs(sumBy(this.currentAssets, (a) => parseFloat(a.ledger_balance)) / sumBy(this.currentLiabilities, (a) => parseFloat(a.ledger_balance))) // 2017
             ]
           },
           {
             name: 'Quick Ratio',
             ratios: [
-              0, //2015
-              0,  //2016
+              0, // 2015
+              0,  // 2016
               Math.abs((sumBy(this.currentAssets, (a) => parseFloat(a.ledger_balance)) - sumBy(this.inventory, (a) => parseFloat(a.ledger_balance))) / sumBy(this.currentLiabilities, (a) => parseFloat(a.ledger_balance)))
             ]
-          },
+          }
         ]
       },
-      annualSales() {
-        return this.accounts.filter((a) => (a.kind == 'revenue'))
+      annualSales () {
+        return this.accounts.filter((a) => (a.kind === 'revenue'))
       },
-      totalAssets() {
-        return this.accounts.filter((a) => (a.kind == 'current_asset') || (a.kind == 'long_term_asset'))
+      totalAssets () {
+        return this.accounts.filter((a) => (a.kind === 'current_asset') || (a.kind === 'long_term_asset'))
       },
-      operatingRatios() {
+      operatingRatios () {
         return [
           {
             name: 'Total Assets Turnover',
             ratios: [
-              0, //2015
-              0, //2016
-              Math.abs(sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance)) / sumBy(this.totalAssets, (a) => parseFloat(a.ledger_balance))) //2017
+              0, // 2015
+              0, // 2016
+              Math.abs(sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance)) / sumBy(this.totalAssets, (a) => parseFloat(a.ledger_balance))) // 2017
             ]
           },
           {
             name: 'Inventory Turnover',
             ratios: [
-              0, //2015
-              0,  //2016
+              0, // 2015
+              0,  // 2016
               Math.abs(sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance)) / sumBy(this.inventory, (a) => parseFloat(a.ledger_balance)))
             ]
-          },
+          }
         ]
       },
-      longTermDebt() {
-        return this.accounts.filter((a) => (a.kind == 'long_term_liability'))
+      longTermDebt () {
+        return this.accounts.filter((a) => (a.kind === 'long_term_liability'))
       },
-      shareHolderEquity() {
-        return this.accounts.filter((a) => (a.kind == 'equity'))
+      shareHolderEquity () {
+        return this.accounts.filter((a) => (a.kind === 'equity'))
       },
-      totalLiabilities() {
-        return this.accounts.filter((a) => (a.kind == 'current_liability') || (a.kind == 'long_term_liability'))
+      totalLiabilities () {
+        return this.accounts.filter((a) => (a.kind === 'current_liability') || (a.kind === 'long_term_liability'))
       },
-      debtManagement() {
+      debtManagement () {
         return [
           {
             name: 'Debt/Equity Ratio',
             ratios: [
-              0, //2015
-              0, //2016
-              Math.abs(sumBy(this.longTermDebt, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance))) //2017
+              0, // 2015
+              0, // 2016
+              Math.abs(sumBy(this.longTermDebt, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance))) // 2017
             ]
           },
           {
             name: 'Debt Ratio',
             ratios: [
-              0, //2015
-              0,  //2016
+              0, // 2015
+              0,  // 2016
               Math.abs(sumBy(this.totalLiabilities, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance)))
             ]
-          },
+          }
         ]
       },
-      netIncome() {
-        return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense'))
+      netIncome () {
+        return this.accounts.filter((a) => (a.kind === 'revenue') || (a.kind === 'expense'))
       },
-      profitabilityRatios() {
+      profitabilityRatios () {
         return [
           {
             name: 'Profit Margin (Return on Sales)',
             ratios: [
-              0, //2015
-              0, //2016
-              Math.abs(sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance))) //2017
+              0, // 2015
+              0, // 2016
+              Math.abs(sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / sumBy(this.annualSales, (a) => parseFloat(a.ledger_balance))) // 2017
             ]
           },
           {
             name: 'Return on Equity',
             ratios: [
-              0, //2015
-              0,  //2016
+              0, // 2015
+              0,  // 2016
               Math.abs(sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / sumBy(this.shareHolderEquity, (a) => parseFloat(a.ledger_balance)))
             ]
-          },
+          }
         ]
       },
-      dividendAccount() {
-          return this.accounts.filter((a) => (a.name == 'Dividends'))
+      dividendAccount () {
+        return this.accounts.filter((a) => (a.name === 'Dividends'))
       },
-      stockPrice() {
-          return 0
+      stockPrice () {
+        return 0
       },
-      valuationRatios() {
+      valuationRatios () {
         return [
           {
             name: 'Earnings Per Share (EPS)',
             ratios: [
-              0, //2015
-              0, //2016
-              Math.abs(sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / this.dividendAccount.ledger_balance) //2017
+              0, // 2015
+              0, // 2016
+              Math.abs(sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / this.dividendAccount.ledger_balance) // 2017
             ]
           },
           {
             name: 'Price/Earnings Ratio',
             ratios: [
-              0, //2015
-              0,  //2016
-              Math.abs((this.stockPrice) / (sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / this.dividendAccount.ledger_balance)) //2017
+              0, // 2015
+              0,  // 2016
+              Math.abs((this.stockPrice) / (sumBy(this.netIncome, (a) => parseFloat(a.ledger_balance)) / this.dividendAccount.ledger_balance)) // 2017
             ]
-          },
+          }
         ]
       }
     },
-    async fetch({params, store}) {
+    async fetch ({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
         listRouteName: 'retained_earnings',
-        title: 'Dashboard',
+        title: 'Dashboard'
       })
     }
   }

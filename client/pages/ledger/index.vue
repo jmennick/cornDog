@@ -30,11 +30,10 @@
 </template>
 
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState} from 'vuex'
   import ResourceList from '~components/ResourceList'
   import ActionButtonBar from '~components/ActionButtonBar'
   import AccountForm from '~components/accounts/AccountForm'
-  import {showModal} from '~store/resourceForm'
   import {get} from 'lodash'
 
   export default {
@@ -46,16 +45,16 @@
     computed: {
       ...mapState({
         accounts: ({resource}) => get(resource, 'data', []).filter((a) => {
-          //NOTE: this is temporary! should do this server-side eventually
-          return parseFloat(a.ledger_balance) != 0.0
+          // NOTE: should do this server-side eventually
+          return parseFloat(a.ledger_balance) !== 0.0
         })
       })
     },
     methods: {
-      handleSaved(event) {
+      handleSaved (event) {
         this.$router.push({name: 'accounts-id', params: {id: event.id}})
       },
-      actions(account) {
+      actions (account) {
         return [
           {
             icon: 'eye',
@@ -65,7 +64,7 @@
         ]
       }
     },
-    async fetch({params, store}) {
+    async fetch ({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
         listRouteName: 'ledger',

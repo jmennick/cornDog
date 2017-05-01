@@ -32,10 +32,10 @@ export const loadingFailed = 'loadingFailed'
 export const resourceSetup = 'resourceSetup'
 
 export const mutations = {
-  [beginLoading](state) {
+  [beginLoading] (state) {
     state.viewState = VIEW_STATE_LOADING
   },
-  [loadingSuccessful](state, data) {
+  [loadingSuccessful] (state, data) {
     state.viewState = VIEW_STATE_SUCCESS
     if (state.selectedId == null) {
       state.data = data
@@ -44,11 +44,11 @@ export const mutations = {
     }
     state.meta = data.meta
   },
-  [loadingFailed](state, error) {
+  [loadingFailed] (state, error) {
     state.viewState = VIEW_STATE_FAILED
     state.error = error
   },
-  [resourceSetup](state, {name, id=null, baseName=null, baseId=null, query={}, newResource={}, title=null, showRouteArticle=null, listRouteName=null, showRouteBase=null, backButtonTitle=null}) {
+  [resourceSetup] (state, {name, id = null, baseName = null, baseId = null, query = {}, newResource = {}, title = null, showRouteArticle = null, listRouteName = null, showRouteBase = null, backButtonTitle = null}) {
     state.name = name
     state.data = []
     state.selectedId = id
@@ -77,24 +77,24 @@ export const showRoute = 'showRoute'
 export const listRoute = 'listRoute'
 
 export const getters = {
-  [isLoading]: ({viewState})=> viewState == VIEW_STATE_LOADING,
-  [isSuccess]: ({viewState})=> viewState == VIEW_STATE_SUCCESS,
-  [isFailed]: ({viewState})=> viewState == VIEW_STATE_FAILED,
-  [labelSingular]: ({name})=> titleize(name),
-  [labelPlural]: ({name})=> pluralize(titleize(name)),
-  [currentUser]: ({meta})=> result(meta, 'current_user', {
+  [isLoading]: ({viewState}) => viewState === VIEW_STATE_LOADING,
+  [isSuccess]: ({viewState}) => viewState === VIEW_STATE_SUCCESS,
+  [isFailed]: ({viewState}) => viewState === VIEW_STATE_FAILED,
+  [labelSingular]: ({name}) => titleize(name),
+  [labelPlural]: ({name}) => pluralize(titleize(name)),
+  [currentUser]: ({meta}) => result(meta, 'current_user', {
     name: '???',
     email: '???',
     role: 'no_access'
   }),
-  [showRouteName]: ({showRouteBase, showRouteArticle})=> {
-    return `${showRouteBase}${showRouteBase.length?'-':''}${showRouteArticle}`
+  [showRouteName]: ({showRouteBase, showRouteArticle}) => {
+    return `${showRouteBase}${showRouteBase.length ? '-' : ''}${showRouteArticle}`
   },
-  [showRoute]: ({showRouteArticle, selectedId}, {showRouteName})=> ({
+  [showRoute]: ({showRouteArticle, selectedId}, {showRouteName}) => ({
     name: showRouteName,
     params: {[showRouteArticle]: selectedId}
   }),
-  [listRoute]: ({listRouteName})=> {
+  [listRoute]: ({listRouteName}) => {
     return {
       name: listRouteName
     }
@@ -105,15 +105,15 @@ export const setup = 'setup'
 export const fetch = 'fetch'
 
 export const actions = {
-  [setup]: async({commit, dispatch}, {name, id=null, baseName=null, baseId=null, query={}, newResource={}, title=null, showRouteArticle=null, listRouteName=null, showRouteBase=null, backButtonTitle=null})=> {
+  [setup]: async({commit, dispatch}, {name, id = null, baseName = null, baseId = null, query = {}, newResource = {}, title = null, showRouteArticle = null, listRouteName = null, showRouteBase = null, backButtonTitle = null}) => {
     commit(resourceSetup, {name, id, baseName, baseId, query, newResource, title, showRouteArticle, listRouteName, showRouteBase, backButtonTitle})
     await dispatch(fetch)
   },
-  [fetch]: async ({commit, state})=> {
+  [fetch]: async ({commit, state}) => {
     commit(beginLoading)
     try {
       let correctStorage
-      if (typeof(Storage) !== "undefined") {
+      if (typeof (Storage) !== 'undefined') {
         correctStorage = localStorage
       } else {
         correctStorage = sessionStorage
@@ -134,7 +134,7 @@ export const actions = {
         const data = await apiClient.find(state.name, state.selectedId, state.query)
         commit(loadingSuccessful, data)
       }
-    } catch(err) {
+    } catch (err) {
       commit(loadingFailed, err)
     }
   }

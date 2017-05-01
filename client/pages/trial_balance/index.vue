@@ -58,7 +58,7 @@
 </template>
 
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState} from 'vuex'
   import ResourceList from '~components/ResourceList'
   import moment from 'moment'
   import {get} from 'lodash'
@@ -70,28 +70,28 @@
     computed: {
       ...mapState({
         accounts: ({resource}) => get(resource, 'data', []).filter((a) => {
-          //NOTE: this is temporary! should do this server-side eventually
-          return parseFloat(a.ledger_balance) != 0.0
+          // NOTE: should do this server-side eventually
+          return parseFloat(a.ledger_balance) !== 0.0
         }),
-        debitAccounts() {
+        debitAccounts () {
           return this.accounts.filter((a) => {
             return a.ledger_balance > 0
           })
         },
-        creditAccounts() {
+        creditAccounts () {
           return this.accounts.filter((a) => {
             return a.ledger_balance < 0
           })
         }
       }),
-      totalDebits() {
+      totalDebits () {
         return this.accounts.reduce((a, i) => {
           const v = i.ledger_balance > 0 ? i.ledger_balance : 0
           a = !a ? 0 : a
           return (!v) ? a : (a + parseFloat(v))
         }, 0)
       },
-      totalCredits() {
+      totalCredits () {
         return this.accounts.reduce((a, i) => {
           const v = i.ledger_balance < 0 ? -i.ledger_balance : 0
           a = !a ? 0 : a
@@ -99,7 +99,7 @@
         }, 0)
       }
     },
-    async fetch({params, store}) {
+    async fetch ({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
         listRouteName: 'ledger',
@@ -112,7 +112,7 @@
         }
       })
     },
-    data: ()=> ({
+    data: () => ({
       today: moment().format('MMMM Do YYYY'),
       firstItem: true
     })

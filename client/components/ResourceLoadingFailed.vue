@@ -7,11 +7,10 @@
 
 <script>
 import {mapState} from 'vuex'
-import {isFailed} from '~store/resource'
 
 export default {
   computed: mapState({
-    error: ({resource})=> resource.error
+    error: ({resource}) => resource.error
   })
 }
 </script>

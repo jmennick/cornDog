@@ -1,4 +1,4 @@
-export default (apiClient)=> {
+export default (apiClient) => {
   apiClient.define('ledger_entry', {
     date: '',
     description: '',

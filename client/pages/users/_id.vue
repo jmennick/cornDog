@@ -17,7 +17,6 @@
 <script>
 import {mapState} from 'vuex'
 import ResourceDetail from '~components/ResourceDetail'
-import {selected} from '~store/resource'
 
 export default {
   components: {
@@ -25,10 +24,10 @@ export default {
   },
   computed: {
     ...mapState({
-      user: ({resource})=> resource.selected
+      user: ({resource}) => resource.selected
     })
   },
-  async fetch({params, store}) {
+  async fetch ({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'user',
       id: params.id,

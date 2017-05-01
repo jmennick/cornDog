@@ -29,7 +29,7 @@ module.exports = {
   },
   plugins: [
     '~plugins/bootstrap-vue',
-    '~plugins/vue-awesome',
+    // '~plugins/vue-awesome',
     '~plugins/apiClient',
     '~plugins/currencyFormatter',
     '~plugins/inflectFilters'

@@ -68,7 +68,7 @@
 
 <script>
 import format from 'format'
-import {isString} from 'underscore'
+import {isString, get} from 'underscore'
 import apiClient from '~plugins/apiClient'
 import {mapState, mapMutations} from 'vuex'
 import ItemsTable from '~components/journal_entries/ItemsTable'
@@ -187,7 +187,7 @@ export default {
     apiClient.findAll('account', {filter: {active: true}}).then(accounts => {
       this.possibleAccounts = accounts.map(a => ({
         text: `${a.code} ${a.name}`,
-        value: a.id
+        value: get(a, 'id')
       }))
     })
   },

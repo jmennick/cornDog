@@ -44,17 +44,17 @@ export default {
     }
   },
   computed: {
-    leftJournalEntry() {
+    leftJournalEntry () {
       return filter(get(this.journalEntry, 'items', []), i => i.left_value !== null)
     },
-    rightJournalEntry() {
+    rightJournalEntry () {
       return filter(get(this.journalEntry, 'items', []), i => i.right_value !== null)
     },
-    totalDebit() {
+    totalDebit () {
       if (this.journalEntry == null) {
         return null
       }
-      return this.journalEntry.items.reduce((a,i)=> {
+      return this.journalEntry.items.reduce((a, i) => {
         const v = i.left_value
         return (v == null) ? a : (a + parseFloat(v))
       }, 0.0)
@@ -63,13 +63,13 @@ export default {
       if (this.journalEntry == null) {
         return null
       }
-      return this.journalEntry.items.reduce((a,i)=> {
+      return this.journalEntry.items.reduce((a, i) => {
         const v = i.right_value
         return (v == null) ? a : (a + parseFloat(v))
       }, 0.0)
     },
-    rightJournalEntryItems() {
-        return this.journalEntry.items.filter((j) => {j.right_value != null})
+    rightJournalEntryItems () {
+      return this.journalEntry.items.filter((j) => j.right_value != null)
     }
   }
 }

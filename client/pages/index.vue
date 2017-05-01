@@ -24,11 +24,11 @@ export default {
   },
   computed: {
     ...mapState({
-      accounts: ({resource})=> resource.data
+      accounts: ({resource}) => resource.data
     })
   },
   methods: {
-    actions(account) {
+    actions (account) {
       return [
         {
           icon: 'eye',
@@ -38,7 +38,7 @@ export default {
       ]
     }
   },
-  async fetch({params, store}) {
+  async fetch ({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'account',
       listRouteName: 'index',
@@ -50,7 +50,7 @@ export default {
       }
     })
   },
-  data: ()=> ({
+  data: () => ({
     fields: {
       code: {label: 'Code', sortable: true},
       name: {label: 'Name', sortable: true},

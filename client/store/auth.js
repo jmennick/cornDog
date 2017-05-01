@@ -1,21 +1,21 @@
 import axios from 'axios'
 
-const correctStorage = ()=> {
-  if (typeof(Storage) !== "undefined") {
+const correctStorage = () => {
+  if (typeof (Storage) !== 'undefined') {
     return localStorage
   } else {
     return sessionStorage
   }
 }
-const storageGet = (key)=> {
+const storageGet = (key) => {
   if (process.BROWSER_BUILD) {
     return correctStorage().getItem(key)
   }
 }
-const storageSet = (key, value)=> {
+const storageSet = (key, value) => {
   correctStorage().setItem(key, value)
 }
-const storageRemove = (key)=> {
+const storageRemove = (key) => {
   correctStorage().removeItem(key)
 }
 
@@ -33,14 +33,14 @@ export const authInProgress = 'authInProgress'
 export const authFailed = 'authFailed'
 
 export const mutations = {
-  [setAuthToken](store, authToken) {
+  [setAuthToken] (store, authToken) {
     store.viewState = null
     store.authToken = authToken
   },
-  [authInProgress](store) {
+  [authInProgress] (store) {
     store.viewState = VIEW_STATE_AUTHENTICATING
   },
-  [authFailed](store, error) {
+  [authFailed] (store, error) {
     store.viewState = VIEW_STATE_FAILED
     store.error = error
   }
@@ -52,10 +52,10 @@ export const isFailed = 'isFailed'
 export const isAuthenticated = 'isAuthenticated'
 
 export const getters = {
-  [isIdle]: ({viewState})=> (viewState == null),
-  [isAuthenticating]: ({viewState})=> (viewState == VIEW_STATE_AUTHENTICATING),
-  [isFailed]: ({viewState})=> (viewState == VIEW_STATE_FAILED),
-  [isAuthenticated]: ({authToken})=> (authToken !== null)
+  [isIdle]: ({viewState}) => viewState === null,
+  [isAuthenticating]: ({viewState}) => viewState === VIEW_STATE_AUTHENTICATING,
+  [isFailed]: ({viewState}) => viewState === VIEW_STATE_FAILED,
+  [isAuthenticated]: ({authToken}) => authToken !== null
 }
 
 export const refreshAuthState = 'refreshAuthState'
@@ -64,11 +64,11 @@ export const storeToken = 'storeToken'
 export const logOut = 'logOut'
 
 export const actions = {
-  [refreshAuthState]({commit}) {
+  [refreshAuthState] ({commit}) {
     const token = storageGet('authToken')
     commit(setAuthToken, token)
   },
-  [authenticate]: async ({dispatch, commit}, {email, password})=> {
+  [authenticate]: async ({dispatch, commit}, {email, password}) => {
     try {
       const response = await axios.post(`${process.env.apiUrl}/user_token`, {
         auth: { email, password }
@@ -78,11 +78,11 @@ export const actions = {
       commit(authFailed, err)
     }
   },
-  [storeToken]({commit}, token) {
+  [storeToken] ({commit}, token) {
     storageSet('authToken', token)
     commit(setAuthToken, token)
   },
-  [logOut]({commit}) {
+  [logOut] ({commit}) {
     storageRemove('authToken')
     commit(setAuthToken, null)
   }

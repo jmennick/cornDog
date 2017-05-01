@@ -41,7 +41,6 @@
   import {mapState} from 'vuex'
   import ResourceDetail from '~components/ResourceDetail'
   import AccountForm from '~components/accounts/AccountForm'
-  import {selected} from '~store/resource'
 
   export default {
     components: {
@@ -53,7 +52,7 @@
         account: ({resource}) => resource.selected
       })
     },
-    async fetch({params, store}) {
+    async fetch ({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
         id: params.id,

@@ -1,5 +1,5 @@
 import apiClient from '~plugins/apiClient'
-import {cloneDeep, isNull} from 'lodash'
+import {cloneDeep, get} from 'lodash'
 
 export const VIEW_STATE_HIDDEN = 'hidden'
 export const VIEW_STATE_SHOWN = 'shown'
@@ -25,32 +25,32 @@ export const enableSaving = 'enableSaving'
 export const disableSaving = 'disableSaving'
 
 export const mutations = {
-  [showModal](state, data) {
+  [showModal] (state, data) {
     state.viewState = VIEW_STATE_SHOWN
     state.modalData = cloneDeep(data)
   },
-  [beginSaving](state) {
+  [beginSaving] (state) {
     state.viewState = VIEW_STATE_SAVING
   },
-  [saveError](state, error) {
+  [saveError] (state, error) {
     state.viewState = VIEW_STATE_ERROR
     state.error = cloneDeep(error)
   },
-  [saveData](state, data) {
+  [saveData] (state, data) {
     state.modalData = cloneDeep(data)
   },
-  [saveSuccessful](state, data) {
+  [saveSuccessful] (state, data) {
     state.viewState = VIEW_STATE_SUCCESS
     state.resultData = cloneDeep(data)
   },
-  [closeModal](state) {
+  [closeModal] (state) {
     state.viewState = VIEW_STATE_HIDDEN
     state.resultData = null
   },
-  [enableSaving](state) {
+  [enableSaving] (state) {
     state.canSave = true
   },
-  [disableSaving](state) {
+  [disableSaving] (state) {
     state.canSave = false
   }
 }
@@ -63,30 +63,30 @@ export const viewStateIsHidden = 'viewStateIsHidden'
 export const modalShown = 'modalShown'
 
 export const getters = {
-  [viewStateIsShown]: ({viewState})=> viewState == VIEW_STATE_SHOWN,
-  [viewStateIsSaving]: ({viewState})=> viewState == VIEW_STATE_SAVING,
-  [viewStateIsError]: ({viewState})=> viewState == VIEW_STATE_ERROR,
-  [viewStateIsSuccess]: ({viewState})=> viewState == VIEW_STATE_SUCCESS,
-  [viewStateIsHidden]: ({viewState})=> viewState == VIEW_STATE_HIDDEN,
-  [modalShown]: ({viewState})=> (viewState != VIEW_STATE_HIDDEN) && (viewState != VIEW_STATE_SUCCESS)
+  [viewStateIsShown]: ({viewState}) => viewState === VIEW_STATE_SHOWN,
+  [viewStateIsSaving]: ({viewState}) => viewState === VIEW_STATE_SAVING,
+  [viewStateIsError]: ({viewState}) => viewState === VIEW_STATE_ERROR,
+  [viewStateIsSuccess]: ({viewState}) => viewState === VIEW_STATE_SUCCESS,
+  [viewStateIsHidden]: ({viewState}) => viewState === VIEW_STATE_HIDDEN,
+  [modalShown]: ({viewState}) => (viewState !== VIEW_STATE_HIDDEN) && (viewState !== VIEW_STATE_SUCCESS)
 }
 
 export const save = 'save'
 
 export const actions = {
-  [save]: async ({commit, state}, resourceName)=> {
+  [save]: async ({commit, state}, resourceName) => {
     commit(beginSaving)
     try {
       // const meth = isNull(state.modalData.id)?apiClient.create:apiClient.update
       // const data = await meth(resourceName, state.modalData)
       let data
-      if (state.modalData.id == null) {
+      if (get(state, 'modalData.id') == null) {
         data = await apiClient.create(resourceName, state.modalData)
       } else {
         data = await apiClient.update(resourceName, state.modalData)
       }
       commit(saveSuccessful, data)
-    } catch(err) {
+    } catch (err) {
       commit(saveError, err)
     }
   }

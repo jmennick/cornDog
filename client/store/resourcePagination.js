@@ -6,7 +6,7 @@ export const state = {
 export const selectPage = 'selectPage'
 
 export const mutations = {
-  [selectPage](state, page) {
+  [selectPage] (state, page) {
     state.selectedPage = page
-  }  
+  }
 }

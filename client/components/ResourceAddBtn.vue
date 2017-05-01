@@ -13,12 +13,12 @@ export default {
   computed: {
     ...mapGetters('resource', {labelSingular}),
     ...mapState({
-      newResource: ({resource})=> resource.newResource
+      newResource: ({resource}) => resource.newResource
     })
   },
   methods: {
     ...mapMutations('resourceForm', {showModal}),
-    addNew() {
+    addNew () {
       this.showModal(this.newResource, 'add')
     }
   }

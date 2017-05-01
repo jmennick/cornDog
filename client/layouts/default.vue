@@ -44,7 +44,6 @@
 import CorndogLogo from '~components/CorndogLogo'
 import {mapState, mapMutations, mapGetters, mapActions} from 'vuex'
 import AuthFormModal from '~components/AuthFormModal'
-import {result} from 'underscore'
 
 import {
   refreshAuthState, isAuthenticated, authenticate, logOut
@@ -61,12 +60,12 @@ export default {
   },
   computed: {
     ...mapState({
-      showSidebar: ({sidebar})=> sidebar.shown
+      showSidebar: ({sidebar}) => sidebar.shown
     }),
     ...mapGetters('auth', {isAuthenticated}),
     ...mapGetters('resource', {currentUser}),
-    modules() {
-      switch(this.currentUser.role) {
+    modules () {
+      switch (this.currentUser.role) {
         case 'no_access':
           return []
         case 'accountant':
@@ -113,20 +112,53 @@ export default {
           return []
       }
     },
-    coeModule: ()=> ({title: 'Chart of Accounts', to: '/', exact: true}),
-    accountsModule: ()=> ({title: 'Manage Accounts', to: '/accounts'}),
-    journalsModule: ()=> ({title: 'Journal Entries', to: '/journals'}),
-    ledgerModule: ()=> ({title: 'General Ledger', to: '/ledger'}),
-    tbModule: ()=> ({title: 'Trial Balance', to: '/trial_balance'}),
-    bsModule: ()=> ({title: 'Balance Sheet', to: '/balance_sheet'}),
-    isModule: ()=> ({title: 'Income Statement', to: '/income_statement'}),
-    reModule: ()=> ({title: 'Retained Earnings', to: '/retained_earnings'}),
-    dashboardModule: ()=> ({title: 'Dashboard', to: '/dashboard'}),
-    usersModule: ()=> ({title: 'Users', to: '/users'}),
-    changesModule: ()=> ({title: 'Events', to: '/changes'})
-
+    coeModule: () => ({
+      title: 'Chart of Accounts',
+      to: '/',
+      exact: true
+    }),
+    accountsModule: () => ({
+      title: 'Manage Accounts',
+      to: '/accounts'
+    }),
+    journalsModule: () => ({
+      title: 'Journal Entries',
+      to: '/journals'
+    }),
+    ledgerModule: () => ({
+      title: 'General Ledger',
+      to: '/ledger'
+    }),
+    tbModule: () => ({
+      title: 'Trial Balance',
+      to: '/trial_balance'
+    }),
+    bsModule: () => ({
+      title: 'Balance Sheet',
+      to: '/balance_sheet'
+    }),
+    isModule: () => ({
+      title: 'Income Statement',
+      to: '/income_statement'
+    }),
+    reModule: () => ({
+      title: 'Retained Earnings',
+      to: '/retained_earnings'
+    }),
+    dashboardModule: () => ({
+      title: 'Dashboard',
+      to: '/dashboard'
+    }),
+    usersModule: () => ({
+      title: 'Users',
+      to: '/users'
+    }),
+    changesModule: () => ({
+      title: 'Events',
+      to: '/changes'
+    })
   },
-  mounted() {
+  mounted () {
     this.refreshAuthState()
   },
   methods: {
@@ -136,7 +168,7 @@ export default {
     ...mapActions('auth', {refreshAuthState, authenticate, logOut})
   },
   watch: {
-    [isAuthenticated](newValue, oldValue) {
+    [isAuthenticated] (newValue, oldValue) {
       if (!oldValue && !!newValue) {
         this.$store.dispatch('resource/fetch')
       }

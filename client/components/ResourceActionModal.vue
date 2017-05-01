@@ -45,15 +45,20 @@ export default {
   },
   computed: {
     ...mapState({
-      data: ({resourceAction})=> resourceAction.data,
-      actionName: ({resourceAction})=> resourceAction.name,
-      refreshOnSuccess: ({resourceAction})=> resourceAction.refreshOnSuccess
+      data: ({resourceAction}) => resourceAction.data,
+      actionName: ({resourceAction}) => resourceAction.name,
+      refreshOnSuccess: ({resourceAction}) => resourceAction.refreshOnSuccess
     }),
     ...mapGetters('resourceAction', {
-      modalShown, viewStateIsExecuting, humanActionName,
-      confirmName, confirmIcon, confirmColor, viewStateIsSuccess
+      modalShown,
+      viewStateIsExecuting,
+      humanActionName,
+      confirmName,
+      confirmIcon,
+      confirmColor,
+      viewStateIsSuccess
     }),
-    title() {
+    title () {
       return this.humanActionName
     }
   },
@@ -63,8 +68,8 @@ export default {
     ...mapActions('resource', {fetch})
   },
   watch: {
-    viewStateIsSuccess(newValue, oldValue) {
-      if ((newValue == true) && (oldValue == false) && this.refreshOnSuccess) {
+    viewStateIsSuccess (newValue, oldValue) {
+      if ((newValue === true) && (oldValue === false) && this.refreshOnSuccess) {
         this.fetch()
       }
     }

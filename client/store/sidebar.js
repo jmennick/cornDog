@@ -3,13 +3,13 @@ export const state = {
 }
 
 export const mutations = {
-  hide(state) {
+  hide (state) {
     state.shown = false
   },
-  show(state) {
+  show (state) {
     state.shown = true
   },
-  toggle(state) {
+  toggle (state) {
     state.shown = !state.shown
   }
 }

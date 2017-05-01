@@ -33,12 +33,13 @@
 import {mapState, mapMutations} from 'vuex'
 import resourceFormMixin from '~assets/js/mixins/resourceFormMixin'
 import {enableSaving, disableSaving} from '~store/resourceForm'
+import {get} from 'lodash'
 
-const mapProp = (pname)=> ({
-  get() {
+const mapProp = (pname) => ({
+  get () {
     return this.resource[pname]
   },
-  set(newValue) {
+  set (newValue) {
     let resource = this.resource
     resource[pname] = newValue
     this.saveData(resource)
@@ -49,7 +50,7 @@ export default {
   mixins: [resourceFormMixin],
   computed: {
     ...mapState({
-        types: ({resource})=> resource.meta.kinds_grouped,
+      types: ({resource}) => get(resource, 'meta.kinds_grouped', [])
     }),
     name: mapProp('name'),
     kind: mapProp('kind'),
@@ -58,7 +59,7 @@ export default {
     order: mapProp('order'),
     description: mapProp('description'),
     active: mapProp('active'),
-    isValid() {
+    isValid () {
       if (!this.name) {
         return false
       } else if (!this.kind) {
@@ -73,7 +74,7 @@ export default {
     }
   },
   methods: {
-    handleIsValid(value) {
+    handleIsValid (value) {
       if (value) {
         this.enableSaving()
       } else {
@@ -82,11 +83,11 @@ export default {
     },
     ...mapMutations('resourceForm', {enableSaving, disableSaving})
   },
-  mounted() {
+  mounted () {
     this.handleIsValid(this.isValid)
   },
   watch: {
-    isValid(newValue) {
+    isValid (newValue) {
       this.handleIsValid(newValue)
     }
   }

@@ -1,4 +1,4 @@
-export default (apiClient)=> {
+export default (apiClient) => {
   apiClient.define('account', {
     name: '',
     code: '',

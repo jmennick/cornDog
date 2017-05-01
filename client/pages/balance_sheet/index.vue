@@ -213,12 +213,11 @@
 </template>
 
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState} from 'vuex'
   import ResourceList from '~components/ResourceList'
-  import NuxtLink from "../../.nuxt/components/nuxt-link";
-  import {sumBy} from 'lodash'
-  import moment  from 'moment'
-  import {get} from 'lodash'
+  import NuxtLink from '../../.nuxt/components/nuxt-link'
+  import {sumBy, get} from 'lodash'
+  import moment from 'moment'
 
   export default {
     components: {
@@ -228,64 +227,64 @@
     computed: {
       ...mapState({
         accounts: ({resource}) => get(resource, 'data', []).filter((a) => {
-          //NOTE: this is temporary! should do this server-side eventually
-          return parseFloat(a.ledger_balance) != 0.0
+          // NOTE: should do this server-side eventually
+          return parseFloat(a.ledger_balance) !== 0.0
         })
       }),
-      assetAccounts() {
+      assetAccounts () {
         return this.accounts.filter((a) => {
-          return (a.kind == 'current_asset') || (a.kind == 'long_term_asset')
+          return (a.kind === 'current_asset') || (a.kind === 'long_term_asset')
         })
       },
-      currentAssetAccounts() {
+      currentAssetAccounts () {
         return this.accounts.filter((a) => {
-          return a.kind == 'current_asset'
+          return a.kind === 'current_asset'
         })
       },
-      longAssetAccounts() {
+      longAssetAccounts () {
         return this.accounts.filter((a) => {
-          return a.kind == 'long_term_asset'
+          return a.kind === 'long_term_asset'
         })
       },
-      liabilityAccounts() {
+      liabilityAccounts () {
         return this.accounts.filter((a) => {
-          return (a.kind == 'current_liability') || (a.kind == 'long_term_liability')
+          return (a.kind === 'current_liability') || (a.kind === 'long_term_liability')
         })
       },
-      currentLiabilityAccounts() {
+      currentLiabilityAccounts () {
         return this.accounts.filter((a) => {
-          return a.kind == 'current_liability'
+          return a.kind === 'current_liability'
         })
       },
-      longLiabilityAccounts() {
+      longLiabilityAccounts () {
         return this.accounts.filter((a) => {
-          return a.kind == 'long_term_liability'
+          return a.kind === 'long_term_liability'
         })
       },
-      equityAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'equity'))
+      equityAccounts () {
+        return this.accounts.filter((a) => (a.kind === 'equity'))
       },
-      incomeAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense'))
+      incomeAccounts () {
+        return this.accounts.filter((a) => (a.kind === 'revenue') || (a.kind === 'expense'))
       },
-      allEquityAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense') || (a.kind == 'equity'))
+      allEquityAccounts () {
+        return this.accounts.filter((a) => (a.kind === 'revenue') || (a.kind === 'expense') || (a.kind === 'equity'))
       },
-      allLiabilitiesAndEquityAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense') || (a.kind == 'equity') || (a.kind == 'current_liability') || (a.kind == 'long_term_liability'))
+      allLiabilitiesAndEquityAccounts () {
+        return this.accounts.filter((a) => (a.kind === 'revenue') || (a.kind === 'expense') || (a.kind === 'equity') || (a.kind === 'current_liability') || (a.kind === 'long_term_liability'))
       }
     },
     methods: {
-      sumLiabilityAndEquity() {
+      sumLiabilityAndEquity () {
         return sumBy(this.allLiabilitiesAndEquityAccounts, (a) => parseFloat(a.ledger_balance))
       },
-      sumRetainedEarnings() {
+      sumRetainedEarnings () {
         return sumBy(this.incomeAccounts, (a) => parseFloat(a.ledger_balance))
       },
-      sumEquity() {
+      sumEquity () {
         return sumBy(this.allEquityAccounts, (a) => parseFloat(a.ledger_balance))
       },
-      sumAssets(type) {
+      sumAssets (type) {
         switch (type) {
           case 'current':
             return sumBy(this.currentAssetAccounts, (a) => {
@@ -301,7 +300,7 @@
             })
         }
       },
-      sumLiabilities(type) {
+      sumLiabilities (type) {
         switch (type) {
           case 'current':
             return sumBy(this.currentLiabilityAccounts, (a) => {
@@ -318,7 +317,7 @@
         }
       }
     },
-    async fetch({params, store}) {
+    async fetch ({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
         listRouteName: 'balance_sheet',

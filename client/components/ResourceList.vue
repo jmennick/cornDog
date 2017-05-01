@@ -37,7 +37,7 @@ export default {
   props: {
     noAdd: {
       type: Boolean,
-      default: ()=> false
+      default: () => false
     }
   },
   mixins: [resourceBaseMixin],
@@ -50,15 +50,15 @@ export default {
     ResourceAddBtn
   },
   computed: {
-    resourceFormTitle() {
+    resourceFormTitle () {
       return `Save ${this.labelSingular}`
     },
     ...mapState({
-      resourceName: ({resource})=> resource.name,
-      error: ({resource})=> resource.error,
-      showSidebar: ({sidebar})=> sidebar.shown,
-      title: ({resource})=> resource.title,
-      saveResult: ({resourceForm})=> resourceForm.resultData
+      resourceName: ({resource}) => resource.name,
+      error: ({resource}) => resource.error,
+      showSidebar: ({sidebar}) => sidebar.shown,
+      title: ({resource}) => resource.title,
+      saveResult: ({resourceForm}) => resourceForm.resultData
     }),
     ...mapGetters('resource', {
       isSuccess,
@@ -70,24 +70,6 @@ export default {
     ...mapGetters('resourceForm', {
       viewStateIsSuccess
     })
-    // currentPage: {
-    //   get() {
-    //     return this.$route.query.p
-    //   },
-    //   set(newValue) {
-    //     this.$router.replace({query: {p: newValue}})
-    //   }
-    // },
-    // paginationSize() {
-    //   return this.showSidebar ? 'sm' : 'md'
-    // }
   }
-  // watch: {
-  //   viewStateIsSuccess(newValue) {
-  //     if (newValue == true) {
-  //       this.$emit('saved', this.saveResult)
-  //     }
-  //   }
-  // }
 }
 </script>

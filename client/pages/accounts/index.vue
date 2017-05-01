@@ -32,14 +32,14 @@ export default {
   },
   computed: {
     ...mapState({
-      accounts: ({resource})=> resource.data
+      accounts: ({resource}) => resource.data
     })
   },
   methods: {
-    activeToggleLabel(account) {
+    activeToggleLabel (account) {
       return account.active ? 'ban' : 'thumbs-up'
     },
-    toggleActive(account) {
+    toggleActive (account) {
       if (account.active) {
         this.showAction({
           name: 'deactivate_account',
@@ -60,13 +60,13 @@ export default {
     },
     ...mapMutations('resourceForm', {showModal}),
     ...mapMutations('resourceAction', {showAction}),
-    editAccount(account) {
+    editAccount (account) {
       this.showModal(account, 'edit')
     },
-    handleSaved(event) {
+    handleSaved (event) {
       this.$router.push({name: 'accounts-id', params: {id: event.id}})
     },
-    actions(account) {
+    actions (account) {
       return [
         {
           icon: 'eye',
@@ -76,18 +76,18 @@ export default {
         {
           icon: 'edit',
           name: 'edit',
-          action: ()=> { this.editAccount(account) }
+          action: () => { this.editAccount(account) }
         },
         {
-          icon: account.active?'thumbs-down':'thumbs-up',
-          name: account.active?'Deactivate Account':'Activate Account',
-          action: ()=> { this.toggleActive(account) },
-          disabled: account.active?!account.can_deactivate:true
+          icon: account.active ? 'thumbs-down' : 'thumbs-up',
+          name: account.active ? 'Deactivate Account' : 'Activate Account',
+          action: () => { this.toggleActive(account) },
+          disabled: account.active ? !account.can_deactivate : true
         }
       ]
     }
   },
-  async fetch({params, store}) {
+  async fetch ({params, store}) {
     await store.dispatch('resource/setup', {
       name: 'account',
       query: {include: 'created_by'},
@@ -103,7 +103,7 @@ export default {
       }
     })
   },
-  data: ()=> ({
+  data: () => ({
     fields: {
       code: {label: 'Code', sortable: true},
       name: {label: 'Name', sortable: true},

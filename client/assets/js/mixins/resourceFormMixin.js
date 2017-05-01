@@ -4,7 +4,7 @@ import {saveData} from '~store/resourceForm'
 export default {
   computed: {
     ...mapState({
-      resource: ({resourceForm})=> resourceForm.modalData
+      resource: ({resourceForm}) => resourceForm.modalData
     })
   },
   methods: {

@@ -23,9 +23,8 @@
 <script>
 import Modal from '~components/Modal'
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
-import {isNull} from 'lodash'
-
-import {showRouteName, fetch} from '~store/resource'
+import {fetch} from '~store/resource'
+import {get} from 'lodash'
 
 import {
   modalShown, closeModal, beginSaving, save,
@@ -52,17 +51,17 @@ export default {
   },
   computed: {
     ...mapState({
-      modalData: ({resourceForm})=> resourceForm.modalData,
-      resultData: ({resourceForm})=> resourceForm.resultData,
-      canSave: ({resourceForm})=> resourceForm.canSave,
-      error: ({resourceForm})=> resourceForm.error,
-      paradigm: ({resourceForm})=> resourceForm.paradigm,
-      showRouteArticle: ({resource})=> resource.showRouteArticle
+      modalData: ({resourceForm}) => resourceForm.modalData,
+      resultData: ({resourceForm}) => resourceForm.resultData,
+      canSave: ({resourceForm}) => get(resourceForm, 'canSave', false),
+      error: ({resourceForm}) => resourceForm.error,
+      paradigm: ({resourceForm}) => resourceForm.paradigm,
+      showRouteArticle: ({resource}) => resource.showRouteArticle
     }),
     ...mapGetters('resourceForm', {
       modalShown, viewStateIsSaving, viewStateIsError, viewStateIsSuccess
     }),
-    saveButtonIsDisabled() {
+    saveButtonIsDisabled () {
       return this.viewStateIsSaving || !this.canSave
     }
   },

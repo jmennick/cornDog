@@ -20,24 +20,24 @@
 
 <script>
 import Modal from '~components/Modal'
-import {mapMutations, mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import {isAuthenticated, authenticate} from '~store/auth'
 
 export default {
   components: {
     Modal
   },
-  data: ()=> ({
+  data: () => ({
     email: null,
     password: null
   }),
   methods: {
     ...mapActions('auth', {authenticate}),
-    signIn() {
+    signIn () {
       this.authenticate({
         email: this.email,
         password: this.password
-      }).then(()=> {
+      }).then(() => {
         this.email = null
         this.password = null
       })

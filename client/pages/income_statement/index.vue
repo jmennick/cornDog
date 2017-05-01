@@ -77,13 +77,11 @@
   </resource-list>
 </template>
 <script>
-  import {mapState, mapMutations} from 'vuex'
+  import {mapState} from 'vuex'
   import ResourceList from '~components/ResourceList'
-  import NuxtLink from "../../.nuxt/components/nuxt-link";
-  import {sumBy} from 'lodash'
+  import NuxtLink from '../../.nuxt/components/nuxt-link'
+  import {sumBy, get} from 'lodash'
   import moment from 'moment'
-  import numeral from 'numeral'
-  import {get} from 'lodash'
 
   export default {
     components: {
@@ -93,32 +91,32 @@
     computed: {
       ...mapState({
         accounts: ({resource}) => get(resource, 'data', []).filter((a) => {
-          //NOTE: this is temporary! should do this server-side eventually
-          return parseFloat(a.ledger_balance) != 0.0
+          // NOTE: should do this server-side eventually
+          return parseFloat(a.ledger_balance) !== 0.0
         })
       }),
-      revenueAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'revenue'))
+      revenueAccounts () {
+        return this.accounts.filter((a) => (a.kind === 'revenue'))
       },
-      expenseAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'expense'))
+      expenseAccounts () {
+        return this.accounts.filter((a) => (a.kind === 'expense'))
       },
-      incomeAccounts() {
-        return this.accounts.filter((a) => (a.kind == 'revenue') || (a.kind == 'expense'))
+      incomeAccounts () {
+        return this.accounts.filter((a) => (a.kind === 'revenue') || (a.kind === 'expense'))
       },
-      sumRevenue() {
+      sumRevenue () {
         return sumBy(this.revenueAccounts, (a) => -parseFloat(a.ledger_balance))
       },
-      sumExpense() {
+      sumExpense () {
         return sumBy(this.expenseAccounts, (a) => parseFloat(a.ledger_balance))
       },
-      sumIncome() {
+      sumIncome () {
         var sum = sumBy(this.incomeAccounts, (a) => parseFloat(a.ledger_balance))
-        this.income = sum <= 0 ? 'Net Income': 'Net Loss'
+        this.income = sum <= 0 ? 'Net Income' : 'Net Loss'
         return sum
       }
     },
-    async fetch({params, store}) {
+    async fetch ({params, store}) {
       await store.dispatch('resource/setup', {
         name: 'account',
         listRouteName: 'income_statement',
@@ -132,7 +130,7 @@
       })
     },
     data: () => ({
-      today: moment().endOf('month').format('MMMM Do YYYY'),
+      today: moment().endOf('month').format('MMMM Do YYYY')
     })
   }
 </script>

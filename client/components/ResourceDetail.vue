@@ -45,6 +45,7 @@ import ResourceActionModal from '~components/ResourceActionModal'
 import ResourceRefreshBtn from '~components/ResourceRefreshBtn'
 import ResourceLoadingFailed from '~components/ResourceLoadingFailed'
 import ResourceAddBtn from '~components/ResourceAddBtn'
+import {get} from 'lodash'
 
 import {
   isSuccess, isLoading, isFailed, labelSingular, listRoute
@@ -54,12 +55,8 @@ export default {
   props: {
     noAdd: {
       type: Boolean,
-      default: ()=> false
+      default: () => false
     },
-    // returnLocation: {
-    //   type: String,
-    //   default: '/accounts'
-    // },
     title: {
       type: [String, null],
       default: null
@@ -76,12 +73,12 @@ export default {
   },
   computed: {
     ...mapState({
-      resourceName: ({resource})=> resource.name,
-      actionName: ({resourceAction})=> resourceAction.name,
-      titleBase: ({resource})=> resource.title,
-      data: ({resource})=> resource.data,
-      backButtonTitle: ({resource})=> resource.backButtonTitle,
-      formParadigm: ({resourceForm})=> resourceForm.paradigm
+      resourceName: ({resource}) => get(resource, 'name', ''),
+      actionName: ({resourceAction}) => get(resourceAction, 'name', ''),
+      titleBase: ({resource}) => get(resource, 'title', ''),
+      data: ({resource}) => resource.data,
+      backButtonTitle: ({resource}) => get(resource, 'backButtonTitle', ''),
+      formParadigm: ({resourceForm}) => get(resourceForm, 'paradigm')
     }),
     ...mapGetters('resource', {
       isSuccess,
@@ -90,10 +87,10 @@ export default {
       labelSingular,
       listRoute
     }),
-    resourceFormTitle() {
+    resourceFormTitle () {
       return `Save ${this.labelSingular}`
     },
-    toolbarTitle() {
+    toolbarTitle () {
       if (this.title !== null) {
         return this.title
       } else {

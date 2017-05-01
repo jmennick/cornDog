@@ -42,37 +42,37 @@ export default {
       default: 'md'
     }
   },
-  data: ()=> ({
+  data: () => ({
     animateShow: false
   }),
   computed: {
-    dialogClasses() {
+    dialogClasses () {
       return [`modal-${this.size}`]
     }
   },
   methods: {
-    close() {
+    close () {
       this.animateShow = false
-      setTimeout(()=> {
+      setTimeout(() => {
         this.$emit(closeEvent)
-      }, 200);
+      }, 200)
     },
-    backdropClicked() {
+    backdropClicked () {
       this.close()
     },
-    handleShowChanged(newValue) {
+    handleShowChanged (newValue) {
       if (newValue) {
-        setTimeout(()=> {
-          this.animateShow = true;
-        }, 0);
+        setTimeout(() => {
+          this.animateShow = true
+        }, 0)
       }
     }
   },
-  mounted() {
+  mounted () {
     this.handleShowChanged(this.show)
   },
   watch: {
-    show(newValue) {
+    show (newValue) {
       this.handleShowChanged(newValue)
     }
   }
